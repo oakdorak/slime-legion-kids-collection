@@ -1,0 +1,723 @@
+/* ==========================================================================
+   MINIZANAHORIA: LA AVENTURA ADAPTATIVA - STYLING DESIGN SYSTEM (ROBBIT STYLE)
+   ========================================================================== */
+
+:root {
+  --color-bg-dark: #231f24;
+  --color-accent-lavender: #896ab0;
+  --color-accent-lavender-glow: rgba(137, 106, 176, 0.35);
+  --color-gold-muted: #9b8e6c;
+  --color-gold-glow: rgba(155, 142, 108, 0.4);
+  --color-text-primary: #e3e0a4;
+  --color-text-secondary: rgba(227, 224, 164, 0.7);
+  --color-sage-green: #a8b28a;
+  --color-sage-glow: rgba(168, 178, 138, 0.3);
+  --color-error-red: #d9534f;
+  
+  --font-main: 'Outfit', sans-serif;
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  --glass-bg: rgba(35, 31, 36, 0.7);
+  --glass-border: rgba(137, 106, 176, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-primary);
+  font-family: var(--font-main);
+  overflow-x: hidden;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.app-container {
+  width: 100%;
+  max-width: 1280px;
+  height: 90vh;
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(25, 22, 26, 0.85);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+/* --- APP HEADER --- */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 32px;
+  border-bottom: 1px solid var(--glass-border);
+  background: linear-gradient(180deg, rgba(35, 31, 36, 0.5) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.carrot-icon {
+  font-size: 2rem;
+  filter: drop-shadow(0 2px 8px rgba(230, 126, 34, 0.4));
+}
+
+.header-logo h1 {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  background: linear-gradient(135deg, var(--color-text-primary) 0%, var(--color-gold-muted) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.badge-tag {
+  background: rgba(137, 106, 176, 0.15);
+  border: 1px solid var(--color-accent-lavender);
+  color: var(--color-accent-lavender);
+  padding: 4px 10px;
+  border-radius: 99px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.reward-counter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.star-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.star-badge {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(155, 142, 108, 0.15);
+  border: 1px solid var(--color-gold-muted);
+  padding: 8px 16px;
+  border-radius: 99px;
+  box-shadow: 0 0 15px var(--color-gold-glow);
+}
+
+.star-icon {
+  font-size: 1.2rem;
+  animation: pulse-gold 2s infinite ease-in-out;
+}
+
+#star-count {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--color-text-primary);
+}
+
+/* --- MAIN LAYOUT --- */
+.app-main {
+  flex: 1;
+  display: flex;
+  overflow: hidden;
+}
+
+/* --- SIDEBAR NAV --- */
+.sidebar-nav {
+  width: 280px;
+  padding: 24px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-right: 1px solid var(--glass-border);
+}
+
+.nav-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 16px;
+  cursor: pointer;
+  text-align: left;
+  transition: var(--transition-smooth);
+}
+
+.nav-btn:hover {
+  background: rgba(137, 106, 176, 0.08);
+  border-color: rgba(137, 106, 176, 0.3);
+  transform: translateX(4px);
+}
+
+.nav-btn.active {
+  background: rgba(137, 106, 176, 0.18);
+  border-color: var(--color-accent-lavender);
+  box-shadow: 0 0 20px rgba(137, 106, 176, 0.15);
+}
+
+.btn-icon {
+  font-size: 1.6rem;
+}
+
+.btn-text h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.btn-text p {
+  font-size: 0.75rem;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+}
+
+/* --- GAME ARENA --- */
+.game-arena {
+  flex: 1;
+  padding: 32px;
+  overflow-y: auto;
+  background: radial-gradient(circle at center, rgba(137, 106, 176, 0.04) 0%, rgba(0, 0, 0, 0) 100%);
+}
+
+.game-panel {
+  display: none;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.game-panel.active {
+  display: flex;
+}
+
+.panel-header h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--color-text-primary);
+}
+
+.panel-header p {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+/* --- GAME 1: FOCUS ORBIT --- */
+.orbit-grid-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+}
+
+.orbit-grid {
+  position: relative;
+  width: 340px;
+  height: 340px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  gap: 20px;
+}
+
+.grid-quadrant {
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px dashed rgba(137, 106, 176, 0.15);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: var(--transition-bounce);
+  position: relative;
+  overflow: hidden;
+}
+
+.grid-quadrant::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, var(--color-accent-lavender) 0%, transparent 70%);
+  opacity: 0;
+  transition: var(--transition-smooth);
+}
+
+.grid-quadrant:hover {
+  border-color: var(--color-accent-lavender);
+  background: rgba(137, 106, 176, 0.05);
+  transform: scale(1.03);
+}
+
+.grid-quadrant.target-glow {
+  border-color: var(--color-accent-lavender);
+  box-shadow: 0 0 30px var(--color-accent-lavender-glow);
+  background: rgba(137, 106, 176, 0.12);
+  border-style: solid;
+}
+
+.grid-quadrant.target-glow::before {
+  opacity: 0.15;
+}
+
+.grid-quadrant.success-flash {
+  animation: flash-green 0.8s ease-out forwards;
+}
+
+.grid-quadrant.error-flash {
+  animation: flash-red 0.8s ease-out forwards;
+}
+
+.grid-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 110px;
+  height: 110px;
+  background-color: var(--color-bg-dark);
+  border: 1px solid var(--glass-border);
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+/* --- GAME 2: EMOTION RESONANCE --- */
+.emotion-stage {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  min-height: 250px;
+  position: relative;
+}
+
+.mascot-stage-wrapper {
+  width: 160px;
+  height: 160px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.emotion-bubble {
+  background: rgba(137, 106, 176, 0.1);
+  border: 1px solid var(--color-accent-lavender);
+  padding: 12px 24px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: 600;
+  max-width: 320px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  position: relative;
+  animation: float 4s infinite ease-in-out;
+}
+
+.emotion-bubble::after {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border: 10px solid transparent;
+  border-bottom-color: var(--color-accent-lavender);
+}
+
+.emotion-options-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.options-group {
+  background: rgba(255, 255, 255, 0.01);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  padding: 20px;
+  border-radius: 20px;
+  transition: var(--transition-smooth);
+}
+
+.options-group.disabled {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.options-group h3 {
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
+  color: var(--color-text-secondary);
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.option-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  color: var(--color-text-primary);
+  padding: 14px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-family: var(--font-main);
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+  transition: var(--transition-bounce);
+}
+
+.option-card:hover {
+  background: rgba(137, 106, 176, 0.08);
+  border-color: var(--color-accent-lavender);
+  transform: translateY(-2px);
+}
+
+.option-card.selected {
+  background: rgba(137, 106, 176, 0.25);
+  border-color: var(--color-accent-lavender);
+  box-shadow: 0 0 15px var(--color-accent-lavender-glow);
+}
+
+.option-card.correct {
+  background: rgba(168, 178, 138, 0.25) !important;
+  border-color: var(--color-sage-green) !important;
+  box-shadow: 0 0 15px var(--color-sage-glow) !important;
+}
+
+.option-card.incorrect {
+  background: rgba(217, 83, 79, 0.2) !important;
+  border-color: var(--color-error-red) !important;
+  animation: shake 0.5s ease-in-out;
+}
+
+/* --- GAME 3: ROUTINE BUILDER --- */
+.routine-workspace {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  min-height: 300px;
+}
+
+.routine-slots {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.15);
+  border-radius: 20px;
+  border: 1px dashed rgba(255, 255, 255, 0.05);
+  min-height: 160px;
+}
+
+.routine-slot {
+  width: 140px;
+  height: 120px;
+  border: 2px dashed rgba(137, 106, 176, 0.2);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: var(--transition-smooth);
+}
+
+.routine-slot::before {
+  content: attr(data-index);
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.routine-slot.dragover {
+  border-color: var(--color-accent-lavender);
+  background: rgba(137, 106, 176, 0.05);
+}
+
+.routine-cards-source {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  padding: 10px;
+}
+
+.routine-card {
+  width: 130px;
+  height: 104px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: grab;
+  user-select: none;
+  transition: var(--transition-bounce);
+}
+
+.routine-card:hover {
+  background: rgba(137, 106, 176, 0.05);
+  border-color: var(--color-accent-lavender);
+  transform: scale(1.05);
+}
+
+.routine-card:active {
+  cursor: grabbing;
+}
+
+.routine-card.dragging {
+  opacity: 0.4;
+  border-style: dashed;
+}
+
+.card-emoji {
+  font-size: 1.8rem;
+}
+
+.card-text {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+/* --- FOOTER / CONTROLS --- */
+.game-controls {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.primary-btn, .secondary-btn {
+  font-family: var(--font-main);
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: 12px 28px;
+  border-radius: 12px;
+  cursor: pointer;
+  border: none;
+  transition: var(--transition-bounce);
+}
+
+.primary-btn {
+  background: linear-gradient(135deg, var(--color-accent-lavender) 0%, rgba(137, 106, 176, 0.7) 100%);
+  color: #fff;
+  box-shadow: 0 4px 15px rgba(137, 106, 176, 0.3);
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(137, 106, 176, 0.45);
+}
+
+.secondary-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: var(--color-text-primary);
+}
+
+.secondary-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+.game-feedback {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+/* --- CELEBRATION SCREEN (OVERLAY) --- */
+.celebration-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 8, 11, 0.85);
+  z-index: 100;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(8px);
+}
+
+.celebration-overlay.active {
+  display: flex;
+}
+
+.celebration-card {
+  background: rgba(35, 31, 36, 0.95);
+  border: 2px solid var(--color-gold-muted);
+  box-shadow: 0 0 40px var(--color-gold-glow);
+  padding: 40px;
+  border-radius: 28px;
+  width: 90%;
+  max-width: 440px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  animation: pop-in 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.badge-icon {
+  font-size: 3.5rem;
+  animation: bounce 2s infinite ease-in-out;
+}
+
+.celebration-card h2 {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--color-gold-muted);
+}
+
+.celebration-card p {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.badge-reward {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--color-gold-muted);
+  background: rgba(155, 142, 108, 0.15);
+  border: 1px solid var(--color-gold-muted);
+  padding: 8px 24px;
+  border-radius: 99px;
+  margin: 10px 0;
+}
+
+/* ==========================================================================
+   MINIZANAHORIA - VECTOR GRAPHICS & ANIMATIONS
+   ========================================================================== */
+
+/* Mascot Styling */
+.carrot-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Animations */
+.anim-idle {
+  animation: idle-bob 2.5s infinite ease-in-out;
+}
+
+.anim-jump {
+  animation: jump-dance 0.6s ease-out;
+}
+
+.anim-spin {
+  animation: spin-celebrate 0.6s ease-in-out;
+}
+
+.anim-sad {
+  animation: sad-shiver 3s infinite ease-in-out;
+}
+
+.anim-angry {
+  animation: angry-tremble 0.2s infinite linear;
+}
+
+/* Keyframes */
+@keyframes idle-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+@keyframes jump-dance {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  30% { transform: translateY(-30px) scaleY(0.9); }
+  50% { transform: translateY(-40px) scaleY(1.05); }
+  75% { transform: translateY(-10px) scaleY(0.95); }
+}
+
+@keyframes spin-celebrate {
+  0% { transform: rotate(0deg) scale(1); }
+  50% { transform: rotate(180deg) scale(1.2); }
+  100% { transform: rotate(360deg) scale(1); }
+}
+
+@keyframes sad-shiver {
+  0%, 100% { transform: rotate(0) translateY(0); }
+  25% { transform: rotate(-2deg) translateY(2px); }
+  75% { transform: rotate(2deg) translateY(2px); }
+}
+
+@keyframes angry-tremble {
+  0%, 100% { transform: translate(0, 0); }
+  25% { transform: translate(-1px, 1px); }
+  50% { transform: translate(1px, -1px); }
+  75% { transform: translate(-1px, -1px); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes pulse-gold {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.9; }
+}
+
+@keyframes flash-green {
+  0% { box-shadow: 0 0 0 0 rgba(168, 178, 138, 0.6); background: rgba(168, 178, 138, 0.2); }
+  100% { box-shadow: 0 0 0 20px transparent; background: transparent; }
+}
+
+@keyframes flash-red {
+  0% { box-shadow: 0 0 0 0 rgba(217, 83, 79, 0.6); background: rgba(217, 83, 79, 0.2); }
+  100% { box-shadow: 0 0 0 20px transparent; background: transparent; }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20%, 60% { transform: translateX(-6px); }
+  40%, 80% { transform: translateX(6px); }
+}
+
+@keyframes pop-in {
+  0% { transform: scale(0.7); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}

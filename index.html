@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Slime Legion Kids Collection</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #231f24;
+            --accent-color: #896ab0;
+            --text-color: #e3e0a4;
+            --muted-gold: #9b8e6c;
+            --sage: #a8b28a;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin: 0;
+            color: var(--accent-color);
+        }
+
+        header p {
+            font-size: 1.2rem;
+            color: var(--muted-gold);
+        }
+
+        .collection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            width: 90%;
+        }
+
+        .game-card {
+            background: rgba(137, 106, 176, 0.1);
+            border: 2px solid var(--accent-color);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(137, 106, 176, 0.3);
+            background: rgba(137, 106, 176, 0.2);
+        }
+
+        .game-card .icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .game-card h2 {
+            font-size: 1.8rem;
+            margin: 0.5rem 0;
+            color: var(--sage);
+        }
+
+        .game-card p {
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        footer {
+            margin-top: 4rem;
+            color: var(--muted-gold);
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Slime Legion Kids</h1>
+        <p>Gaming Educativo de Alta Fidelidad para Morros Profesionales</p>
+    </header>
+
+    <div class="collection-grid">
+        <a href="./mini-zanahoria/index.html" class="game-card">
+            <span class="icon">🥕</span>
+            <h2>Mini Zanahoria</h2>
+            <p>Aventura adaptativa para el desarrollo de la atención conjunta y resonancia emocional.</p>
+        </a>
+
+        <a href="./magic-alphabet/index.html" class="game-card">
+            <span class="icon">✨</span>
+            <h2>Abecedario Mágico</h2>
+            <p>Aprendizaje sensorial y caligrafía terapéutica impulsada por el motor de la Legion.</p>
+        </a>
+    </div>
+
+    <footer>
+        &copy; 2026 MAIAH Slime Legion | Sovereign Gaming Division
+    </footer>
+</body>
+</html>

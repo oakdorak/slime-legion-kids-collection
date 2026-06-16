@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minizanahoria: La Aventura Adaptativa</title>
+  <!-- Google Fonts: Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header Control Bar -->
+    <header class="app-header">
+      <div class="header-logo">
+        <span class="carrot-icon">🥕</span>
+        <h1>Minizanahoria</h1>
+        <span class="badge-tag">Módulo Infantil</span>
+      </div>
+      <div class="reward-counter">
+        <span class="star-label">Estrellas</span>
+        <div class="star-badge">
+          <span class="star-icon">🌟</span>
+          <span id="star-count">0</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Workspace Layout -->
+    <main class="app-main">
+      <!-- Navigation Sidebar -->
+      <nav class="sidebar-nav">
+        <button class="nav-btn active" data-game="orbit">
+          <span class="btn-icon">👁️‍🗨️</span>
+          <div class="btn-text">
+            <h3>Focus Orbit</h3>
+            <p>Atención Conjunta</p>
+          </div>
+        </button>
+        <button class="nav-btn" data-game="emotion">
+          <span class="btn-icon">🎭</span>
+          <div class="btn-text">
+            <h3>Resonancia Emocional</h3>
+            <p>Identificar Emociones</p>
+          </div>
+        </button>
+        <button class="nav-btn" data-game="routine">
+          <span class="btn-icon">📅</span>
+          <div class="btn-text">
+            <h3>Routine Builder</h3>
+            <p>Secuencias Diarias</p>
+          </div>
+        </button>
+      </nav>
+
+      <!-- Central Game Arena -->
+      <section class="game-arena">
+        <!-- GAME 1: FOCUS ORBIT -->
+        <div id="game-orbit" class="game-panel active">
+          <div class="panel-header">
+            <h2>Focus Orbit</h2>
+            <p>Sigue la mirada de Minizanahoria y haz clic en el cuadrante correcto.</p>
+          </div>
+          
+          <div class="orbit-grid-container">
+            <div class="orbit-grid">
+              <div class="grid-quadrant" data-quadrant="NW"></div>
+              <div class="grid-quadrant" data-quadrant="NE"></div>
+              <!-- Center mascot anchor -->
+              <div class="grid-center">
+                <div class="mascot-wrapper" id="orbit-mascot-container">
+                  <!-- Dynamic mascot inserted here -->
+                </div>
+              </div>
+              <div class="grid-quadrant" data-quadrant="SW"></div>
+              <div class="grid-quadrant" data-quadrant="SE"></div>
+            </div>
+          </div>
+          
+          <div class="game-controls">
+            <button id="start-orbit-btn" class="primary-btn">Iniciar Ronda</button>
+            <p class="game-feedback" id="orbit-feedback">Presiona iniciar para comenzar a enfocar.</p>
+          </div>
+        </div>
+
+        <!-- GAME 2: EMOTION RESONANCE -->
+        <div id="game-emotion" class="game-panel">
+          <div class="panel-header">
+            <h2>Resonancia Emocional</h2>
+            <p>Observa la expresión de Minizanahoria y selecciona cómo se siente y cómo ayudarle.</p>
+          </div>
+
+          <div class="emotion-stage">
+            <div class="mascot-stage-wrapper" id="emotion-mascot-container">
+              <!-- Dynamic mascot inserted here -->
+            </div>
+            <div class="emotion-bubble" id="emotion-speech">¡Hola! ¿Cómo me veo hoy?</div>
+          </div>
+
+          <div class="emotion-options-container">
+            <div class="options-group">
+              <h3>¿Qué emoción expresa?</h3>
+              <div class="options-grid" id="emotion-guess-grid">
+                <!-- Dynamic emotion guess buttons -->
+              </div>
+            </div>
+
+            <div class="options-group disabled" id="care-options-group">
+              <h3>¿Cómo podemos ayudarle?</h3>
+              <div class="options-grid" id="emotion-action-grid">
+                <!-- Dynamic actions buttons -->
+              </div>
+            </div>
+          </div>
+
+          <div class="game-controls">
+            <p class="game-feedback" id="emotion-feedback">Selecciona la emoción correcta para desbloquear las acciones de cuidado.</p>
+          </div>
+        </div>
+
+        <!-- GAME 3: ROUTINE BUILDER -->
+        <div id="game-routine" class="game-panel">
+          <div class="panel-header">
+            <h2>Routine Builder</h2>
+            <p>Ordena las tarjetas de izquierda a derecha para completar la rutina diaria de Minizanahoria.</p>
+          </div>
+
+          <div class="routine-workspace">
+            <div class="routine-slots" id="routine-slots-container">
+              <!-- Target slots for sequence -->
+            </div>
+            
+            <div class="routine-cards-source" id="routine-cards-container">
+              <!-- Draggable cards -->
+            </div>
+          </div>
+
+          <div class="game-controls">
+            <button id="check-routine-btn" class="primary-btn">Verificar Rutina</button>
+            <button id="reset-routine-btn" class="secondary-btn">Reiniciar</button>
+            <p class="game-feedback" id="routine-feedback">Arrastra las tarjetas en el orden correcto.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Celebration Overlay (Confetti Canvas & Banner) -->
+    <div class="celebration-overlay" id="celebration-screen">
+      <div class="celebration-card">
+        <span class="badge-icon">🏆</span>
+        <h2>¡Excelente Trabajo!</h2>
+        <p>Has completado el desafío y ganado una estrella.</p>
+        <div class="badge-reward">🌟 +1</div>
+        <button id="close-celebration-btn" class="primary-btn">Continuar</button>
+      </div>
+    </div>
+  </div>
+  
+  <script src="app.js"></script>
+</body>
+</html>

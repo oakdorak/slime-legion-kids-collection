@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>WHA: Alfabeto Mágico</title>
+    <style>
+        :root {
+            --bg: #231f24;
+            --accent: #896ab0;
+            --gold: #9b8e6c;
+            --text: #e3e0a4;
+            --success: #a8b28a;
+            --ivory: #f2efd9;
+            --wisp: rgba(168, 178, 138, 0.6);
+        }
+
+        body.theme-serene {
+            --bg: #F0F4F8; --accent: #4A707A; --gold: #7A9E9F; --text: #2D4059; --success: #86C6B6; --ivory: #FFFFFF; --wisp: rgba(134, 198, 182, 0.6);
+        }
+        body.theme-nature {
+            --bg: #E5E1D2; --accent: #6B9ACB; --gold: #A8B89F; --text: #4E5945; --success: #6B9ACB; --ivory: #F9F7F2; --wisp: rgba(107, 154, 203, 0.6);
+        }
+        body.theme-rainbow {
+            --bg: #FFF7FB; --accent: #7A5CFF; --gold: #FF8C94; --text: #4B4E6D; --success: #39D6C3; --ivory: #FFFFFF; --wisp: rgba(57, 214, 195, 0.6);
+        }
+
+        body { 
+            margin: 0; background-color: var(--bg); color: var(--text); 
+            font-family: 'Inter', sans-serif, Arial; overflow: hidden; 
+            touch-action: none; cursor: crosshair; transition: background-color 0.8s;
+        }
+        canvas { display: block; position: absolute; top: 0; left: 0; }
+        
+        #splashScreen {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: var(--bg); z-index: 200;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            transition: opacity 1s, visibility 1s;
+        }
+        #sigil {
+            width: 150px; height: 150px; border: 2px solid var(--accent);
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 30px var(--accent); animation: pulse 3s infinite;
+            margin-bottom: 30px; cursor: pointer;
+        }
+        #sigil::after { content: '✨'; font-size: 50px; opacity: 0.8; }
+        @keyframes pulse {
+            0% { transform: scale(1); box-shadow: 0 0 20px var(--accent); }
+            50% { transform: scale(1.1); box-shadow: 0 0 50px var(--accent); }
+            100% { transform: scale(1); box-shadow: 0 0 20px var(--accent); }
+        }
+        #splashText { color: var(--text); font-family: 'Inter', sans-serif; font-weight: 100; letter-spacing: 5px; font-size: 20px; text-align: center; }
+
+        #ui { position: absolute; top: env(safe-area-inset-top, 20px); left: 20px; pointer-events: none; z-index: 100; opacity: 0; transition: opacity 1s; }
+        #controls {
+            position: absolute; top: 20px; right: 20px; z-index: 101;
+            background: rgba(35, 31, 36, 0.8); padding: 15px; border-radius: 12px;
+            border: 1px solid var(--gold); display: flex; flex-direction: column; gap: 12px;
+            backdrop-filter: blur(20px); opacity: 0; transition: opacity 1s;
+        }
+
+        #letterContainer {
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            width: 80vw; height: 80vh; display: flex; align-items: center; justify-content: center;
+            pointer-events: none; z-index: 5;
+        }
+        .letter-guide { 
+            font-size: min(75vh, 75vw);
+            color: var(--gold); opacity: 0.15;
+            user-select: none; font-weight: 100;
+            letter-spacing: -10px;
+            transition: all 0.5s;
+        }
+        .letter-guide.active {
+            color: var(--accent); opacity: 0.4;
+            text-shadow: 0 0 30px var(--accent);
+            transform: scale(1.1);
+        }
+        
+        #status { color: var(--accent); font-size: 14px; font-family: 'Courier New', monospace; text-transform: uppercase; }
+        
+        .slider-container { display: flex; flex-direction: column; gap: 5px; }
+        .slider-label { font-size: 10px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+        input[type=range] { -webkit-appearance: none; width: 150px; background: transparent; }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: var(--accent); border-radius: 2px; }
+        input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: var(--ivory); cursor: pointer; margin-top: -8px; box-shadow: 0 0 10px var(--accent); }
+
+        #resetBtn {
+            position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+            width: 80px; height: 80px; background-color: var(--ivory); border-radius: 50%;
+            border: none; box-shadow: 0 0 25px rgba(0,0,0,0.1);
+            cursor: pointer; z-index: 101; display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); outline: none; opacity: 0;
+        }
+        #resetBtn:active { transform: translateX(-50%) scale(0.85); box-shadow: 0 0 40px var(--ivory); }
+        #resetBtn::after { content: '✨'; font-size: 30px; opacity: 0.8; }
+
+        #themeBtn {
+            position: absolute; bottom: 45px; right: 30px; width: 60px; height: 60px;
+            background: var(--bg); border: 2px solid var(--accent); border-radius: 50%;
+            cursor: pointer; z-index: 101; display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s; opacity: 0;
+        }
+        #themeBtn:active { transform: scale(0.9); }
+        #themeBtn::after { content: '🎨'; font-size: 24px; }
+
+        select { background: var(--bg); color: var(--text); border: 1px solid var(--accent); padding: 5px; border-radius: 4px; font-size: 11px; outline: none; }
+    </style>
+</head>
+<body>
+    <div id="splashScreen">
+        <div id="sigil" onclick="startMagic()"></div>
+        <div id="splashText">ENTRAR AL ATELIER</div>
+    </div>
+
+    <div id="ui">
+        <h1 style="color: var(--accent); margin: 0; font-size: 18px; letter-spacing: 2px;">ALFABETO MÁGICO</h1>
+        <div id="status">INICIANDO...</div>
+    </div>
+    
+    <div id="controls">
+        <div class="slider-container">
+            <span class="slider-label" id="diffLabel">DIFICULTAD: NORMAL</span>
+            <input type="range" id="diffSlider" min="30" max="220" value="120" step="5">
+        </div>
+        <select id="langSelect">
+            <option value="es-MX">Español (MX)</option>
+            <option value="en-US">English (US)</option>
+        </select>
+    </div>
+
+    <button id="resetBtn"></button>
+    <button id="themeBtn" title="Cambiar Tema" onclick="cycleTheme()"></button>
+
+    <div id="letterContainer">
+        <div class="letter-guide" id="guide">A</div>
+    </div>
+    <canvas id="magicCanvas"></canvas>
+
+    <script>
+        const canvas = document.getElementById('magicCanvas');
+        const ctx = canvas.getContext('2d');
+        const guide = document.getElementById('guide');
+        const status = document.getElementById('status');
+        const langSelect = document.getElementById('langSelect');
+        const resetBtn = document.getElementById('resetBtn');
+        const themeBtn = document.getElementById('themeBtn');
+        const diffSlider = document.getElementById('diffSlider');
+        const diffLabel = document.getElementById('diffLabel');
+        const splashScreen = document.getElementById('splashScreen');
+        const ui = document.getElementById('ui');
+        const controls = document.getElementById('controls');
+
+        let drawing = false;
+        let particles = [];
+        let flowers = []; 
+        let currentLetterIndex = 0;
+        const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
+        let allStrokes = [];
+        let currentStroke = [];
+        let currentTargets = [];
+        let nextTargetIndex = 0;
+        let detectionThreshold = 180; 
+        let isSystemReady = false;
+        let guidePulse = 0;
+        let showFlowers = false;
+        let isLetterFinishedInternally = false; // Flag para V17
+
+        const themes = ['', 'theme-serene', 'theme-nature', 'theme-rainbow'];
+        let currentThemeIndex = 0;
+
+        const LetterSkeletons = {
+            'A': [{x:0, y:-0.7}, {x:-0.4, y:0.7}, {x:0, y:-0.7}, {x:0.4, y:0.7}, {x:-0.2, y:0.1}, {x:0.2, y:0.1}],
+            'B': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:-0.4, y:-0.7}, {x:0.3, y:-0.4}, {x:-0.4, y:0}, {x:0.3, y:0.4}, {x:-0.4, y:0.7}],
+            'C': [{x:0.5, y:-0.5}, {x:0, y:-0.7}, {x:-0.4, y:0}, {x:0, y:0.7}, {x:0.5, y:0.5}],
+            'D': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:-0.4, y:-0.7}, {x:0.5, y:0}, {x:-0.4, y:0.7}],
+            'E': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:-0.4, y:-0.7}, {x:0.4, y:-0.7}, {x:-0.4, y:0}, {x:0.3, y:0}, {x:-0.4, y:0.7}, {x:0.4, y:0.7}],
+            'F': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:-0.4, y:-0.7}, {x:0.4, y:-0.7}, {x:-0.4, y:0}, {x:0.3, y:0}],
+            'G': [{x:0.5, y:-0.5}, {x:-0.4, y:0}, {x:0, y:0.7}, {x:0.5, y:0.3}, {x:0.2, y:0.3}],
+            'H': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:0.4, y:-0.7}, {x:0.4, y:0.7}, {x:-0.4, y:0}, {x:0.4, y:0}],
+            'I': [{x:0, y:-0.7}, {x:0, y:0.7}],
+            'J': [{x:0, y:-0.7}, {x:0, y:0.5}, {x:-0.3, y:0.7}],
+            'K': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:0.4, y:-0.7}, {x:-0.4, y:0}, {x:0.4, y:0.7}],
+            'L': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:0.4, y:0.7}],
+            'M': [{x:-0.5, y:0.7}, {x:-0.5, y:-0.7}, {x:0, y:0}, {x:0.5, y:-0.7}, {x:0.5, y:0.7}],
+            'N': [{x:-0.4, y:0.7}, {x:-0.4, y:-0.7}, {x:0.4, y:0.7}, {x:0.4, y:-0.7}],
+            'O': [{x:0, y:-0.7}, {x:-0.5, y:0}, {x:0, y:0.7}, {x:0.5, y:0}, {x:0, y:-0.7}],
+            'P': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:0.3, y:-0.3}, {x:-0.4, y:0}],
+            'Q': [{x:0, y:-0.7}, {x:0, y:0.7}, {x:0.5, y:0}, {x:-0.5, y:0}, {x:0.2, y:0.2}, {x:0.5, y:0.6}],
+            'R': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:0.3, y:-0.3}, {x:0.4, y:0.7}],
+            'S': [{x:0.4, y:-0.5}, {x:0, y:-0.7}, {x:-0.4, y:0.3}, {x:0, y:0}, {x:0.4, y:0.3}, {x:0, y:0.7}, {x:-0.4, y:0.5}],
+            'T': [{x:-0.5, y:-0.7}, {x:0.5, y:-0.7}, {x:0, y:-0.7}, {x:0, y:0.7}],
+            'U': [{x:-0.4, y:-0.7}, {x:-0.4, y:0.4}, {x:0, y:0.7}, {x:0.4, y:0.4}, {x:0.4, y:-0.7}],
+            'V': [{x:-0.5, y:-0.7}, {x:0, y:0.7}, {x:0.5, y:-0.7}],
+            'W': [{x:-0.5, y:-0.7}, {x:-0.3, y:0.7}, {x:0, y:0.1}, {x:0.3, y:0.7}, {x:0.5, y:-0.7}],
+            'X': [{x:-0.4, y:-0.7}, {x:0.4, y:0.7}, {x:0.4, y:-0.7}, {x:-0.4, y:0.7}],
+            'Y': [{x:-0.4, y:-0.7}, {x:0, y:0}, {x:0.4, y:-0.7}, {x:0, y:0}, {x:0, y:0.7}],
+            'Z': [{x:-0.4, y:-0.7}, {x:0.4, y:-0.7}, {x:-0.4, y:0.7}, {x:0.4, y:0.7}]
+        };
+
+        function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; initLetterTargets(); }
+        function initLetterTargets() {
+            const skeleton = LetterSkeletons[alphabet[currentLetterIndex]] || [];
+            const scale = Math.min(canvas.height, canvas.width) * 0.45;
+            currentTargets = skeleton.map(p => ({ x: canvas.width/2 + p.x * scale, y: canvas.height/2 + p.y * scale, hit: false }));
+            nextTargetIndex = 0; guide.classList.remove('active'); showFlowers = false; flowers = []; isLetterFinishedInternally = false;
+        }
+
+        function cycleTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            document.body.className = themes[currentThemeIndex];
+        }
+
+        class Particle {
+            constructor(x, y, color, sizeMult = 1, isTracer = false) {
+                this.x = x; this.y = y; this.size = (Math.random() * 4 + 2) * sizeMult;
+                this.speedX = isTracer ? (Math.random()-0.5)*3 : (Math.random()*4 - 2);
+                this.speedY = isTracer ? (Math.random()-0.5)*3 : (Math.random()*4 - 2);
+                this.color = color; this.life = 1.0; this.decay = isTracer ? 0.05 : (Math.random() * 0.01 + 0.01);
+            }
+            update() { this.x += this.speedX; this.y += this.speedY; this.life -= this.decay; }
+            draw() { ctx.save(); ctx.fillStyle = this.color; ctx.globalAlpha = this.life; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill(); ctx.restore(); }
+        }
+
+        class Flower {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.angle = 0; this.scale = 0; this.maxScale = Math.random() * 0.4 + 0.3;
+                this.rotationSpeed = (Math.random()-0.5) * 0.05;
+            }
+            update() { 
+                if (this.scale < this.maxScale) this.scale += 0.03;
+                this.angle += this.rotationSpeed;
+            }
+            draw() {
+                ctx.save(); ctx.translate(this.x, this.y); ctx.rotate(this.angle); ctx.scale(this.scale, this.scale);
+                ctx.fillStyle = this.color; ctx.globalAlpha = 0.5;
+                for (let i = 0; i < 6; i++) {
+                    ctx.rotate(Math.PI / 3);
+                    ctx.beginPath(); ctx.ellipse(0, 40, 20, 40, 0, 0, Math.PI * 2); ctx.fill();
+                }
+                ctx.fillStyle = 'rgba(255,255,255,0.3)'; ctx.beginPath(); ctx.arc(0,0,15,0,Math.PI*2); ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        let voices = [];
+        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+
+        function speakNurturing(text) {
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const preferredVoices = ["Monica", "Paulina", "Google Español", "Luciana", "Microsoft Sabina"];
+            const voice = voices.find(v => preferredVoices.some(p => v.name.includes(p)) && v.lang.includes("es"));
+            if (voice) utterance.voice = voice;
+            utterance.pitch = 1.4; utterance.rate = 0.8; utterance.lang = "es-MX";
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function startMagic() {
+            isSystemReady = true; loadVoices();
+            splashScreen.style.opacity = '0';
+            setTimeout(() => {
+                splashScreen.style.visibility = 'hidden';
+                ui.style.opacity = '1'; controls.style.opacity = '1'; resetBtn.style.opacity = '1'; themeBtn.style.opacity = '1';
+                status.innerText = "TEJE LA LUZ"; initLetterTargets();
+                speakNurturing("¡Hola! Vamos a tejer magia juntos.");
+            }, 1000);
+        }
+
+        function checkCompletion(x, y) {
+            if (!isSystemReady || showFlowers || isLetterFinishedInternally) return;
+            const target = currentTargets[nextTargetIndex];
+            if (!target) return;
+            if (Math.hypot(x - target.x, y - target.y) < detectionThreshold) {
+                target.hit = true; nextTargetIndex++;
+                const colorSuccess = getComputedStyle(document.documentElement).getPropertyValue('--success');
+                for(let i=0; i<10; i++) particles.push(new Particle(target.x, target.y, colorSuccess, 0.8));
+                if (nextTargetIndex > currentTargets.length / 2) guide.classList.add('active');
+                
+                // V17: Marcar como finalizado internamente, pero esperar al release
+                if (nextTargetIndex >= currentTargets.length) {
+                    isLetterFinishedInternally = true;
+                    status.innerText = "¡YA CASI! SUELTA PARA VER LA MAGIA";
+                }
+            }
+        }
+
+        function completeHechizo() {
+            if (showFlowers) return;
+            showFlowers = true;
+            const letter = alphabet[currentLetterIndex];
+            status.innerText = `✨ ¡MARAVILLOSO! ${letter} ✨`;
+            const compliments = ["¡Qué maravilla!", "¡Muy bien!", "¡Lo hiciste genial!", "¡Precioso!", "¡Qué hermoso!"];
+            speakNurturing(`${compliments[Math.floor(Math.random() * compliments.length)]}... ${letter}`);
+            
+            const colorSuccess = getComputedStyle(document.documentElement).getPropertyValue('--success');
+            const colorAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent');
+            const colorGold = getComputedStyle(document.documentElement).getPropertyValue('--gold');
+            const palette = [colorSuccess, colorAccent, colorGold];
+
+            for(let i=0; i<45; i++) {
+                const rx = Math.random() * canvas.width;
+                const ry = Math.random() * canvas.height;
+                const rColor = palette[Math.floor(Math.random() * palette.length)];
+                flowers.push(new Flower(rx, ry, rColor));
+            }
+
+            setTimeout(() => { currentLetterIndex = (currentLetterIndex + 1) % alphabet.length; resetState(); }, 4000);
+        }
+
+        function resetState() { allStrokes = []; currentStroke = []; particles = []; flowers = []; showFlowers = false; isLetterFinishedInternally = false; guide.innerText = alphabet[currentLetterIndex]; status.innerText = "TEJE LA LUZ"; initLetterTargets(); }
+
+        function handleInput(e) {
+            e.preventDefault();
+            if (!isSystemReady || showFlowers) return;
+            const rect = canvas.getBoundingClientRect();
+            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
+            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+            if (drawing) {
+                currentStroke.push({x, y}); checkCompletion(x, y);
+                const colorIvory = getComputedStyle(document.documentElement).getPropertyValue('--ivory');
+                for(let i=0; i<2; i++) particles.push(new Particle(x, y, colorIvory, 0.8, true));
+            }
+        }
+
+        function drawEverything() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            const colorWisp = getComputedStyle(document.documentElement).getPropertyValue('--wisp');
+            const colorSuccess = getComputedStyle(document.documentElement).getPropertyValue('--success');
+            const colorAccent = getComputedStyle(document.documentElement).getPropertyValue('--accent');
+
+            flowers.forEach(f => { f.update(); f.draw(); });
+
+            if (isSystemReady && !showFlowers && !isLetterFinishedInternally && currentTargets[nextTargetIndex]) {
+                const target = currentTargets[nextTargetIndex]; guidePulse += 0.06; const size = 30 + Math.sin(guidePulse) * 12;
+                ctx.save(); ctx.shadowBlur = 40; ctx.shadowColor = colorSuccess; ctx.fillStyle = colorWisp;
+                ctx.beginPath(); ctx.arc(target.x, target.y, size, 0, Math.PI * 2); ctx.fill();
+                if (currentTargets[nextTargetIndex + 1]) {
+                    const next = currentTargets[nextTargetIndex + 1]; const angle = Math.atan2(next.y - target.y, next.x - target.x);
+                    ctx.strokeStyle = colorWisp; ctx.lineWidth = 4; ctx.beginPath(); ctx.moveTo(target.x, target.y);
+                    ctx.lineTo(target.x + Math.cos(angle) * 70, target.y + Math.sin(angle) * 70); ctx.stroke();
+                }
+                ctx.restore();
+            }
+            ctx.lineJoin = 'round'; ctx.lineCap = 'round'; ctx.shadowBlur = 25; ctx.shadowColor = colorAccent; ctx.strokeStyle = colorAccent; ctx.lineWidth = 12;
+            [...allStrokes, currentStroke].forEach(stroke => {
+                if (stroke.length < 2) return; ctx.beginPath(); ctx.moveTo(stroke[0].x, stroke[0].y);
+                for (let i = 1; i < stroke.length; i++) ctx.lineTo(stroke[i].x, stroke[i].y);
+                ctx.stroke();
+            });
+            for (let i = 0; i < particles.length; i++) {
+                particles[i].update(); particles[i].draw();
+                if (particles[i].life <= 0) { particles.splice(i, 1); i--; }
+            }
+            requestAnimationFrame(drawEverything);
+        }
+
+        diffSlider.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value); detectionThreshold = 300 - val;
+            let label = "NORMAL"; if (val < 80) label = "FÁCIL"; if (val > 160) label = "DIFÍCIL";
+            diffLabel.innerText = `DIFICULTAD: ${label}`;
+        });
+
+        canvas.addEventListener('mousedown', (e) => { drawing = true; currentStroke = []; handleInput(e); });
+        canvas.addEventListener('touchstart', (e) => { drawing = true; currentStroke = []; handleInput(e); });
+        window.addEventListener('mousemove', handleInput);
+        window.addEventListener('touchmove', handleInput, { passive: false });
+        
+        const endDrawing = () => { 
+            if (currentStroke.length > 0) allStrokes.push(currentStroke); 
+            drawing = false; 
+            currentStroke = [];
+            // V17: Si ya se completó la letra internamente, disparar la magia al soltar
+            if (isLetterFinishedInternally && !showFlowers) completeHechizo();
+        };
+        
+        window.addEventListener('mouseup', endDrawing); window.addEventListener('touchend', endDrawing);
+        resetBtn.addEventListener('click', () => { window.speechSynthesis.cancel(); resetState(); status.innerText = "MAGIA REINICIADA"; for(let i=0; i<60; i++) particles.push(new Particle(canvas.width/2, canvas.height-80, '#FFFFFF', 3)); });
+        window.addEventListener('resize', resize); resize(); drawEverything();
+    </script>
+</body>
+</html>
