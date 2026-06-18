@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>El Avión Azul - NeuroDivertidos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <!-- Top Status / Prompt -->
+        <header class="game-header">
+            <h1 id="prompt-text">¡Pinta el avión de <span class="highlight-blue">AZUL</span>! ✈️</h1>
+            <div class="score-container">
+                <span>Vueltas locas: <span id="loop-counter">0</span></span>
+            </div>
+        </header>
+
+        <!-- Sky Sandbox Area -->
+        <div class="sky-sandbox" id="sky-area">
+            <!-- Floating Clouds -->
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+
+            <!-- Interactive Goofy Plane SVG -->
+            <div class="plane-wrapper" id="plane-wrapper">
+                <div class="plane-face-bubble" id="plane-bubble">¡Bzzzz! 🤪</div>
+                <svg id="plane-svg" class="plane-svg color-red" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Propeller spinner line -->
+                    <g class="propeller-assembly" transform="translate(85, 30)">
+                        <ellipse class="propeller-blade" cx="0" cy="0" rx="3" ry="18" fill="#e3e0a4" />
+                        <circle cx="0" cy="0" r="4" fill="#9b8e6c" />
+                    </g>
+                    <!-- Wings -->
+                    <path d="M 40 10 L 55 30 L 40 50 Z" class="plane-wings" fill="#896ab0" />
+                    <!-- Main Fuselage -->
+                    <path d="M 15 30 Q 30 15 70 25 Q 85 28 85 32 Q 70 42 15 30 Z" class="plane-body" fill="currentColor" />
+                    <!-- Tail -->
+                    <path d="M 15 30 L 5 15 L 10 30 L 5 45 Z" class="plane-tail" fill="#9b8e6c" />
+                    <!-- Cockpit -->
+                    <path d="M 55 23 Q 62 16 68 24 Z" fill="#e3e0a4" opacity="0.9" />
+                    <!-- Goofy Eyes -->
+                    <circle cx="63" cy="26" r="3.5" fill="white" />
+                    <circle cx="63" cy="26" r="1.5" fill="black" class="pupil-left" />
+                    <circle cx="69" cy="27" r="3.5" fill="white" />
+                    <circle cx="69" cy="27" r="1.5" fill="black" class="pupil-right" />
+                    <!-- Funny Mouth -->
+                    <path d="M 72 32 Q 75 35 73 38" stroke="black" stroke-width="1.5" fill="none" class="plane-mouth" />
+                </svg>
+            </div>
+        </div>
+
+        <!-- Color Selection Dashboard -->
+        <footer class="controls-panel">
+            <button class="color-btn btn-red" onclick="selectColor('red')">Rojo 🔴</button>
+            <button class="color-btn btn-yellow" onclick="selectColor('yellow')">Amarillo 🟡</button>
+            <button class="color-btn btn-green" onclick="selectColor('green')">Verde 🟢</button>
+            <button class="color-btn btn-blue" onclick="selectColor('blue')">¡AZUL! 🔵</button>
+        </footer>
+    </div>
+
+    <!-- Back Button -->
+    <a href="../index.html" class="back-link">← Volver al Arsenal</a>
+
+    <script src="app.js"></script>
+</body>
+</html>
