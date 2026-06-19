@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="El Cazador de Burbujas - Entrenamiento de atención sostenida para TDAH">
+    <title>El Cazador de Burbujas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #231f24;
+            --accent: #896ab0;
+            --gold: #9b8e6c;
+            --text: #e3e0a4;
+            --success: #a8b28a;
+            --danger: #c06060;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            touch-action: none;
+        }
+        canvas#particles {
+            position: fixed; top: 0; left: 0;
+            pointer-events: none;
+            z-index: 50;
+        }
+        /* SPLASH */
+        #splash {
+            position: fixed; inset: 0;
+            background: var(--bg);
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            z-index: 200;
+            transition: opacity 0.8s, visibility 0.8s;
+        }
+        #splash-sigil {
+            width: 140px; height: 140px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 0 40px var(--accent);
+            animation: pulse 2.5s infinite;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            font-size: 3rem;
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 25px var(--accent); }
+            50% { transform: scale(1.08); box-shadow: 0 0 55px var(--accent); }
+        }
+        #splash h1 { font-size: 1.8rem; font-weight: 800; color: var(--accent); letter-spacing: 3px; text-align: center; }
+        #splash p { font-size: 1rem; color: var(--gold); margin-top: 0.5rem; text-align: center; max-width: 280px; }
+        /* HUD */
+        #hud {
+            position: fixed; top: 0; left: 0; right: 0;
+            padding: 16px 20px;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 100;
+            background: linear-gradient(to bottom, rgba(35,31,36,0.9), transparent);
+            pointer-events: none;
+            opacity: 0; transition: opacity 0.8s;
+        }
+        #streak-display {
+            display: flex; flex-direction: column;
+        }
+        #streak-label { font-size: 10px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+        #streak-count {
+            font-size: 3rem; font-weight: 800; color: var(--accent);
+            line-height: 1;
+            transition: transform 0.15s;
+            text-shadow: 0 0 20px var(--accent);
+        }
+        #streak-count.bump { transform: scale(1.3); }
+        #level-display { text-align: right; }
+        #level-label { font-size: 10px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+        #level-num { font-size: 1.6rem; font-weight: 600; color: var(--text); }
+        #message {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 2rem; font-weight: 800; color: var(--success);
+            text-shadow: 0 0 30px var(--success);
+            opacity: 0; pointer-events: none; z-index: 80;
+            transition: opacity 0.3s;
+            text-align: center;
+        }
+        /* BUBBLES */
+        #bubble-field { position: fixed; inset: 0; z-index: 10; }
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.4rem;
+            box-shadow: 0 0 15px rgba(255,255,255,0.15);
+            animation: float-up linear forwards;
+            transition: transform 0.1s;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .bubble:active { transform: scale(0.88); }
+        @keyframes float-up {
+            0%   { transform: translateY(0) scale(1); opacity: 0.9; }
+            85%  { opacity: 0.85; }
+            100% { transform: translateY(-110vh) scale(0.85); opacity: 0; }
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+        body.shake { animation: shake 0.35s ease; }
+        /* RESET BTN */
+        #resetBtn {
+            position: fixed; bottom: 40px; left: 50%; transform: translateX(-50%);
+            width: 70px; height: 70px;
+            background: var(--bg); border: 2px solid var(--accent);
+            border-radius: 50%; cursor: pointer; z-index: 100;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.8rem;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            opacity: 0;
+            box-shadow: 0 0 20px rgba(137,106,176,0.3);
+        }
+        #resetBtn:active { transform: translateX(-50%) scale(0.85); }
+    </style>
+</head>
+<body>
+    <canvas id="particles"></canvas>
+    <div id="splash">
+        <div id="splash-sigil" onclick="startGame()">🫧</div>
+        <h1>CAZADOR DE BURBUJAS</h1>
+        <p>Toca solo las burbujas <strong style="color:var(--accent)">moradas</strong>. ¡Ignora las demás!</p>
+    </div>
+    <div id="hud">
+        <div id="streak-display">
+            <span id="streak-label">RACHA</span>
+            <span id="streak-count">0</span>
+        </div>
+        <div id="level-display">
+            <span id="level-label">NIVEL</span><br>
+            <span id="level-num">1</span>
+        </div>
+    </div>
+    <div id="message"></div>
+    <div id="bubble-field"></div>
+    <button id="resetBtn" onclick="resetGame()">✨</button>
+
+    <script>
+        const canvas = document.getElementById('particles');
+        const ctx = canvas.getContext('2d');
+        let W, H;
+        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+        resize();
+        window.addEventListener('resize', resize);
+
+        // State
+        let gameActive = false;
+        let streak = 0, level = 1, totalHits = 0;
+        let spawnInterval = null;
+        let particles = [];
+
+        // Colors: purple = target, others = distractors
+        const DISTRACTOR_COLORS = [
+            { bg: '#c06060', shadow: '#c06060', emoji: '' },
+            { bg: '#4a7fb5', shadow: '#4a7fb5', emoji: '' },
+            { bg: '#6aaa6a', shadow: '#6aaa6a', emoji: '' },
+            { bg: '#d4a055', shadow: '#d4a055', emoji: '' },
+            { bg: '#c06090', shadow: '#c06090', emoji: '' },
+        ];
+        const TARGET_COLOR = { bg: '#896ab0', shadow: '#896ab0', isTarget: true };
+
+        // Voice
+        let voices = [];
+        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+        loadVoices();
+        window.speechSynthesis.onvoiceschanged = loadVoices;
+        function speak(text, pitch = 1.3) {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'es-MX'; u.pitch = pitch; u.rate = 0.9;
+            const v = voices.find(v => v.lang.startsWith('es')) ;
+            if (v) u.voice = v;
+            window.speechSynthesis.speak(u);
+        }
+
+        // Particles
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.r = Math.random() * 5 + 2;
+                this.vx = (Math.random() - 0.5) * 8;
+                this.vy = (Math.random() - 0.5) * 8 - 2;
+                this.life = 1;
+                this.decay = Math.random() * 0.02 + 0.02;
+            }
+            update() { this.x += this.vx; this.y += this.vy; this.vy += 0.15; this.life -= this.decay; }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill();
+                ctx.restore();
+            }
+        }
+        function burst(x, y, color, count = 20) {
+            for (let i = 0; i < count; i++) particles.push(new Particle(x, y, color));
+        }
+        function animLoop() {
+            ctx.clearRect(0, 0, W, H);
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animLoop);
+        }
+        animLoop();
+
+        // Bubble spawn
+        function spawnBubble() {
+            if (!gameActive) return;
+            const isTarget = Math.random() < 0.3; // 30% chance target
+            const size = Math.random() * 30 + 55; // 55-85px
+            const colorData = isTarget ? TARGET_COLOR : DISTRACTOR_COLORS[Math.floor(Math.random() * DISTRACTOR_COLORS.length)];
+            const duration = Math.max(3.5, 8 - level * 0.4); // speeds up with level
+
+            const bubble = document.createElement('div');
+            bubble.className = 'bubble';
+            bubble.style.width = bubble.style.height = size + 'px';
+            bubble.style.background = `radial-gradient(circle at 35% 35%, rgba(255,255,255,0.25), ${colorData.bg})`;
+            bubble.style.boxShadow = `0 0 20px ${colorData.shadow}66, inset 0 0 10px rgba(255,255,255,0.1)`;
+            bubble.style.left = Math.random() * (window.innerWidth - size - 20) + 10 + 'px';
+            bubble.style.bottom = '-100px';
+            bubble.style.animationDuration = duration + 's';
+            bubble.dataset.target = isTarget ? '1' : '0';
+
+            const handleHit = (e) => {
+                e.preventDefault();
+                if (!gameActive) return;
+                const rect = bubble.getBoundingClientRect();
+                const cx = rect.left + rect.width / 2;
+                const cy = rect.top + rect.height / 2;
+                if (bubble.dataset.target === '1') {
+                    streak++; totalHits++;
+                    bubble.remove();
+                    burst(cx, cy, '#896ab0', 25);
+                    burst(cx, cy, '#a8b28a', 12);
+                    updateStreak();
+                    checkLevel();
+                } else {
+                    // Wrong bubble
+                    document.body.classList.remove('shake');
+                    void document.body.offsetWidth;
+                    document.body.classList.add('shake');
+                    bubble.style.opacity = '0.3';
+                    setTimeout(() => document.body.classList.remove('shake'), 400);
+                    speak('Esa no');
+                }
+            };
+            bubble.addEventListener('click', handleHit);
+            bubble.addEventListener('touchstart', handleHit, { passive: false });
+
+            document.getElementById('bubble-field').appendChild(bubble);
+            bubble.addEventListener('animationend', () => bubble.remove());
+        }
+
+        function updateStreak() {
+            const el = document.getElementById('streak-count');
+            el.textContent = streak;
+            el.classList.remove('bump');
+            void el.offsetWidth;
+            el.classList.add('bump');
+            setTimeout(() => el.classList.remove('bump'), 200);
+
+            if (streak % 5 === 0 && streak > 0) {
+                const msg = document.getElementById('message');
+                const compliments = ['¡INCREÍBLE!', '¡BRUTAL!', '¡GENIAL!', '¡PERFECTO!', '¡ASOMBROSO!'];
+                msg.textContent = streak >= 10 ? '🔥 ' + compliments[Math.floor(Math.random() * compliments.length)] + ' 🔥' : '¡' + compliments[Math.floor(Math.random() * compliments.length)] + '!';
+                msg.style.opacity = '1';
+                burst(W / 2, H / 2, '#896ab0', 40);
+                burst(W / 2, H / 2, '#e3e0a4', 20);
+                speak(streak >= 10 ? '¡¡INCREÍBLE!! Racha de ' + streak : '¡Muy bien! Racha de ' + streak);
+                setTimeout(() => msg.style.opacity = '0', 2000);
+            } else {
+                const quickWords = ['¡Bien!', '¡Sí!', '¡Perfecto!', '¡Eso!'];
+                speak(quickWords[Math.floor(Math.random() * quickWords.length)]);
+            }
+        }
+
+        function checkLevel() {
+            const newLevel = Math.floor(totalHits / 10) + 1;
+            if (newLevel !== level) {
+                level = newLevel;
+                document.getElementById('level-num').textContent = level;
+                clearInterval(spawnInterval);
+                const interval = Math.max(600, 1800 - level * 150);
+                spawnInterval = setInterval(spawnBubble, interval);
+            }
+        }
+
+        function startGame() {
+            document.getElementById('splash').style.opacity = '0';
+            document.getElementById('splash').style.visibility = 'hidden';
+            document.getElementById('hud').style.opacity = '1';
+            document.getElementById('resetBtn').style.opacity = '1';
+            gameActive = true;
+            speak('¡Hola! Caza solo las burbujas moradas.');
+            spawnInterval = setInterval(spawnBubble, 1800);
+            spawnBubble();
+        }
+
+        function resetGame() {
+            streak = 0; level = 1; totalHits = 0;
+            document.getElementById('streak-count').textContent = '0';
+            document.getElementById('level-num').textContent = '1';
+            document.getElementById('bubble-field').innerHTML = '';
+            clearInterval(spawnInterval);
+            spawnInterval = setInterval(spawnBubble, 1800);
+            burst(W / 2, H - 80, '#896ab0', 30);
+            speak('¡Reiniciado! ¡A cazar burbujas!');
+        }
+    </script>
+</body>
+</html>

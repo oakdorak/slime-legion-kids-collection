@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="El Río de Palabras - Fluidez lectora para dislexia">
+    <title>El Río de Palabras</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #231f24; --accent: #896ab0; --gold: #9b8e6c;
+            --text: #e3e0a4; --success: #a8b28a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            width: 100vw; height: 100vh; overflow: hidden;
+            touch-action: none;
+        }
+        canvas#fx { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+        /* SPLASH */
+        #splash {
+            position: fixed; inset: 0; background: var(--bg);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 200; transition: opacity 0.8s, visibility 0.8s;
+        }
+        #splash-wave {
+            font-size: 5rem; cursor: pointer; margin-bottom: 1.5rem;
+            animation: waveAnim 2s infinite;
+            filter: drop-shadow(0 0 25px rgba(137,106,176,0.7));
+        }
+        @keyframes waveAnim {
+            0%, 100% { transform: rotate(-5deg) scale(1); }
+            25% { transform: rotate(5deg) scale(1.05); }
+            75% { transform: rotate(-3deg) scale(0.97); }
+        }
+        #splash h1 { font-size: 2rem; font-weight: 800; color: var(--accent); letter-spacing: 3px; text-align: center; }
+        #splash p { font-size: 1rem; color: var(--gold); margin-top: 0.5rem; text-align: center; max-width: 280px; line-height: 1.6; }
+        /* HUD */
+        #hud {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+            padding: 14px 20px; background: linear-gradient(to bottom, rgba(35,31,36,0.95), transparent);
+            opacity: 0; transition: opacity 0.8s; pointer-events: none;
+        }
+        #hud-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+        #level-info { font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; }
+        #score-info { font-size: 1.4rem; font-weight: 800; color: var(--accent); }
+        #prog-bar { height: 6px; background: rgba(137,106,176,0.2); border-radius: 3px; overflow: hidden; }
+        #prog-fill { height: 100%; width: 0%; background: var(--accent); border-radius: 3px; transition: width 0.4s; box-shadow: 0 0 8px var(--accent); }
+        /* TARGET ZONE */
+        #target-zone {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            display: flex; flex-direction: column; align-items: center; gap: 16px;
+            z-index: 10; opacity: 0; transition: opacity 0.8s;
+            pointer-events: none;
+        }
+        #target-emoji { font-size: clamp(4rem, 18vw, 7rem); filter: drop-shadow(0 0 20px rgba(137,106,176,0.5)); }
+        #target-name {
+            font-size: 1rem; color: var(--gold); letter-spacing: 3px;
+            text-transform: uppercase; text-align: center;
+        }
+        /* RIVER */
+        #river {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            height: 35vh; z-index: 20;
+            background: linear-gradient(to top, rgba(137,106,176,0.06), transparent);
+            border-top: 1px solid rgba(137,106,176,0.15);
+            overflow: hidden;
+        }
+        .word-chip {
+            position: absolute;
+            padding: 12px 22px;
+            background: rgba(35,31,36,0.92);
+            border: 2px solid rgba(137,106,176,0.4);
+            border-radius: 40px;
+            font-size: clamp(1.4rem, 5vw, 2rem);
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            white-space: nowrap;
+            animation: flowLeft linear forwards;
+            top: 50%;
+            transform: translateY(-50%);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+            transition: border-color 0.2s, background 0.2s;
+        }
+        .word-chip:active { transform: translateY(-50%) scale(0.93); }
+        .word-chip.correct {
+            border-color: var(--success);
+            background: rgba(168,178,138,0.2);
+        }
+        .word-chip.hint {
+            border-color: var(--gold);
+            background: rgba(155,142,108,0.15);
+            animation: flowLeft linear forwards, hintBlink 0.4s ease 3;
+        }
+        @keyframes flowLeft {
+            from { right: -200px; }
+            to { right: 110%; }
+        }
+        @keyframes hintBlink {
+            0%, 100% { border-color: var(--gold); }
+            50% { border-color: transparent; }
+        }
+        /* VICTORY */
+        #victory {
+            position: fixed; inset: 0; background: rgba(35,31,36,0.97);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 150;
+        }
+        #victory h2 { font-size: 2.2rem; font-weight: 800; color: var(--success); text-align: center; margin-bottom: 0.5rem; }
+        #victory p { color: var(--gold); font-size: 1rem; margin-bottom: 2rem; text-align: center; max-width: 280px; line-height: 1.6; }
+        #again-btn {
+            padding: 14px 40px; background: var(--accent); color: var(--bg);
+            border: none; border-radius: 50px; font-size: 1.1rem; font-weight: 700;
+            cursor: pointer; font-family: 'Outfit', sans-serif;
+            box-shadow: 0 0 25px rgba(137,106,176,0.5); transition: transform 0.2s;
+        }
+        #again-btn:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <canvas id="fx"></canvas>
+    <div id="splash">
+        <div id="splash-wave" onclick="startGame()">🌊</div>
+        <h1>EL RÍO DE PALABRAS</h1>
+        <p>Toca la palabra que corresponde a la imagen. ¡Rápido, que el río fluye!</p>
+    </div>
+    <div id="hud">
+        <div id="hud-row">
+            <span id="level-info">NIVEL <span id="lvl-num">1</span></span>
+            <span id="score-info">0 / 10</span>
+        </div>
+        <div id="prog-bar"><div id="prog-fill"></div></div>
+    </div>
+    <div id="target-zone">
+        <div id="target-emoji">🐱</div>
+        <div id="target-name">Encuentra: GATO</div>
+    </div>
+    <div id="river"></div>
+    <div id="victory">
+        <div style="font-size:4rem; margin-bottom:1rem;">📖✨</div>
+        <h2>¡Leíste todas las palabras!</h2>
+        <p>Eres un lector increíble. Las palabras son tus amigos.</p>
+        <button id="again-btn" onclick="playAgain()">¡Jugar de nuevo!</button>
+    </div>
+
+    <script>
+        const PAIRS = [
+            { emoji:'🐱', word:'GATO' },   { emoji:'🌙', word:'LUNA' },
+            { emoji:'🌟', word:'SOL' },    { emoji:'🐶', word:'PERRO' },
+            { emoji:'🌸', word:'FLOR' },   { emoji:'🐟', word:'PEZ' },
+            { emoji:'🏠', word:'CASA' },   { emoji:'🍎', word:'MANZANA' },
+            { emoji:'🐸', word:'RANA' },   { emoji:'🦋', word:'MARIPOSA' },
+            { emoji:'🌈', word:'ARCO' },   { emoji:'🎵', word:'NOTA' },
+            { emoji:'🍃', word:'HOJA' },   { emoji:'🐦', word:'PAJARO' },
+            { emoji:'🌊', word:'MAR' },
+        ];
+
+        const canvas = document.getElementById('fx');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+
+        let voices = [], score = 0, levelNum = 1, totalLevels = 10;
+        let currentPair = null, activeChips = [], waiting = false;
+        let particles = [];
+
+        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+        loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices;
+        function speak(text, pitch = 1.2, rate = 0.9) {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'es-MX'; u.pitch = pitch; u.rate = rate;
+            const v = voices.find(v => v.lang.startsWith('es'));
+            if (v) u.voice = v;
+            window.speechSynthesis.speak(u);
+        }
+
+        // Particle burst
+        class Spark {
+            constructor(x, y, color) {
+                this.x = x; this.y = y; this.color = color;
+                this.vx = (Math.random() - 0.5) * 12;
+                this.vy = (Math.random() - 0.5) * 12 - 3;
+                this.r = Math.random() * 5 + 2; this.life = 1;
+                this.decay = Math.random() * 0.025 + 0.015;
+            }
+            update() { this.x += this.vx; this.y += this.vy; this.vy += 0.2; this.life -= this.decay; }
+            draw() {
+                ctx.save(); ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.color;
+                ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill(); ctx.restore();
+            }
+        }
+        function burst(x, y) {
+            const colors = ['#e3e0a4', '#896ab0', '#a8b28a', '#9b8e6c', '#ffffff'];
+            for (let i = 0; i < 28; i++) particles.push(new Spark(x, y, colors[Math.floor(Math.random() * colors.length)]));
+        }
+        function animFx() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles = particles.filter(p => p.life > 0);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animFx);
+        }
+        animFx();
+
+        function updateHUD() {
+            document.getElementById('score-info').textContent = `${score} / ${totalLevels}`;
+            document.getElementById('lvl-num').textContent = levelNum;
+            document.getElementById('prog-fill').style.width = `${(score / totalLevels) * 100}%`;
+        }
+
+        function clearChips() {
+            const river = document.getElementById('river');
+            activeChips.forEach(c => c.remove());
+            activeChips = [];
+        }
+
+        function getFlowDuration() {
+            // Starts slow, gets slightly faster every 3 levels
+            return Math.max(8, 15 - Math.floor((levelNum - 1) / 3) * 1.5);
+        }
+
+        function spawnChips(target, distractors) {
+            const river = document.getElementById('river');
+            const allWords = [target.word, ...distractors.map(d => d.word)].sort(() => Math.random() - 0.5);
+            const riverH = river.offsetHeight;
+            const positions = [0.2, 0.45, 0.7, 0.85, 0.55].slice(0, allWords.length);
+
+            allWords.forEach((word, i) => {
+                const chip = document.createElement('div');
+                chip.className = 'word-chip';
+                chip.textContent = word;
+                const topPct = positions[i % positions.length] * 100;
+                chip.style.top = topPct + '%';
+                const delay = i * 1.2;
+                const duration = getFlowDuration();
+                chip.style.animationDuration = duration + 's';
+                chip.style.animationDelay = delay + 's';
+                chip.style.right = (-200) + 'px';
+                chip.dataset.word = word;
+                chip.dataset.isTarget = (word === target.word) ? '1' : '0';
+
+                const handleTap = (e) => {
+                    e.preventDefault();
+                    if (waiting) return;
+                    const rect = chip.getBoundingClientRect();
+                    const cx2 = rect.left + rect.width / 2;
+                    const cy2 = rect.top + rect.height / 2;
+                    if (chip.dataset.isTarget === '1') {
+                        chip.classList.add('correct');
+                        burst(cx2, cy2);
+                        speak(`¡Sí! ${target.word}`, 1.3);
+                        score++;
+                        updateHUD();
+                        waiting = true;
+                        setTimeout(() => {
+                            clearChips();
+                            if (score >= totalLevels) showVictory();
+                            else nextLevel();
+                        }, 1000);
+                    } else {
+                        // Highlight correct
+                        waiting = true;
+                        speak(`Esta es: ${target.word}`, 1.1, 0.8);
+                        activeChips.forEach(c => {
+                            if (c.dataset.isTarget === '1') c.classList.add('hint');
+                        });
+                        setTimeout(() => {
+                            clearChips();
+                            waiting = false;
+                            spawnLevel(target); // retry same target
+                        }, 2200);
+                    }
+                };
+                chip.addEventListener('click', handleTap);
+                chip.addEventListener('touchstart', handleTap, { passive: false });
+
+                // Auto-remove when off screen
+                chip.addEventListener('animationend', () => {
+                    chip.remove();
+                    activeChips = activeChips.filter(c => c !== chip);
+                });
+
+                river.appendChild(chip);
+                activeChips.push(chip);
+            });
+        }
+
+        function spawnLevel(forcePair) {
+            clearChips();
+            const shuffled = [...PAIRS].sort(() => Math.random() - 0.5);
+            const target = forcePair || shuffled[0];
+            const distractors = shuffled.filter(p => p.word !== target.word).slice(0, 4);
+
+            document.getElementById('target-emoji').textContent = target.emoji;
+            document.getElementById('target-name').textContent = `Encuentra: ${target.word}`;
+            currentPair = target;
+
+            setTimeout(() => speak(`Encuentra: ${target.word}`, 1.2), 300);
+            setTimeout(() => spawnChips(target, distractors), 600);
+        }
+
+        function nextLevel() {
+            levelNum = Math.floor(score / 2) + 1;
+            updateHUD();
+            spawnLevel();
+        }
+
+        function showVictory() {
+            clearChips();
+            document.getElementById('victory').style.display = 'flex';
+            speak('¡Leíste todas las palabras! ¡Eres increíble!', 1.3, 0.85);
+            // Big burst
+            for (let i = 0; i < 5; i++) setTimeout(() => burst(Math.random() * canvas.width, Math.random() * canvas.height * 0.6), i * 200);
+        }
+
+        function playAgain() {
+            score = 0; levelNum = 1; waiting = false;
+            updateHUD();
+            document.getElementById('victory').style.display = 'none';
+            spawnLevel();
+        }
+
+        function startGame() {
+            document.getElementById('splash').style.opacity = '0';
+            document.getElementById('splash').style.visibility = 'hidden';
+            document.getElementById('hud').style.opacity = '1';
+            document.getElementById('target-zone').style.opacity = '1';
+            updateHUD();
+            speak('¡Hola! Toca la palabra que matches con la imagen. ¡Allá vamos!', 1.2, 0.9);
+            setTimeout(spawnLevel, 1500);
+        }
+    </script>
+</body>
+</html>

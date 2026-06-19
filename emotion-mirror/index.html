@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="El Espejo Mágico - Reconocimiento emocional para TEA">
+    <title>El Espejo Mágico</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #231f24; --accent: #896ab0; --gold: #9b8e6c;
+            --text: #e3e0a4; --success: #a8b28a;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            background: var(--bg); color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh; display: flex; flex-direction: column;
+            align-items: center; justify-content: flex-start;
+            overflow: hidden; touch-action: manipulation;
+        }
+        canvas#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 50; }
+        /* SPLASH */
+        #splash {
+            position: fixed; inset: 0; background: var(--bg);
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 200; transition: opacity 0.8s, visibility 0.8s;
+        }
+        #splash-sigil {
+            font-size: 5rem; cursor: pointer; margin-bottom: 1.5rem;
+            animation: mirrorPulse 2.5s infinite;
+            filter: drop-shadow(0 0 20px var(--accent));
+        }
+        @keyframes mirrorPulse {
+            0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px var(--accent)); }
+            50% { transform: scale(1.1); filter: drop-shadow(0 0 40px var(--accent)); }
+        }
+        #splash h1 { font-size: 2rem; font-weight: 800; color: var(--accent); letter-spacing: 3px; text-align: center; }
+        #splash p { font-size: 1rem; color: var(--gold); margin-top: 0.5rem; text-align: center; max-width: 300px; }
+        /* PROGRESS */
+        #progress-bar-wrap {
+            width: 100%; max-width: 500px; padding: 16px 20px 0;
+            opacity: 0; transition: opacity 0.8s;
+        }
+        #progress-label { font-size: 11px; color: var(--gold); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 6px; }
+        #progress-bar {
+            height: 8px; background: rgba(137,106,176,0.2);
+            border-radius: 4px; overflow: hidden;
+        }
+        #progress-fill {
+            height: 100%; width: 0%; background: var(--accent);
+            border-radius: 4px; transition: width 0.5s ease;
+            box-shadow: 0 0 10px var(--accent);
+        }
+        /* GAME AREA */
+        #game-area {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            width: 100%; max-width: 500px; padding: 20px;
+            gap: 24px; opacity: 0; transition: opacity 0.8s;
+        }
+        #emotion-word {
+            font-size: clamp(2.5rem, 12vw, 4.5rem);
+            font-weight: 800; color: var(--text);
+            letter-spacing: 4px; text-align: center;
+            text-shadow: 0 0 30px rgba(137,106,176,0.5);
+            animation: wordIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes wordIn {
+            from { transform: scale(0.5) rotate(-5deg); opacity: 0; }
+            to   { transform: scale(1) rotate(0); opacity: 1; }
+        }
+        #prompt-text { font-size: 1rem; color: var(--gold); text-align: center; letter-spacing: 1px; }
+        #emoji-grid {
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 12px; width: 100%;
+        }
+        .emoji-btn {
+            aspect-ratio: 1; background: rgba(137,106,176,0.08);
+            border: 2px solid rgba(137,106,176,0.3);
+            border-radius: 20px; cursor: pointer;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            gap: 4px; transition: all 0.2s; font-size: clamp(2rem, 8vw, 2.8rem);
+            -webkit-tap-highlight-color: transparent;
+        }
+        .emoji-btn span.label { font-size: 0.6rem; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
+        .emoji-btn:active { transform: scale(0.9); }
+        .emoji-btn.correct {
+            border-color: var(--success); background: rgba(168,178,138,0.2);
+            box-shadow: 0 0 25px rgba(168,178,138,0.5);
+            animation: correctPulse 0.5s ease;
+        }
+        .emoji-btn.hint {
+            border-color: var(--gold); background: rgba(155,142,108,0.15);
+            animation: hintGlow 1s ease infinite alternate;
+        }
+        @keyframes correctPulse { 0%,100% { transform: scale(1); } 50% { transform: scale(1.15); } }
+        @keyframes hintGlow { from { box-shadow: 0 0 10px rgba(155,142,108,0.3); } to { box-shadow: 0 0 30px rgba(155,142,108,0.7); } }
+        /* VICTORY */
+        #victory {
+            position: fixed; inset: 0; background: rgba(35,31,36,0.95);
+            display: none; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 150;
+        }
+        #victory h2 { font-size: 2.5rem; font-weight: 800; color: var(--success); text-align: center; margin-bottom: 1rem; }
+        #victory p { color: var(--gold); font-size: 1.1rem; margin-bottom: 2rem; text-align: center; }
+        #play-again {
+            padding: 14px 40px; background: var(--accent); color: var(--bg);
+            border: none; border-radius: 50px; font-size: 1.2rem; font-weight: 700;
+            cursor: pointer; font-family: 'Outfit', sans-serif;
+            transition: transform 0.2s, box-shadow 0.2s;
+            box-shadow: 0 0 25px rgba(137,106,176,0.5);
+        }
+        #play-again:active { transform: scale(0.95); }
+    </style>
+</head>
+<body>
+    <canvas id="confetti"></canvas>
+    <div id="splash">
+        <div id="splash-sigil" onclick="startGame()">🪞</div>
+        <h1>EL ESPEJO MÁGICO</h1>
+        <p>Encuentra la emoción correcta. ¡Tú puedes!</p>
+    </div>
+    <div id="progress-bar-wrap">
+        <div id="progress-label">PROGRESO: <span id="prog-text">0 / 10</span></div>
+        <div id="progress-bar"><div id="progress-fill"></div></div>
+    </div>
+    <div id="game-area">
+        <div id="prompt-text">Muéstrame:</div>
+        <div id="emotion-word">FELIZ</div>
+        <div id="emoji-grid"></div>
+    </div>
+    <div id="victory">
+        <h2>🌟 ¡Lo lograste! 🌟</h2>
+        <p>Conoces todas las emociones.<br>¡Eres increíble!</p>
+        <button id="play-again" onclick="startRound()">¡Jugar de nuevo!</button>
+    </div>
+    <script>
+        const EMOTIONS = [
+            { word: 'FELIZ',      emoji: '😊', label: 'feliz' },
+            { word: 'TRISTE',     emoji: '😢', label: 'triste' },
+            { word: 'ENOJADO',    emoji: '😠', label: 'enojado' },
+            { word: 'ASUSTADO',   emoji: '😨', label: 'asustado' },
+            { word: 'SORPRENDIDO',emoji: '😲', label: 'sorprendido' },
+            { word: 'TRANQUILO',  emoji: '😌', label: 'tranquilo' },
+        ];
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+
+        let voices = [], score = 0, total = 10, currentEmotion = null, waiting = false;
+        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
+        loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices;
+        function speak(text, pitch = 1.3) {
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'es-MX'; u.pitch = pitch; u.rate = 0.85;
+            const v = voices.find(v => v.lang.startsWith('es'));
+            if (v) u.voice = v;
+            window.speechSynthesis.speak(u);
+        }
+
+        // Confetti particles
+        let confettiParts = [];
+        const COLORS = ['#896ab0','#a8b28a','#9b8e6c','#e3e0a4','#c896e0'];
+        function launchConfetti() {
+            for (let i = 0; i < 120; i++) {
+                confettiParts.push({
+                    x: Math.random() * canvas.width, y: -10,
+                    vx: (Math.random() - 0.5) * 6, vy: Math.random() * 4 + 2,
+                    r: Math.random() * 6 + 3, color: COLORS[Math.floor(Math.random() * COLORS.length)],
+                    rot: Math.random() * 360, rotV: (Math.random() - 0.5) * 10, life: 1
+                });
+            }
+            animConfetti();
+        }
+        function animConfetti() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            confettiParts = confettiParts.filter(p => p.life > 0);
+            confettiParts.forEach(p => {
+                p.x += p.vx; p.y += p.vy; p.rot += p.rotV; p.life -= 0.008;
+                ctx.save(); ctx.globalAlpha = p.life; ctx.fillStyle = p.color;
+                ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180);
+                ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); ctx.restore();
+            });
+            if (confettiParts.length > 0) requestAnimationFrame(animConfetti);
+            else ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function updateProgress() {
+            document.getElementById('prog-text').textContent = `${score} / ${total}`;
+            document.getElementById('progress-fill').style.width = `${(score / total) * 100}%`;
+        }
+
+        function buildGrid(targetEmotion) {
+            const grid = document.getElementById('emoji-grid');
+            grid.innerHTML = '';
+            // Shuffle all emotions
+            const shuffled = [...EMOTIONS].sort(() => Math.random() - 0.5);
+            shuffled.forEach(em => {
+                const btn = document.createElement('div');
+                btn.className = 'emoji-btn';
+                btn.dataset.label = em.label;
+                btn.innerHTML = `<span>${em.emoji}</span><span class="label">${em.label}</span>`;
+                btn.addEventListener('click', () => handleChoice(btn, em, targetEmotion));
+                btn.addEventListener('touchstart', (e) => { e.preventDefault(); handleChoice(btn, em, targetEmotion); }, { passive: false });
+                grid.appendChild(btn);
+            });
+        }
+
+        function handleChoice(btn, chosen, target) {
+            if (waiting) return;
+            if (chosen.label === target.label) {
+                btn.classList.add('correct');
+                score++;
+                updateProgress();
+                speak(`¡Correcto! ${target.word}`);
+                setTimeout(() => {
+                    if (score >= total) showVictory();
+                    else nextEmotion();
+                }, 1200);
+            } else {
+                waiting = true;
+                speak(`Este es ${target.label}`);
+                // Highlight correct
+                document.querySelectorAll('.emoji-btn').forEach(b => {
+                    if (b.dataset.label === target.label) b.classList.add('hint');
+                });
+                setTimeout(() => { waiting = false; nextEmotion(); }, 1800);
+            }
+        }
+
+        function nextEmotion() {
+            const el = document.getElementById('emotion-word');
+            el.style.animation = 'none'; void el.offsetWidth;
+            currentEmotion = EMOTIONS[Math.floor(Math.random() * EMOTIONS.length)];
+            el.textContent = currentEmotion.word;
+            el.style.animation = 'wordIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+            buildGrid(currentEmotion);
+            setTimeout(() => speak(`Muéstrame: ${currentEmotion.word}`), 200);
+        }
+
+        function showVictory() {
+            document.getElementById('victory').style.display = 'flex';
+            launchConfetti();
+            speak('¡Lo lograste! Conoces todas las emociones. ¡Eres increíble!', 1.4);
+        }
+
+        function startRound() {
+            score = 0; waiting = false;
+            document.getElementById('victory').style.display = 'none';
+            updateProgress();
+            nextEmotion();
+        }
+
+        function startGame() {
+            document.getElementById('splash').style.opacity = '0';
+            document.getElementById('splash').style.visibility = 'hidden';
+            document.getElementById('progress-bar-wrap').style.opacity = '1';
+            document.getElementById('game-area').style.opacity = '1';
+            speak('¡Hola! Muéstrame las emociones. ¡Vamos!');
+            setTimeout(startRound, 800);
+        }
+    </script>
+</body>
+</html>
