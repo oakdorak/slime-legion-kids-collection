@@ -213,11 +213,13 @@
         function handleChoice(btn, chosen, target) {
             if (waiting) return;
             if (chosen.label === target.label) {
+                waiting = true;
                 btn.classList.add('correct');
                 score++;
                 updateProgress();
                 speak(`¡Correcto! ${target.word}`);
                 setTimeout(() => {
+                    waiting = false;
                     if (score >= total) showVictory();
                     else nextEmotion();
                 }, 1200);
@@ -261,7 +263,7 @@
             document.getElementById('progress-bar-wrap').style.opacity = '1';
             document.getElementById('game-area').style.opacity = '1';
             speak('¡Hola! Muéstrame las emociones. ¡Vamos!');
-            setTimeout(startRound, 800);
+            setTimeout(startRound, 3500);
         }
     </script>
 </body>

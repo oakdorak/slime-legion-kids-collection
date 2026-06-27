@@ -327,7 +327,7 @@
             cyclesDone = 0; stars = []; particles = [];
             for (let i = 1; i <= 3; i++) document.getElementById('dot-' + i).classList.remove('done');
             document.getElementById('victory').style.display = 'none';
-            setTimeout(() => setPhase('inhale'), 500);
+            setTimeout(() => setPhase('inhale'), 1500);
         }
 
         function startGame() {
@@ -338,7 +338,7 @@
             gameActive = true; lastTime = null;
             targetAura = Math.min(W, H) * 0.18;
             speak('¡Hola! Vamos a respirar juntos. Sigue al dragón.', 1.1, 0.85);
-            setTimeout(() => setPhase('inhale'), 2000);
+            setTimeout(() => setPhase('inhale'), 4500);
         }
     </script>
 </body>

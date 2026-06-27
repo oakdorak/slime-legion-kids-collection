@@ -294,6 +294,7 @@
         }
 
         function spawnLevel(forcePair) {
+            waiting = false;
             clearChips();
             const shuffled = [...PAIRS].sort(() => Math.random() - 0.5);
             const target = forcePair || shuffled[0];
@@ -335,7 +336,7 @@
             document.getElementById('target-zone').style.opacity = '1';
             updateHUD();
             speak('¡Hola! Toca la palabra que matches con la imagen. ¡Allá vamos!', 1.2, 0.9);
-            setTimeout(spawnLevel, 1500);
+            setTimeout(spawnLevel, 4000);
         }
     </script>
 </body>
