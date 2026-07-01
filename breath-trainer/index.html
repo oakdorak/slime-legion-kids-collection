@@ -108,7 +108,9 @@
 
     <script>
         const canvas = document.getElementById('main');
+        if (!canvas) throw new Error('Canvas element not found');
         const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('2D context not available');
         let W, H, cx, cy;
         function resize() {
             W = canvas.width = window.innerWidth;
@@ -185,10 +187,15 @@
 
         // Voice
         let voices = [];
-        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
-        loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices;
+        function loadVoices() {
+            if (!window.speechSynthesis) return;
+            voices = window.speechSynthesis.getVoices();
+        }
+        loadVoices();
+        if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = loadVoices;
         let currentUtterance = null;
         function speak(text, pitch = 1.1, rate = 0.75) {
+            if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
             u.lang = 'es-MX'; u.pitch = pitch; u.rate = rate;
@@ -300,7 +307,8 @@
                     else if (phase === 'hold') setPhase('exhale');
                     else if (phase === 'exhale') {
                         cyclesDone++;
-                        document.getElementById('dot-' + cyclesDone).classList.add('done');
+                        const dot = document.getElementById('dot-' + cyclesDone);
+                        if (dot) dot.classList.add('done');
                         if (cyclesDone >= TOTAL_CYCLES) {
                             phase = 'idle'; setTimeout(showVictory, 500);
                         } else {
