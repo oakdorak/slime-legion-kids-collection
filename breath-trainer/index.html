@@ -106,7 +106,10 @@
         <button id="again-btn" onclick="restartBreath()">Respirar de nuevo</button>
     </div>
 
+    <script src="../shared/utils.js"></script>
     <script>
+        const { SpeechEngine, dismissSplash, showElements } = window.NeuroDivertidos;
+
         const canvas = document.getElementById('main');
         const ctx = canvas.getContext('2d');
         let W, H, cx, cy;
@@ -117,6 +120,9 @@
         }
         resize();
         window.addEventListener('resize', resize);
+
+        const speech = new SpeechEngine({ pitch: 1.1, rate: 0.75 });
+        function speak(text, pitch = 1.1, rate = 0.75) { speech.speak(text, { pitch, rate }); }
 
         // State
         let gameActive = false;
@@ -134,9 +140,9 @@
         let auraRadius = 0;
         let targetAura = 0;
 
-        // Particles
+        // Particles (breath-specific with radial gradients)
         let particles = [];
-        class Particle {
+        class BreathParticle {
             constructor(type) {
                 this.reset(type);
             }
@@ -183,20 +189,6 @@
             }
         }
 
-        // Voice
-        let voices = [];
-        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
-        loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices;
-        let currentUtterance = null;
-        function speak(text, pitch = 1.1, rate = 0.75) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'es-MX'; u.pitch = pitch; u.rate = rate;
-            const v = voices.find(v => v.lang.startsWith('es'));
-            if (v) u.voice = v;
-            window.speechSynthesis.speak(u);
-        }
-
         // Phases
         function setPhase(p) {
             phase = p; phaseTimer = 0; phaseProgress = 0;
@@ -224,7 +216,7 @@
 
         function spawnPhaseParticles(type) {
             const count = type === 'fire' ? 30 : 15;
-            for (let i = 0; i < count; i++) particles.push(new Particle(type));
+            for (let i = 0; i < count; i++) particles.push(new BreathParticle(type));
         }
 
         // Draw dragon (emoji on canvas)
@@ -309,8 +301,8 @@
                     }
                 }
                 // Add particles continuously for hold
-                if (phase === 'hold' && Math.random() < 0.1) particles.push(new Particle('light'));
-                if (phase === 'exhale' && Math.random() < 0.15) particles.push(new Particle('fire'));
+                if (phase === 'hold' && Math.random() < 0.1) particles.push(new BreathParticle('light'));
+                if (phase === 'exhale' && Math.random() < 0.15) particles.push(new BreathParticle('fire'));
             }
 
             requestAnimationFrame(loop);
@@ -331,10 +323,8 @@
         }
 
         function startGame() {
-            document.getElementById('splash').style.opacity = '0';
-            document.getElementById('splash').style.visibility = 'hidden';
-            document.getElementById('hud').style.opacity = '1';
-            document.getElementById('cycles-display').style.opacity = '1';
+            dismissSplash(document.getElementById('splash'));
+            showElements('#hud', '#cycles-display');
             gameActive = true; lastTime = null;
             targetAura = Math.min(W, H) * 0.18;
             speak('¡Hola! Vamos a respirar juntos. Sigue al dragón.', 1.1, 0.85);

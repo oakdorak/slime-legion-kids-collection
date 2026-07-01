@@ -154,13 +154,16 @@
     <div id="bubble-field"></div>
     <button id="resetBtn" onclick="resetGame()">✨</button>
 
+    <script src="../shared/utils.js"></script>
     <script>
+        const { SpeechEngine, initCanvasResize, Particle, burst, tickParticles, dismissSplash, showElements } = window.NeuroDivertidos;
+
         const canvas = document.getElementById('particles');
         const ctx = canvas.getContext('2d');
-        let W, H;
-        function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
-        resize();
-        window.addEventListener('resize', resize);
+        const size = initCanvasResize(canvas);
+
+        const speech = new SpeechEngine({ pitch: 1.3, rate: 0.9 });
+        function speak(text, pitch = 1.3) { speech.speak(text, { pitch }); }
 
         // State
         let gameActive = false;
@@ -178,45 +181,9 @@
         ];
         const TARGET_COLOR = { bg: '#896ab0', shadow: '#896ab0', isTarget: true };
 
-        // Voice
-        let voices = [];
-        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
-        loadVoices();
-        window.speechSynthesis.onvoiceschanged = loadVoices;
-        function speak(text, pitch = 1.3) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'es-MX'; u.pitch = pitch; u.rate = 0.9;
-            const v = voices.find(v => v.lang.startsWith('es')) ;
-            if (v) u.voice = v;
-            window.speechSynthesis.speak(u);
-        }
-
-        // Particles
-        class Particle {
-            constructor(x, y, color) {
-                this.x = x; this.y = y; this.color = color;
-                this.r = Math.random() * 5 + 2;
-                this.vx = (Math.random() - 0.5) * 8;
-                this.vy = (Math.random() - 0.5) * 8 - 2;
-                this.life = 1;
-                this.decay = Math.random() * 0.02 + 0.02;
-            }
-            update() { this.x += this.vx; this.y += this.vy; this.vy += 0.15; this.life -= this.decay; }
-            draw() {
-                ctx.save(); ctx.globalAlpha = this.life;
-                ctx.fillStyle = this.color;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill();
-                ctx.restore();
-            }
-        }
-        function burst(x, y, color, count = 20) {
-            for (let i = 0; i < count; i++) particles.push(new Particle(x, y, color));
-        }
         function animLoop() {
-            ctx.clearRect(0, 0, W, H);
-            particles = particles.filter(p => p.life > 0);
-            particles.forEach(p => { p.update(); p.draw(); });
+            ctx.clearRect(0, 0, size.W, size.H);
+            particles = tickParticles(particles, ctx);
             requestAnimationFrame(animLoop);
         }
         animLoop();
@@ -248,8 +215,8 @@
                 if (bubble.dataset.target === '1') {
                     streak++; totalHits++;
                     bubble.remove();
-                    burst(cx, cy, '#896ab0', 25);
-                    burst(cx, cy, '#a8b28a', 12);
+                    particles.push(...burst(cx, cy, { color: '#896ab0', count: 25 }));
+                    particles.push(...burst(cx, cy, { color: '#a8b28a', count: 12 }));
                     updateStreak();
                     checkLevel();
                 } else {
@@ -282,8 +249,8 @@
                 const compliments = ['¡INCREÍBLE!', '¡BRUTAL!', '¡GENIAL!', '¡PERFECTO!', '¡ASOMBROSO!'];
                 msg.textContent = streak >= 10 ? '🔥 ' + compliments[Math.floor(Math.random() * compliments.length)] + ' 🔥' : '¡' + compliments[Math.floor(Math.random() * compliments.length)] + '!';
                 msg.style.opacity = '1';
-                burst(W / 2, H / 2, '#896ab0', 40);
-                burst(W / 2, H / 2, '#e3e0a4', 20);
+                particles.push(...burst(size.W / 2, size.H / 2, { color: '#896ab0', count: 40 }));
+                particles.push(...burst(size.W / 2, size.H / 2, { color: '#e3e0a4', count: 20 }));
                 speak(streak >= 10 ? '¡¡INCREÍBLE!! Racha de ' + streak : '¡Muy bien! Racha de ' + streak);
                 setTimeout(() => msg.style.opacity = '0', 2000);
             } else {
@@ -304,10 +271,8 @@
         }
 
         function startGame() {
-            document.getElementById('splash').style.opacity = '0';
-            document.getElementById('splash').style.visibility = 'hidden';
-            document.getElementById('hud').style.opacity = '1';
-            document.getElementById('resetBtn').style.opacity = '1';
+            dismissSplash(document.getElementById('splash'));
+            showElements('#hud', '#resetBtn');
             gameActive = true;
             speak('¡Hola! Caza solo las burbujas moradas.');
             spawnInterval = setInterval(spawnBubble, 1800);
@@ -321,7 +286,7 @@
             document.getElementById('bubble-field').innerHTML = '';
             clearInterval(spawnInterval);
             spawnInterval = setInterval(spawnBubble, 1800);
-            burst(W / 2, H - 80, '#896ab0', 30);
+            particles.push(...burst(size.W / 2, size.H - 80, { color: '#896ab0', count: 30 }));
             speak('¡Reiniciado! ¡A cazar burbujas!');
         }
     </script>
