@@ -9,7 +9,12 @@ const AudioEngine = {
 
   init() {
     if (!this.ctx) {
-      this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      try {
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      } catch (e) {
+        console.warn('AudioContext not available:', e.message);
+        return false;
+      }
       
       // Clinical Low-Pass Filter at 1000Hz (Sensory hypersensitivity protection)
       this.filter = this.ctx.createBiquadFilter();
@@ -19,12 +24,13 @@ const AudioEngine = {
       this.filter.connect(this.ctx.destination);
     }
     if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
+      this.ctx.resume().catch(e => console.warn('AudioContext resume failed:', e.message));
     }
+    return true;
   },
 
   playSuccess() {
-    this.init();
+    if (!this.init()) return;
     const now = this.ctx.currentTime;
     // C Major 9th chord (Bill Evans scale): C4, E4, G4, B4, D5
     const notes = [261.63, 329.63, 392.00, 493.88, 587.33];
@@ -54,7 +60,7 @@ const AudioEngine = {
   },
 
   playError() {
-    this.init();
+    if (!this.init()) return;
     const now = this.ctx.currentTime;
     // Low, soothing minor warning sweep (no sudden scare sound)
     const notes = [196.00, 185.00]; // G3 to Gb3 (descending semitone slide)
@@ -79,7 +85,7 @@ const AudioEngine = {
   },
 
   playClick() {
-    this.init();
+    if (!this.init()) return;
     const now = this.ctx.currentTime;
     const osc = this.ctx.createOscillator();
     const gainNode = this.ctx.createGain();
@@ -99,7 +105,7 @@ const AudioEngine = {
   },
   
   playActionUnlock() {
-    this.init();
+    if (!this.init()) return;
     const now = this.ctx.currentTime;
     // Sparkly Lydian arpeggio (C4 -> F#4 -> G4)
     const notes = [261.63, 369.99, 392.00];
@@ -260,13 +266,18 @@ function getMascotSVG(emotion = 'happy', gazeDirection = 'center') {
 
 // --- Application State ---
 const State = {
-  stars: parseInt(localStorage.getItem('minizanahoria_stars') || '0'),
+  stars: (() => {
+    try { return parseInt(localStorage.getItem('minizanahoria_stars') || '0', 10) || 0; }
+    catch (e) { return 0; }
+  })(),
   activeGame: 'orbit',
   
   addStar() {
     this.stars += 1;
-    localStorage.setItem('minizanahoria_stars', this.stars);
-    document.getElementById('star-count').innerText = this.stars;
+    try { localStorage.setItem('minizanahoria_stars', this.stars); }
+    catch (e) { console.warn('Failed to persist star count:', e.message); }
+    const el = document.getElementById('star-count');
+    if (el) el.innerText = this.stars;
   }
 };
 
@@ -286,6 +297,7 @@ function initNavigation() {
       State.activeGame = gameName;
       
       const targetPanel = document.getElementById(`game-${gameName}`);
+      if (!targetPanel) return;
       targetPanel.classList.add('active');
       
       // Initialize the chosen game
@@ -296,7 +308,8 @@ function initNavigation() {
   });
 
   // Init stars count
-  document.getElementById('star-count').innerText = State.stars;
+  const starEl = document.getElementById('star-count');
+  if (starEl) starEl.innerText = State.stars;
 }
 
 // --- Reward / Celebration Overlay Trigger ---
@@ -305,7 +318,7 @@ function triggerRewardCelebration() {
   State.addStar();
   
   const screen = document.getElementById('celebration-screen');
-  screen.classList.add('active');
+  if (screen) screen.classList.add('active');
 }
 
 document.getElementById('close-celebration-btn').addEventListener('click', () => {

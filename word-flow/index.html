@@ -163,7 +163,9 @@
         ];
 
         const canvas = document.getElementById('fx');
+        if (!canvas) throw new Error('Canvas element not found');
         const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('2D context not available');
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
         window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
 
@@ -171,9 +173,14 @@
         let currentPair = null, activeChips = [], waiting = false;
         let particles = [];
 
-        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
-        loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices;
+        function loadVoices() {
+            if (!window.speechSynthesis) return;
+            voices = window.speechSynthesis.getVoices();
+        }
+        loadVoices();
+        if (window.speechSynthesis) window.speechSynthesis.onvoiceschanged = loadVoices;
         function speak(text, pitch = 1.2, rate = 0.9) {
+            if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
             const u = new SpeechSynthesisUtterance(text);
             u.lang = 'es-MX'; u.pitch = pitch; u.rate = rate;
