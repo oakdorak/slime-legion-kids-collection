@@ -137,7 +137,10 @@
         <p>Conoces todas las emociones.<br>¡Eres increíble!</p>
         <button id="play-again" onclick="startRound()">¡Jugar de nuevo!</button>
     </div>
+    <script src="../shared/utils.js"></script>
     <script>
+        const { SpeechEngine, ConfettiPiece, launchConfetti: createConfetti, dismissSplash, showElements, initCanvasResize } = window.NeuroDivertidos;
+
         const EMOTIONS = [
             { word: 'FELIZ',      emoji: '😊', label: 'feliz' },
             { word: 'TRISTE',     emoji: '😢', label: 'triste' },
@@ -148,45 +151,23 @@
         ];
         const canvas = document.getElementById('confetti');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
+        const canvasSize = initCanvasResize(canvas);
 
-        let voices = [], score = 0, total = 10, currentEmotion = null, waiting = false;
-        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
-        loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices;
-        function speak(text, pitch = 1.3) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'es-MX'; u.pitch = pitch; u.rate = 0.85;
-            const v = voices.find(v => v.lang.startsWith('es'));
-            if (v) u.voice = v;
-            window.speechSynthesis.speak(u);
-        }
+        const speech = new SpeechEngine({ pitch: 1.3, rate: 0.85 });
+        function speak(text, pitch = 1.3) { speech.speak(text, { pitch }); }
 
         // Confetti particles
         let confettiParts = [];
-        const COLORS = ['#896ab0','#a8b28a','#9b8e6c','#e3e0a4','#c896e0'];
         function launchConfetti() {
-            for (let i = 0; i < 120; i++) {
-                confettiParts.push({
-                    x: Math.random() * canvas.width, y: -10,
-                    vx: (Math.random() - 0.5) * 6, vy: Math.random() * 4 + 2,
-                    r: Math.random() * 6 + 3, color: COLORS[Math.floor(Math.random() * COLORS.length)],
-                    rot: Math.random() * 360, rotV: (Math.random() - 0.5) * 10, life: 1
-                });
-            }
+            confettiParts = createConfetti({ count: 120, canvasWidth: canvasSize.W });
             animConfetti();
         }
         function animConfetti() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            confettiParts = confettiParts.filter(p => p.life > 0);
-            confettiParts.forEach(p => {
-                p.x += p.vx; p.y += p.vy; p.rot += p.rotV; p.life -= 0.008;
-                ctx.save(); ctx.globalAlpha = p.life; ctx.fillStyle = p.color;
-                ctx.translate(p.x, p.y); ctx.rotate(p.rot * Math.PI / 180);
-                ctx.fillRect(-p.r, -p.r / 2, p.r * 2, p.r); ctx.restore();
-            });
+            ctx.clearRect(0, 0, canvasSize.W, canvasSize.H);
+            confettiParts = confettiParts.filter(p => !p.dead);
+            confettiParts.forEach(p => { p.update(); p.draw(ctx); });
             if (confettiParts.length > 0) requestAnimationFrame(animConfetti);
-            else ctx.clearRect(0, 0, canvas.width, canvas.height);
+            else ctx.clearRect(0, 0, canvasSize.W, canvasSize.H);
         }
 
         function updateProgress() {
@@ -258,10 +239,8 @@
         }
 
         function startGame() {
-            document.getElementById('splash').style.opacity = '0';
-            document.getElementById('splash').style.visibility = 'hidden';
-            document.getElementById('progress-bar-wrap').style.opacity = '1';
-            document.getElementById('game-area').style.opacity = '1';
+            dismissSplash(document.getElementById('splash'));
+            showElements('#progress-bar-wrap', '#game-area');
             speak('¡Hola! Muéstrame las emociones. ¡Vamos!');
             setTimeout(startRound, 3500);
         }

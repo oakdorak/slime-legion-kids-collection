@@ -150,7 +150,10 @@
         <button id="again-btn" onclick="playAgain()">¡Jugar de nuevo!</button>
     </div>
 
+    <script src="../shared/utils.js"></script>
     <script>
+        const { SpeechEngine, initCanvasResize, Particle, burst: burstUtil, tickParticles, dismissSplash, showElements } = window.NeuroDivertidos;
+
         const PAIRS = [
             { emoji:'🐱', word:'GATO' },   { emoji:'🌙', word:'LUNA' },
             { emoji:'🌟', word:'SOL' },    { emoji:'🐶', word:'PERRO' },
@@ -164,48 +167,25 @@
 
         const canvas = document.getElementById('fx');
         const ctx = canvas.getContext('2d');
-        canvas.width = window.innerWidth; canvas.height = window.innerHeight;
-        window.addEventListener('resize', () => { canvas.width = window.innerWidth; canvas.height = window.innerHeight; });
+        const size = initCanvasResize(canvas);
 
-        let voices = [], score = 0, levelNum = 1, totalLevels = 10;
+        const speech = new SpeechEngine({ pitch: 1.2, rate: 0.9 });
+        function speak(text, pitch = 1.2, rate = 0.9) { speech.speak(text, { pitch, rate }); }
+
+        let score = 0, levelNum = 1, totalLevels = 10;
         let currentPair = null, activeChips = [], waiting = false;
         let particles = [];
 
-        function loadVoices() { voices = window.speechSynthesis.getVoices(); }
-        loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices;
-        function speak(text, pitch = 1.2, rate = 0.9) {
-            window.speechSynthesis.cancel();
-            const u = new SpeechSynthesisUtterance(text);
-            u.lang = 'es-MX'; u.pitch = pitch; u.rate = rate;
-            const v = voices.find(v => v.lang.startsWith('es'));
-            if (v) u.voice = v;
-            window.speechSynthesis.speak(u);
-        }
-
-        // Particle burst
-        class Spark {
-            constructor(x, y, color) {
-                this.x = x; this.y = y; this.color = color;
-                this.vx = (Math.random() - 0.5) * 12;
-                this.vy = (Math.random() - 0.5) * 12 - 3;
-                this.r = Math.random() * 5 + 2; this.life = 1;
-                this.decay = Math.random() * 0.025 + 0.015;
-            }
-            update() { this.x += this.vx; this.y += this.vy; this.vy += 0.2; this.life -= this.decay; }
-            draw() {
-                ctx.save(); ctx.globalAlpha = this.life;
-                ctx.fillStyle = this.color;
-                ctx.beginPath(); ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2); ctx.fill(); ctx.restore();
-            }
-        }
         function burst(x, y) {
             const colors = ['#e3e0a4', '#896ab0', '#a8b28a', '#9b8e6c', '#ffffff'];
-            for (let i = 0; i < 28; i++) particles.push(new Spark(x, y, colors[Math.floor(Math.random() * colors.length)]));
+            for (let i = 0; i < 28; i++) {
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                particles.push(new Particle({ x, y, color, vx: (Math.random() - 0.5) * 12, vy: (Math.random() - 0.5) * 12 - 3, decay: Math.random() * 0.025 + 0.015, gravity: 0.2 }));
+            }
         }
         function animFx() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles = particles.filter(p => p.life > 0);
-            particles.forEach(p => { p.update(); p.draw(); });
+            ctx.clearRect(0, 0, size.W, size.H);
+            particles = tickParticles(particles, ctx);
             requestAnimationFrame(animFx);
         }
         animFx();
@@ -319,7 +299,7 @@
             document.getElementById('victory').style.display = 'flex';
             speak('¡Leíste todas las palabras! ¡Eres increíble!', 1.3, 0.85);
             // Big burst
-            for (let i = 0; i < 5; i++) setTimeout(() => burst(Math.random() * canvas.width, Math.random() * canvas.height * 0.6), i * 200);
+            for (let i = 0; i < 5; i++) setTimeout(() => burst(Math.random() * size.W, Math.random() * size.H * 0.6), i * 200);
         }
 
         function playAgain() {
@@ -330,10 +310,8 @@
         }
 
         function startGame() {
-            document.getElementById('splash').style.opacity = '0';
-            document.getElementById('splash').style.visibility = 'hidden';
-            document.getElementById('hud').style.opacity = '1';
-            document.getElementById('target-zone').style.opacity = '1';
+            dismissSplash(document.getElementById('splash'));
+            showElements('#hud', '#target-zone');
             updateHUD();
             speak('¡Hola! Toca la palabra que matches con la imagen. ¡Allá vamos!', 1.2, 0.9);
             setTimeout(spawnLevel, 4000);
