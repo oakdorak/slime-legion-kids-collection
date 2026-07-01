@@ -241,3 +241,15 @@ document.getElementById('sky-area').addEventListener('mousemove', (e) => {
 
     // Gentle look-at mouse effect or soft repositioning can be added here
 });
+
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        goofyPhrases,
+        CuteSoundEngine,
+        getSoundEngine,
+        selectColor,
+        triggerLoopStunt,
+        triggerWiggle,
+        showSpeechBubble,
+    };
+}

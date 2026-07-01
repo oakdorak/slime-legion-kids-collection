@@ -711,3 +711,20 @@ window.addEventListener('DOMContentLoaded', () => {
   initNavigation();
   initFocusOrbit(); // Default game on startup
 });
+
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    AudioEngine,
+    getMascotSVG,
+    State,
+    EMOTIONS,
+    ROUTINE_DATA,
+    initNavigation,
+    triggerRewardCelebration,
+    initFocusOrbit,
+    initEmotionResonance,
+    handleEmotionGuess,
+    handleActionSelection,
+    initRoutineBuilder,
+  };
+}
