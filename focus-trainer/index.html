@@ -136,7 +136,7 @@
 <body>
     <canvas id="particles"></canvas>
     <div id="splash">
-        <div id="splash-sigil" onclick="startGame()">🫧</div>
+        <div id="splash-sigil" role="button" tabindex="0" aria-label="Iniciar juego" onkeydown="if(event.key==='Enter'||event.key===' ')startGame()" onclick="startGame()">🫧</div>
         <h1>CAZADOR DE BURBUJAS</h1>
         <p>Toca solo las burbujas <strong style="color:var(--accent)">moradas</strong>. ¡Ignora las demás!</p>
     </div>
@@ -152,7 +152,7 @@
     </div>
     <div id="message"></div>
     <div id="bubble-field"></div>
-    <button id="resetBtn" onclick="resetGame()">✨</button>
+    <button id="resetBtn" aria-label="Reiniciar juego" title="Reiniciar juego" onclick="resetGame()">✨</button>
 
     <script>
         const canvas = document.getElementById('particles');

@@ -110,7 +110,7 @@
 </head>
 <body>
     <div id="splashScreen">
-        <div id="sigil" onclick="startMagic()"></div>
+        <div id="sigil" role="button" tabindex="0" aria-label="Iniciar magia" onkeydown="if(event.key==='Enter'||event.key===' ')startMagic()" onclick="startMagic()"></div>
         <div id="splashText">ENTRAR AL ATELIER</div>
     </div>
 
@@ -130,8 +130,8 @@
         </select>
     </div>
 
-    <button id="resetBtn"></button>
-    <button id="themeBtn" title="Cambiar Tema" onclick="cycleTheme()"></button>
+    <button id="resetBtn" aria-label="Reiniciar lienzo" title="Reiniciar lienzo"></button>
+    <button id="themeBtn" aria-label="Cambiar tema" title="Cambiar Tema" onclick="cycleTheme()"></button>
 
     <div id="letterContainer">
         <div class="letter-guide" id="guide">A</div>
