@@ -1,3 +1,3 @@
 ## 2026-07-05 - Icon-only buttons and divs Accessibility
-**Learning:** Icon-only buttons and custom interactive divs lack ARIA labels and keyboard accessibility, preventing screen reader usage.
-**Action:** Always add aria-labels, roles, tabindexes, and onkeydown handlers to these elements.
+**Learning:** Found that custom `div`-based interactive elements (like splash screen sigils) and icon-only buttons across the games were missing ARIA labels, roles, and keyboard navigation support (`tabindex` and `onkeydown`). This made them inaccessible to screen readers and keyboard users.
+**Action:** Added `role="button"`, `tabindex="0"`, `aria-label`, and `onkeydown` event handlers to interactive `div` elements, and `aria-label` to icon-only `<button>` elements to ensure proper accessibility and keyboard navigability across the games.
