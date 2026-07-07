@@ -119,7 +119,7 @@
 <body>
     <canvas id="confetti"></canvas>
     <div id="splash">
-        <div id="splash-sigil" onclick="startGame()" role="button" tabindex="0" aria-label="Empezar juego" onkeydown="if(event.key==='Enter'||event.key===' ') startGame()">🪞</div>
+        <div id="splash-sigil" onclick="startGame()" role="button" tabindex="0" aria-label="Empezar juego" onkeydown="if(event.key==='Enter'||event.key===' ') { event.preventDefault(); startGame(); }">🪞</div>
         <h1>EL ESPEJO MÁGICO</h1>
         <p>Encuentra la emoción correcta. ¡Tú puedes!</p>
     </div>
