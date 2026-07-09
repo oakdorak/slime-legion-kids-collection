@@ -85,7 +85,7 @@
 <body>
     <canvas id="main"></canvas>
     <div id="splash">
-        <div id="splash-dragon" onclick="startGame()">🐉</div>
+        <div id="splash-dragon" role="button" tabindex="0" aria-label="Comenzar a respirar" onclick="startGame()" onkeydown="if(event.key==='Enter'||event.key===' ')startGame()">🐉</div>
         <h1>EL DRAGÓN QUE RESPIRA</h1>
         <p>Respira junto al dragón.<br>Inhala, sostén y exhala.<br>Juntos encontrarán la calma.</p>
         <div id="tap-hint">TOCA AL DRAGÓN PARA COMENZAR</div>
