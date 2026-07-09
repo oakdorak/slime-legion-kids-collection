@@ -1,3 +1,3 @@
-## 2026-06-27 - Interactive Div Accessibility
-**Learning:** Custom div-based interactive elements lack native button semantics and keyboard support.
-**Action:** Add role="button", tabindex="0", aria-label, and onkeydown handlers to interactive divs.
+## 2026-06-27 - Icon Button Accessibility
+**Learning:** Icon-only buttons lack accessible names for screen readers.
+**Action:** Always add aria-label to buttons that only contain icons.
