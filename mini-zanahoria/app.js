@@ -354,42 +354,50 @@ document.getElementById('start-orbit-btn').addEventListener('click', () => {
   document.getElementById('orbit-feedback').innerText = "Mira hacia dónde volteó Minizanahoria. ¡Selecciona su dirección!";
 });
 
-document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
-  quadrant.addEventListener('click', () => {
-    if (!orbitActiveRound) return;
+function handleQuadrantSelection(quadrant) {
+  if (!orbitActiveRound) return;
+
+  const clickedQ = quadrant.getAttribute('data-quadrant');
+  if (clickedQ === orbitTargetQuadrant) {
+    // Success
+    quadrant.classList.add('success-flash');
+    document.getElementById('orbit-feedback').innerText = "¡Correcto! Excelente enfoque.";
+    orbitActiveRound = false;
     
-    const clickedQ = quadrant.getAttribute('data-quadrant');
-    if (clickedQ === orbitTargetQuadrant) {
-      // Success
-      quadrant.classList.add('success-flash');
-      document.getElementById('orbit-feedback').innerText = "¡Correcto! Excelente enfoque.";
-      orbitActiveRound = false;
-      
-      // Update mascot to happy
-      const container = document.getElementById('orbit-mascot-container');
-      container.innerHTML = getMascotSVG('happy', 'center');
-      container.className = "mascot-wrapper anim-spin";
-      
-      setTimeout(() => {
-        triggerRewardCelebration();
-      }, 700);
-    } else {
-      // Failure
-      AudioEngine.playError();
-      quadrant.classList.add('error-flash');
-      document.getElementById('orbit-feedback').innerText = "Incorrecto. Mira con cuidado hacia dónde apunta.";
-      
-      // Temporary angry/sad mascot
-      const container = document.getElementById('orbit-mascot-container');
-      container.innerHTML = getMascotSVG('angry', orbitTargetQuadrant);
-      container.className = "mascot-wrapper anim-angry";
-      
-      // Auto restore to normal look after 1.5s
-      setTimeout(() => {
-        container.innerHTML = getMascotSVG('normal', orbitTargetQuadrant);
-        container.className = "mascot-wrapper";
-        quadrant.classList.remove('error-flash');
-      }, 1500);
+    // Update mascot to happy
+    const container = document.getElementById('orbit-mascot-container');
+    container.innerHTML = getMascotSVG('happy', 'center');
+    container.className = "mascot-wrapper anim-spin";
+
+    setTimeout(() => {
+      triggerRewardCelebration();
+    }, 700);
+  } else {
+    // Failure
+    AudioEngine.playError();
+    quadrant.classList.add('error-flash');
+    document.getElementById('orbit-feedback').innerText = "Incorrecto. Mira con cuidado hacia dónde apunta.";
+
+    // Temporary angry/sad mascot
+    const container = document.getElementById('orbit-mascot-container');
+    container.innerHTML = getMascotSVG('angry', orbitTargetQuadrant);
+    container.className = "mascot-wrapper anim-angry";
+
+    // Auto restore to normal look after 1.5s
+    setTimeout(() => {
+      container.innerHTML = getMascotSVG('normal', orbitTargetQuadrant);
+      container.className = "mascot-wrapper";
+      quadrant.classList.remove('error-flash');
+    }, 1500);
+  }
+}
+
+document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
+  quadrant.addEventListener('click', () => handleQuadrantSelection(quadrant));
+  quadrant.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleQuadrantSelection(quadrant);
     }
   });
 });

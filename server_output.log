@@ -1,0 +1,3 @@
+127.0.0.1 - - [10/Jul/2026 09:34:08] "GET /mini-zanahoria/index.html HTTP/1.1" 200 -
+127.0.0.1 - - [10/Jul/2026 09:34:08] "GET /mini-zanahoria/app.js HTTP/1.1" 200 -
+127.0.0.1 - - [10/Jul/2026 09:34:08] "GET /mini-zanahoria/styles.css HTTP/1.1" 200 -
