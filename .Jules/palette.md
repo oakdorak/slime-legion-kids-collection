@@ -1,0 +1,3 @@
+## 2024-07-12 - Div-based controls missing ARIA/Keyboard support
+**Learning:** The app frequently uses custom `div`-based interactive elements (like splash-sigil screens) without native button semantics. These elements lack `role`, `aria-label`, `tabindex`, keyboard event handlers, and `:focus-visible` styling, hindering keyboard and screen reader accessibility.
+**Action:** When implementing new custom UI elements or retrofitting old ones, always manually add `role="button"`, `tabindex="0"`, `aria-label`, an `onkeydown` handler for Enter/Space, and explicit `:focus-visible` CSS rules to ensure accessibility parity with native buttons.
