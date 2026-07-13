@@ -325,7 +325,9 @@
 
         function restartBreath() {
             cyclesDone = 0; stars = []; particles = [];
-            for (let i = 1; i <= 3; i++) document.getElementById('dot-' + i).classList.remove('done');
+            document.getElementById('dot-1').classList.remove('done');
+            document.getElementById('dot-2').classList.remove('done');
+            document.getElementById('dot-3').classList.remove('done');
             document.getElementById('victory').style.display = 'none';
             setTimeout(() => setPhase('inhale'), 1500);
         }
