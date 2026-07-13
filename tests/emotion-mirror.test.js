@@ -20,7 +20,7 @@ global.score = 0;
 global.total = 10;
 
 // 2. Extract and eval the function from index.html
-const htmlPath = path.join(__dirname, 'index.html');
+const htmlPath = path.join(__dirname, '../emotion-mirror/index.html');
 const htmlContent = fs.readFileSync(htmlPath, 'utf8');
 
 // The exact body of updateProgress to avoid dealing with varying AST
