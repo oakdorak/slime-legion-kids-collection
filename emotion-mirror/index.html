@@ -199,6 +199,7 @@
             grid.innerHTML = '';
             // Shuffle all emotions
             const shuffled = [...EMOTIONS].sort(() => Math.random() - 0.5);
+            const fragment = document.createDocumentFragment();
             shuffled.forEach(em => {
                 const btn = document.createElement('div');
                 btn.className = 'emoji-btn';
@@ -206,8 +207,9 @@
                 btn.innerHTML = `<span>${em.emoji}</span><span class="label">${em.label}</span>`;
                 btn.addEventListener('click', () => handleChoice(btn, em, targetEmotion));
                 btn.addEventListener('touchstart', (e) => { e.preventDefault(); handleChoice(btn, em, targetEmotion); }, { passive: false });
-                grid.appendChild(btn);
+                fragment.appendChild(btn);
             });
+            grid.appendChild(fragment);
         }
 
         function handleChoice(btn, chosen, target) {
