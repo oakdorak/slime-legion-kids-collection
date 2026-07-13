@@ -578,6 +578,7 @@ function initRoutineBuilder() {
   const slotsContainer = document.getElementById('routine-slots-container');
   slotsContainer.innerHTML = '';
   
+  const slotsFragment = document.createDocumentFragment();
   // We need 4 slots
   for (let i = 0; i < 4; i++) {
     const slot = document.createElement('div');
@@ -590,13 +591,15 @@ function initRoutineBuilder() {
     slot.addEventListener('dragleave', () => slot.classList.remove('dragover'));
     slot.addEventListener('drop', e => handleDropOnSlot(e, slot));
     
-    slotsContainer.appendChild(slot);
+    slotsFragment.appendChild(slot);
   }
+  slotsContainer.appendChild(slotsFragment);
   
   // Set cards (shuffled)
   const cardsContainer = document.getElementById('routine-cards-container');
   cardsContainer.innerHTML = '';
   
+  const cardsFragment = document.createDocumentFragment();
   const shuffledCards = [...routine.cards].sort(() => Math.random() - 0.5);
   shuffledCards.forEach(cardData => {
     const card = document.createElement('div');
@@ -624,8 +627,9 @@ function initRoutineBuilder() {
       card.classList.remove('dragging');
     });
     
-    cardsContainer.appendChild(card);
+    cardsFragment.appendChild(card);
   });
+  cardsContainer.appendChild(cardsFragment);
   
   document.getElementById('routine-feedback').innerText = "Arrastra las tarjetas en el orden correcto.";
 }
