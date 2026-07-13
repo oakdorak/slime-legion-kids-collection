@@ -474,15 +474,13 @@ function initEmotionResonance() {
   // Render Guess Grid
   const guessGrid = document.getElementById('emotion-guess-grid');
   guessGrid.innerHTML = '';
-  const guessFragment = document.createDocumentFragment();
   keys.forEach(key => {
     const card = document.createElement('button');
     card.className = 'option-card';
     card.innerText = EMOTIONS[key].label;
     card.addEventListener('click', () => handleEmotionGuess(key, card));
-    guessFragment.appendChild(card);
+    guessGrid.appendChild(card);
   });
-  guessGrid.appendChild(guessFragment);
   
   // Render Actions Grid placeholder
   document.getElementById('emotion-action-grid').innerHTML = '';
@@ -583,7 +581,6 @@ function initRoutineBuilder() {
   slotsContainer.innerHTML = '';
   
   // We need 4 slots
-  const slotsFragment = document.createDocumentFragment();
   for (let i = 0; i < 4; i++) {
     const slot = document.createElement('div');
     slot.className = 'routine-slot';
@@ -595,15 +592,13 @@ function initRoutineBuilder() {
     slot.addEventListener('dragleave', () => slot.classList.remove('dragover'));
     slot.addEventListener('drop', e => handleDropOnSlot(e, slot));
     
-    slotsFragment.appendChild(slot);
+    slotsContainer.appendChild(slot);
   }
-  slotsContainer.appendChild(slotsFragment);
   
   // Set cards (shuffled)
   const cardsContainer = document.getElementById('routine-cards-container');
   cardsContainer.innerHTML = '';
   
-  const cardsFragment = document.createDocumentFragment();
   const shuffledCards = [...routine.cards].sort(() => Math.random() - 0.5);
   shuffledCards.forEach(cardData => {
     const card = document.createElement('div');
@@ -631,9 +626,8 @@ function initRoutineBuilder() {
       card.classList.remove('dragging');
     });
     
-    cardsFragment.appendChild(card);
+    cardsContainer.appendChild(card);
   });
-  cardsContainer.appendChild(cardsFragment);
   
   document.getElementById('routine-feedback').innerText = "Arrastra las tarjetas en el orden correcto.";
 }
