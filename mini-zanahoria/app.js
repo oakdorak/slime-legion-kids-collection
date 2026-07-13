@@ -502,13 +502,15 @@ function handleEmotionGuess(guessedKey, cardBtn) {
     // Render care actions
     const actionGrid = document.getElementById('emotion-action-grid');
     actionGrid.innerHTML = '';
+    const fragment = document.createDocumentFragment();
     EMOTIONS[currentEmotionKey].actions.forEach(action => {
       const actBtn = document.createElement('button');
       actBtn.className = 'option-card';
       actBtn.innerText = action.label;
       actBtn.addEventListener('click', () => handleActionSelection(action.id, actBtn));
-      actionGrid.appendChild(actBtn);
+      fragment.appendChild(actBtn);
     });
+    actionGrid.appendChild(fragment);
   } else {
     AudioEngine.playError();
     cardBtn.classList.add('incorrect');
