@@ -124,17 +124,23 @@ const AudioEngine = {
   }
 };
 
-// --- Mascot SVG Generator ---
-function getMascotSVG(emotion = 'happy', gazeDirection = 'center') {
-  // Gaze Offset parameters
+function getGazeOffset(gazeDirection) {
   let pupilX = 0;
   let pupilY = 0;
   let headRotation = 0;
 
-  if (gazeDirection === 'NW') { pupilX = -6; pupilY = -5; headRotation = -8; }
-  else if (gazeDirection === 'NE') { pupilX = 6; pupilY = -5; headRotation = 8; }
-  else if (gazeDirection === 'SW') { pupilX = -6; pupilY = 5; headRotation = -4; }
-  else if (gazeDirection === 'SE') { pupilX = 6; pupilY = 5; headRotation = 4; }
+  if (gazeDirection === "NW") { pupilX = -6; pupilY = -5; headRotation = -8; }
+  else if (gazeDirection === "NE") { pupilX = 6; pupilY = -5; headRotation = 8; }
+  else if (gazeDirection === "SW") { pupilX = -6; pupilY = 5; headRotation = -4; }
+  else if (gazeDirection === "SE") { pupilX = 6; pupilY = 5; headRotation = 4; }
+
+  return { pupilX, pupilY, headRotation };
+}
+
+// --- Mascot SVG Generator ---
+function getMascotSVG(emotion = "happy", gazeDirection = "center") {
+  // Gaze Offset parameters
+  const { pupilX, pupilY, headRotation } = getGazeOffset(gazeDirection);
 
   // Emotion-specific Eye Paths and Mouth Shapes
   let eyesHTML = '';
