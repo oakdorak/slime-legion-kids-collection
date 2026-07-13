@@ -474,13 +474,15 @@ function initEmotionResonance() {
   // Render Guess Grid
   const guessGrid = document.getElementById('emotion-guess-grid');
   guessGrid.innerHTML = '';
+  const fragment = document.createDocumentFragment();
   keys.forEach(key => {
     const card = document.createElement('button');
     card.className = 'option-card';
     card.innerText = EMOTIONS[key].label;
     card.addEventListener('click', () => handleEmotionGuess(key, card));
-    guessGrid.appendChild(card);
+    fragment.appendChild(card);
   });
+  guessGrid.appendChild(fragment);
   
   // Render Actions Grid placeholder
   document.getElementById('emotion-action-grid').innerHTML = '';
