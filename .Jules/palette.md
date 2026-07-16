@@ -1,3 +1,3 @@
-## 2024-07-24 - Accessibility for CSS Pseudo-element Icon Buttons and Interactive Divs
+## 2026-07-16 - Accesibilidad para pseudo-elementos e interactivos personalizados
 **Learning:** The codebase heavily relies on interactive `div` elements (like splash screens) and icon-only buttons created using CSS `::after` pseudo-elements. These elements are inherently inaccessible to screen readers and keyboard users out of the box because they lack semantic meaning and focus styles.
 **Action:** Always ensure that custom interactive `div` elements are assigned `role="button"`, `tabindex="0"`, and have keyboard event handlers (`onkeydown`) to respond to Enter/Space. Additionally, icon-only buttons (especially those relying on CSS pseudo-elements) must be given descriptive `aria-label` attributes. Both types of elements require explicit `:focus-visible` styles to provide clear visual feedback during keyboard navigation.
