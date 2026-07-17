@@ -1,0 +1,3 @@
+## 2024-05-24 - Splash Screen and Icon Button Accessibility
+**Learning:** This application makes heavy use of custom `div`-based splash screens and CSS `::after` pseudo-element based icon buttons. These elements are inherently inaccessible to screen readers and keyboard users as they lack semantic meaning and focusability.
+**Action:** Always add `role="button"`, `tabindex="0"`, `aria-label`, keyboard event handlers (`onkeydown`), and visually clear `:focus-visible` styling to these elements to ensure they are fully usable by all users.
