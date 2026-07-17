@@ -106,11 +106,21 @@
         #themeBtn::after { content: '🎨'; font-size: 24px; }
 
         select { background: var(--bg); color: var(--text); border: 1px solid var(--accent); padding: 5px; border-radius: 4px; font-size: 11px; outline: none; }
+
+        /* Accessibility: Focus visible styles */
+        #sigil:focus-visible,
+        #resetBtn:focus-visible,
+        #themeBtn:focus-visible,
+        input[type=range]:focus-visible,
+        select:focus-visible {
+            outline: 3px solid var(--success);
+            outline-offset: 4px;
+        }
     </style>
 </head>
 <body>
     <div id="splashScreen">
-        <div id="sigil" onclick="startMagic()"></div>
+        <div id="sigil" role="button" tabindex="0" aria-label="Comenzar magia" onclick="startMagic()" onkeydown="if(event.key==='Enter'||event.key===' ') startMagic()"></div>
         <div id="splashText">ENTRAR AL ATELIER</div>
     </div>
 
@@ -122,16 +132,16 @@
     <div id="controls">
         <div class="slider-container">
             <span class="slider-label" id="diffLabel">DIFICULTAD: NORMAL</span>
-            <input type="range" id="diffSlider" min="30" max="220" value="120" step="5">
+            <input type="range" id="diffSlider" min="30" max="220" value="120" step="5" aria-labelledby="diffLabel">
         </div>
-        <select id="langSelect">
+        <select id="langSelect" aria-label="Seleccionar idioma">
             <option value="es-MX">Español (MX)</option>
             <option value="en-US">English (US)</option>
         </select>
     </div>
 
-    <button id="resetBtn"></button>
-    <button id="themeBtn" title="Cambiar Tema" onclick="cycleTheme()"></button>
+    <button id="resetBtn" aria-label="Reiniciar"></button>
+    <button id="themeBtn" title="Cambiar Tema" aria-label="Cambiar Tema" onclick="cycleTheme()"></button>
 
     <div id="letterContainer">
         <div class="letter-guide" id="guide">A</div>
