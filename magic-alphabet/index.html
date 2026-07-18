@@ -45,6 +45,7 @@
             margin-bottom: 30px; cursor: pointer;
         }
         #sigil::after { content: '✨'; font-size: 50px; opacity: 0.8; }
+        #sigil:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; box-shadow: 0 0 50px var(--accent); }
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 20px var(--accent); }
             50% { transform: scale(1.1); box-shadow: 0 0 50px var(--accent); }
@@ -94,6 +95,7 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); outline: none; opacity: 0;
         }
         #resetBtn:active { transform: translateX(-50%) scale(0.85); box-shadow: 0 0 40px var(--ivory); }
+        #resetBtn:focus-visible { outline: 3px solid var(--ivory); outline-offset: 4px; }
         #resetBtn::after { content: '✨'; font-size: 30px; opacity: 0.8; }
 
         #themeBtn {
@@ -103,6 +105,7 @@
             transition: transform 0.3s; opacity: 0;
         }
         #themeBtn:active { transform: scale(0.9); }
+        #themeBtn:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
         #themeBtn::after { content: '🎨'; font-size: 24px; }
 
         select { background: var(--bg); color: var(--text); border: 1px solid var(--accent); padding: 5px; border-radius: 4px; font-size: 11px; outline: none; }
@@ -110,7 +113,7 @@
 </head>
 <body>
     <div id="splashScreen">
-        <div id="sigil" onclick="startMagic()"></div>
+        <div id="sigil" role="button" tabindex="0" aria-label="Comenzar magia" onclick="startMagic()" onkeydown="if(event.key === 'Enter' || event.key === ' ') startMagic()"></div>
         <div id="splashText">ENTRAR AL ATELIER</div>
     </div>
 
@@ -130,8 +133,8 @@
         </select>
     </div>
 
-    <button id="resetBtn"></button>
-    <button id="themeBtn" title="Cambiar Tema" onclick="cycleTheme()"></button>
+    <button id="resetBtn" aria-label="Reiniciar magia"></button>
+    <button id="themeBtn" aria-label="Cambiar tema" title="Cambiar Tema" onclick="cycleTheme()"></button>
 
     <div id="letterContainer">
         <div class="letter-guide" id="guide">A</div>
