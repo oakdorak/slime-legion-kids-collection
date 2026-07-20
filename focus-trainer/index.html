@@ -51,6 +51,10 @@
             cursor: pointer;
             margin-bottom: 2rem;
             font-size: 3rem;
+            outline: none;
+        }
+        #splash-sigil:focus-visible {
+            box-shadow: 0 0 40px var(--accent), 0 0 0 4px var(--bg), 0 0 0 8px var(--accent);
         }
         @keyframes pulse {
             0%, 100% { transform: scale(1); box-shadow: 0 0 25px var(--accent); }
@@ -129,14 +133,18 @@
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             opacity: 0;
             box-shadow: 0 0 20px rgba(137,106,176,0.3);
+            outline: none;
         }
         #resetBtn:active { transform: translateX(-50%) scale(0.85); }
+        #resetBtn:focus-visible {
+            box-shadow: 0 0 20px rgba(137,106,176,0.3), 0 0 0 4px var(--bg), 0 0 0 8px var(--accent);
+        }
     </style>
 </head>
 <body>
     <canvas id="particles"></canvas>
     <div id="splash">
-        <div id="splash-sigil" onclick="startGame()">🫧</div>
+        <div id="splash-sigil" onclick="startGame()" role="button" tabindex="0" aria-label="Iniciar juego" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); startGame(); }">🫧</div>
         <h1>CAZADOR DE BURBUJAS</h1>
         <p>Toca solo las burbujas <strong style="color:var(--accent)">moradas</strong>. ¡Ignora las demás!</p>
     </div>
@@ -152,7 +160,7 @@
     </div>
     <div id="message"></div>
     <div id="bubble-field"></div>
-    <button id="resetBtn" onclick="resetGame()">✨</button>
+    <button id="resetBtn" onclick="resetGame()" aria-label="Reiniciar juego" title="Reiniciar juego">✨</button>
 
     <script>
         const canvas = document.getElementById('particles');
