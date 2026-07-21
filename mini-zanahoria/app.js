@@ -355,7 +355,7 @@ document.getElementById('start-orbit-btn').addEventListener('click', () => {
 });
 
 document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
-  quadrant.addEventListener('click', () => {
+  const handleInteraction = () => {
     if (!orbitActiveRound) return;
     
     const clickedQ = quadrant.getAttribute('data-quadrant');
@@ -390,6 +390,14 @@ document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
         container.className = "mascot-wrapper";
         quadrant.classList.remove('error-flash');
       }, 1500);
+    }
+  };
+
+  quadrant.addEventListener('click', handleInteraction);
+  quadrant.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleInteraction();
     }
   });
 });
