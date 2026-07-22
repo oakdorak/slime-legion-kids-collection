@@ -1,0 +1,3 @@
+## 2026-07-22 - Patrón de Accesibilidad para Elementos Interactivos
+**Learning:** El código utiliza frecuentemente elementos interactivos basados en divs (como pantallas de inicio) y pseudo-elementos CSS para botones con íconos, los cuales requieren la adición manual de atributos ARIA, manejadores de eventos de teclado (onkeydown) y estilos :focus-visible para asegurar la accesibilidad por teclado y lectores de pantalla.
+**Action:** Siempre revisar los elementos interactivos personalizados para agregar atributos ARIA y soporte de teclado manualmente al mejorar la accesibilidad de estos componentes.
