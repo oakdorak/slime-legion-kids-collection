@@ -1,0 +1,3 @@
+## 2026-07-22 - Div-based Interactive Elements Accessibility Pattern
+**Learning:** The codebase frequently uses custom div-based interactive elements (like splash screens) and CSS ::after pseudo-elements for icon-only buttons, which require the manual addition of ARIA attributes (role, aria-label, tabindex), keyboard event handlers (onkeydown), and :focus-visible styling to ensure proper keyboard and screen reader accessibility.
+**Action:** Always check custom interactive elements for missing ARIA attributes and keyboard support, and manually add them when improving accessibility for these components.
