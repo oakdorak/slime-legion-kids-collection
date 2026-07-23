@@ -35,7 +35,7 @@ El sistema de evolución de la **Slime Legion**. Cada personaje del equipo tiene
 
 ## 📁 Estructura
 
-```
+```text
 slime-evolution/
 ├── charts/              # Evolution charts completos (PNG)
 │   ├── robbit_evolution.png
@@ -46,7 +46,11 @@ slime-evolution/
 │   ├── yuya_evolution.png
 │   └── cherry_evolution.png
 ├── sprites/             # Sprites individuales (WebP)
-│   └── madrecerebro_phase{1-4b}.webp
+│   ├── madrecerebro_phase1.webp
+│   ├── madrecerebro_phase2.webp
+│   ├── madrecerebro_phase3.webp
+│   ├── madrecerebro_phase4a.webp
+│   └── madrecerebro_phase4b.webp
 └── README.md
 ```
 
