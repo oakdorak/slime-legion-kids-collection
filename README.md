@@ -11,6 +11,9 @@ Entrenamiento de **atención conjunta** y **resonancia emocional**. Diseñado pa
 ### 2. [Abecedario Mágico (V17)](./magic-alphabet/)
 Caligrafía terapéutica con motor vectorial. Porque escribir bien es el primer paso para hackear el sistema. Cero aburrimiento, puro refuerzo positivo.
 
+### 3. [Slime Evolution](./slime-evolution/)
+Sistema de evolución de slimes con sprites empaquetados en spritesheets optimizados para el navegador.
+
 ## 🏗️ Producción Autónoma (Nodo Beta / NixOS)
 Estos juegos son scouteados por **Odysseus** desde la ciencia de **OpenAlex** y forjados por la Legion en las sombras de NixOS. Si un juego no es lo suficientemente "NeuroDivertido", la Legion lo borra y empieza de nuevo.
 

@@ -45,14 +45,41 @@ slime-evolution/
 │   ├── diegoivan_evolution.png
 │   ├── yuya_evolution.png
 │   └── cherry_evolution.png
-├── sprites/             # Sprites individuales (WebP)
-│   ├── madrecerebro_phase1.webp
-│   ├── madrecerebro_phase2.webp
-│   ├── madrecerebro_phase3.webp
-│   ├── madrecerebro_phase4a.webp
-│   └── madrecerebro_phase4b.webp
+├── sprites/             # Sprites individuales (WebP) — origen de verdad
+│   └── {character}_phase{N}.webp
+├── spritesheets/        # Spritesheets generados por scripts/pack_sprites.py
+│   ├── {character}.webp
+│   ├── master_sheet.webp
+│   └── sprite-manifest.json
+├── scripts/             # Herramientas de empaquetado
+│   └── pack_sprites.py
+├── index.html           # Demo visual del atlas
 └── README.md
 ```
+
+## 🖼️ Spritesheet System
+
+Los sprites individuales se empaquetan automáticamente en spritesheets para reducir solicitudes HTTP y simplificar el renderizado en juego.
+
+### Regenerar spritesheets
+
+```bash
+python scripts/pack_sprites.py
+```
+
+El script:
+1. Lee todos los `.webp` de `sprites/`
+2. Crea un spritesheet por personaje (5 fases en fila horizontal)
+3. Crea `master_sheet.webp` con todos los personajes apilados
+4. Genera `sprite-manifest.json` con coordenadas, dimensiones, offsets y etiquetas de fase
+5. Escribe `index.html` como sanity-check visual
+
+### Manifest (`sprite-manifest.json`)
+
+Contiene:
+- `characters[]`: un objeto por personaje con `sheet`, `frameWidth`, `frameHeight` y `frames[]`
+- `masterSheet.frames[]`: coordenadas absolutas para el atlas global
+- Cada frame incluye `spriteOffsetX` / `spriteOffsetY` para centrar sprites más pequeños dentro de la celda uniforme
 
 ## 🎨 Estilo Visual
 

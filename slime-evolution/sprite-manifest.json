@@ -1,0 +1,882 @@
+{
+  "version": "1.0.0",
+  "generated": "2026-07-23T23:34:33.198635+00:00",
+  "padding": 4,
+  "characters": [
+    {
+      "id": "cherry",
+      "name": "Cherry",
+      "sheet": "spritesheets/cherry.webp",
+      "frameWidth": 416,
+      "frameHeight": 347,
+      "frames": [
+        {
+          "phase": "phase1",
+          "x": 4,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase2",
+          "x": 424,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase3",
+          "x": 844,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase4a",
+          "x": 1264,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4b",
+          "x": 1684,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    },
+    {
+      "id": "chiwish",
+      "name": "Chi-Wish",
+      "sheet": "spritesheets/chiwish.webp",
+      "frameWidth": 446,
+      "frameHeight": 347,
+      "frames": [
+        {
+          "phase": "phase1",
+          "x": 4,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase2",
+          "x": 454,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase3",
+          "x": 904,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase4a",
+          "x": 1354,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 446,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4b",
+          "x": 1804,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 446,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    },
+    {
+      "id": "diegoivan",
+      "name": "Diego Ivan",
+      "sheet": "spritesheets/diegoivan.webp",
+      "frameWidth": 416,
+      "frameHeight": 347,
+      "frames": [
+        {
+          "phase": "phase1",
+          "x": 4,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase2",
+          "x": 424,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase3",
+          "x": 844,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase4a",
+          "x": 1264,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4b",
+          "x": 1684,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    },
+    {
+      "id": "emmaruth",
+      "name": "Emma Ruth",
+      "sheet": "spritesheets/emmaruth.webp",
+      "frameWidth": 446,
+      "frameHeight": 347,
+      "frames": [
+        {
+          "phase": "phase1",
+          "x": 4,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase2",
+          "x": 454,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase3",
+          "x": 904,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase4a",
+          "x": 1354,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 446,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4b",
+          "x": 1804,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 446,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    },
+    {
+      "id": "madrecerebro",
+      "name": "Madre Cerebro",
+      "sheet": "spritesheets/madrecerebro.webp",
+      "frameWidth": 1024,
+      "frameHeight": 1024,
+      "frames": [
+        {
+          "phase": "phase1",
+          "x": 4,
+          "y": 4,
+          "width": 1024,
+          "height": 1024,
+          "spriteWidth": 1024,
+          "spriteHeight": 1024,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase2",
+          "x": 1032,
+          "y": 4,
+          "width": 1024,
+          "height": 1024,
+          "spriteWidth": 1024,
+          "spriteHeight": 1024,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase3",
+          "x": 2060,
+          "y": 4,
+          "width": 1024,
+          "height": 1024,
+          "spriteWidth": 1024,
+          "spriteHeight": 1024,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4a",
+          "x": 3088,
+          "y": 4,
+          "width": 1024,
+          "height": 1024,
+          "spriteWidth": 1024,
+          "spriteHeight": 1024,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4b",
+          "x": 4116,
+          "y": 4,
+          "width": 1024,
+          "height": 1024,
+          "spriteWidth": 1024,
+          "spriteHeight": 1024,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    },
+    {
+      "id": "robbit",
+      "name": "Robbit",
+      "sheet": "spritesheets/robbit.webp",
+      "frameWidth": 446,
+      "frameHeight": 347,
+      "frames": [
+        {
+          "phase": "phase1",
+          "x": 4,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase2",
+          "x": 454,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase3",
+          "x": 904,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 65,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase4a",
+          "x": 1354,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 446,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4b",
+          "x": 1804,
+          "y": 4,
+          "width": 446,
+          "height": 347,
+          "spriteWidth": 446,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    },
+    {
+      "id": "yuya",
+      "name": "Yuya",
+      "sheet": "spritesheets/yuya.webp",
+      "frameWidth": 416,
+      "frameHeight": 347,
+      "frames": [
+        {
+          "phase": "phase1",
+          "x": 4,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase2",
+          "x": 424,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase3",
+          "x": 844,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 260,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 43
+        },
+        {
+          "phase": "phase4a",
+          "x": 1264,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4b",
+          "x": 1684,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    }
+  ],
+  "masterSheet": {
+    "url": "spritesheets/master_sheet.webp",
+    "width": 5144,
+    "height": 3186,
+    "frames": [
+      {
+        "character": "cherry",
+        "phase": "phase1",
+        "x": 4,
+        "y": 4,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "cherry",
+        "phase": "phase2",
+        "x": 424,
+        "y": 4,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "cherry",
+        "phase": "phase3",
+        "x": 844,
+        "y": 4,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "cherry",
+        "phase": "phase4a",
+        "x": 1264,
+        "y": 4,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "cherry",
+        "phase": "phase4b",
+        "x": 1684,
+        "y": 4,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "chiwish",
+        "phase": "phase1",
+        "x": 4,
+        "y": 363,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "chiwish",
+        "phase": "phase2",
+        "x": 454,
+        "y": 363,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "chiwish",
+        "phase": "phase3",
+        "x": 904,
+        "y": 363,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "chiwish",
+        "phase": "phase4a",
+        "x": 1354,
+        "y": 363,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 446,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "chiwish",
+        "phase": "phase4b",
+        "x": 1804,
+        "y": 363,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 446,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "diegoivan",
+        "phase": "phase1",
+        "x": 4,
+        "y": 722,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "diegoivan",
+        "phase": "phase2",
+        "x": 424,
+        "y": 722,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "diegoivan",
+        "phase": "phase3",
+        "x": 844,
+        "y": 722,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "diegoivan",
+        "phase": "phase4a",
+        "x": 1264,
+        "y": 722,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "diegoivan",
+        "phase": "phase4b",
+        "x": 1684,
+        "y": 722,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "emmaruth",
+        "phase": "phase1",
+        "x": 4,
+        "y": 1081,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "emmaruth",
+        "phase": "phase2",
+        "x": 454,
+        "y": 1081,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "emmaruth",
+        "phase": "phase3",
+        "x": 904,
+        "y": 1081,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "emmaruth",
+        "phase": "phase4a",
+        "x": 1354,
+        "y": 1081,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 446,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "emmaruth",
+        "phase": "phase4b",
+        "x": 1804,
+        "y": 1081,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 446,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "madrecerebro",
+        "phase": "phase1",
+        "x": 4,
+        "y": 1440,
+        "width": 1024,
+        "height": 1024,
+        "spriteWidth": 1024,
+        "spriteHeight": 1024,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "madrecerebro",
+        "phase": "phase2",
+        "x": 1032,
+        "y": 1440,
+        "width": 1024,
+        "height": 1024,
+        "spriteWidth": 1024,
+        "spriteHeight": 1024,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "madrecerebro",
+        "phase": "phase3",
+        "x": 2060,
+        "y": 1440,
+        "width": 1024,
+        "height": 1024,
+        "spriteWidth": 1024,
+        "spriteHeight": 1024,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "madrecerebro",
+        "phase": "phase4a",
+        "x": 3088,
+        "y": 1440,
+        "width": 1024,
+        "height": 1024,
+        "spriteWidth": 1024,
+        "spriteHeight": 1024,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "madrecerebro",
+        "phase": "phase4b",
+        "x": 4116,
+        "y": 1440,
+        "width": 1024,
+        "height": 1024,
+        "spriteWidth": 1024,
+        "spriteHeight": 1024,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "robbit",
+        "phase": "phase1",
+        "x": 4,
+        "y": 2476,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "robbit",
+        "phase": "phase2",
+        "x": 454,
+        "y": 2476,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "robbit",
+        "phase": "phase3",
+        "x": 904,
+        "y": 2476,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 65,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "robbit",
+        "phase": "phase4a",
+        "x": 1354,
+        "y": 2476,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 446,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "robbit",
+        "phase": "phase4b",
+        "x": 1804,
+        "y": 2476,
+        "width": 446,
+        "height": 347,
+        "spriteWidth": 446,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "yuya",
+        "phase": "phase1",
+        "x": 4,
+        "y": 2835,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "yuya",
+        "phase": "phase2",
+        "x": 424,
+        "y": 2835,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "yuya",
+        "phase": "phase3",
+        "x": 844,
+        "y": 2835,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 260,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 43
+      },
+      {
+        "character": "yuya",
+        "phase": "phase4a",
+        "x": 1264,
+        "y": 2835,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "yuya",
+        "phase": "phase4b",
+        "x": 1684,
+        "y": 2835,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      }
+    ]
+  }
+}
