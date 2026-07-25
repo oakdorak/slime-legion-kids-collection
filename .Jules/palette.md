@@ -1,0 +1,4 @@
+# 2026-07-25 - Custom Div Interactions in Games
+
+**Learning:** In highly interactive, custom-styled mini-games like Espejo Mágico, interactive elements are frequently built using `div`s with CSS animations rather than native `<button>`s to bypass default browser styles. While they have `onclick` and visual styling, they inherently lack semantic meaning, keyboard reachability, and key-press activation, rendering them entirely unusable for keyboard-only or screen-reader users.
+**Action:** When working on custom interactive UI elements (like splash sigils or dynamically generated grid items), strictly ensure the manual addition of `role="button"`, `tabindex="0"`, `aria-label`, an explicit `onkeydown` handler for `Enter` and `Space`, and `:focus-visible` styling to mirror the innate accessibility of native buttons without breaking the bespoke aesthetics.

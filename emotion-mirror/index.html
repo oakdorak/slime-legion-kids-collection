@@ -32,6 +32,11 @@
             font-size: 5rem; cursor: pointer; margin-bottom: 1.5rem;
             animation: mirrorPulse 2.5s infinite;
             filter: drop-shadow(0 0 20px var(--accent));
+            border-radius: 50%;
+        }
+        #splash-sigil:focus-visible {
+            outline: 3px solid var(--text);
+            outline-offset: 10px;
         }
         @keyframes mirrorPulse {
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px var(--accent)); }
@@ -87,6 +92,10 @@
         }
         .emoji-btn span.label { font-size: 0.6rem; color: var(--gold); letter-spacing: 1px; text-transform: uppercase; }
         .emoji-btn:active { transform: scale(0.9); }
+        .emoji-btn:focus-visible {
+            outline: 3px solid var(--text);
+            outline-offset: 4px;
+        }
         .emoji-btn.correct {
             border-color: var(--success); background: rgba(168,178,138,0.2);
             box-shadow: 0 0 25px rgba(168,178,138,0.5);
@@ -119,7 +128,7 @@
 <body>
     <canvas id="confetti"></canvas>
     <div id="splash">
-        <div id="splash-sigil" onclick="startGame()">🪞</div>
+        <div id="splash-sigil" role="button" tabindex="0" aria-label="Comenzar juego" onclick="startGame()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startGame(); }">🪞</div>
         <h1>EL ESPEJO MÁGICO</h1>
         <p>Encuentra la emoción correcta. ¡Tú puedes!</p>
     </div>
@@ -203,9 +212,18 @@
                 const btn = document.createElement('div');
                 btn.className = 'emoji-btn';
                 btn.dataset.label = em.label;
+                btn.setAttribute('role', 'button');
+                btn.setAttribute('tabindex', '0');
+                btn.setAttribute('aria-label', em.label);
                 btn.innerHTML = `<span>${em.emoji}</span><span class="label">${em.label}</span>`;
                 btn.addEventListener('click', () => handleChoice(btn, em, targetEmotion));
                 btn.addEventListener('touchstart', (e) => { e.preventDefault(); handleChoice(btn, em, targetEmotion); }, { passive: false });
+                btn.addEventListener('keydown', (e) => {
+                    if (!e.repeat && (e.key === 'Enter' || e.key === ' ')) {
+                        e.preventDefault();
+                        handleChoice(btn, em, targetEmotion);
+                    }
+                });
                 grid.appendChild(btn);
             });
         }
@@ -263,7 +281,11 @@
             document.getElementById('progress-bar-wrap').style.opacity = '1';
             document.getElementById('game-area').style.opacity = '1';
             speak('¡Hola! Muéstrame las emociones. ¡Vamos!');
-            setTimeout(startRound, 3500);
+            setTimeout(() => {
+                startRound();
+                const firstBtn = document.querySelector('.emoji-btn');
+                if (firstBtn) firstBtn.focus();
+            }, 3500);
         }
     </script>
 </body>
