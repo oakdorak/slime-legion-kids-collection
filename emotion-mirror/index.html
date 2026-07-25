@@ -128,7 +128,7 @@
 <body>
     <canvas id="confetti"></canvas>
     <div id="splash">
-        <div id="splash-sigil" role="button" tabindex="0" aria-label="Comenzar juego" onclick="startGame()" onkeydown="if(event.key === 'Enter' || event.key === ' ') { event.preventDefault(); startGame(); }">🪞</div>
+        <div id="splash-sigil" role="button" tabindex="0" aria-label="Comenzar juego" onclick="startGame()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startGame(); }">🪞</div>
         <h1>EL ESPEJO MÁGICO</h1>
         <p>Encuentra la emoción correcta. ¡Tú puedes!</p>
     </div>
@@ -219,7 +219,7 @@
                 btn.addEventListener('click', () => handleChoice(btn, em, targetEmotion));
                 btn.addEventListener('touchstart', (e) => { e.preventDefault(); handleChoice(btn, em, targetEmotion); }, { passive: false });
                 btn.addEventListener('keydown', (e) => {
-                    if (e.key === 'Enter' || e.key === ' ') {
+                    if (!e.repeat && (e.key === 'Enter' || e.key === ' ')) {
                         e.preventDefault();
                         handleChoice(btn, em, targetEmotion);
                     }
@@ -281,7 +281,11 @@
             document.getElementById('progress-bar-wrap').style.opacity = '1';
             document.getElementById('game-area').style.opacity = '1';
             speak('¡Hola! Muéstrame las emociones. ¡Vamos!');
-            setTimeout(startRound, 3500);
+            setTimeout(() => {
+                startRound();
+                const firstBtn = document.querySelector('.emoji-btn');
+                if (firstBtn) firstBtn.focus();
+            }, 3500);
         }
     </script>
 </body>
