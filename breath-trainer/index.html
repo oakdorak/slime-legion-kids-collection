@@ -39,6 +39,10 @@
             0%, 100% { transform: scale(1); filter: drop-shadow(0 0 20px rgba(90,154,138,0.5)); }
             50% { transform: scale(1.12); filter: drop-shadow(0 0 50px rgba(90,154,138,0.9)); }
         }
+        #splash-dragon:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 10px;
+        }
         #splash h1 { font-size: 2rem; font-weight: 800; color: var(--teal); letter-spacing: 3px; text-align: center; }
         #splash p { font-size: 1rem; color: var(--gold); margin-top: 0.5rem; text-align: center; max-width: 280px; line-height: 1.6; }
         #tap-hint { margin-top: 2rem; font-size: 0.85rem; color: rgba(155,142,108,0.6); letter-spacing: 2px; animation: blink 1.5s infinite; }
@@ -85,7 +89,7 @@
 <body>
     <canvas id="main"></canvas>
     <div id="splash">
-        <div id="splash-dragon" onclick="startGame()">🐉</div>
+        <div id="splash-dragon" role="button" tabindex="0" aria-label="Comenzar juego" onclick="startGame()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startGame(); }">🐉</div>
         <h1>EL DRAGÓN QUE RESPIRA</h1>
         <p>Respira junto al dragón.<br>Inhala, sostén y exhala.<br>Juntos encontrarán la calma.</p>
         <div id="tap-hint">TOCA AL DRAGÓN PARA COMENZAR</div>

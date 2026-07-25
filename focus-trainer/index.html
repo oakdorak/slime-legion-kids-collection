@@ -56,6 +56,10 @@
             0%, 100% { transform: scale(1); box-shadow: 0 0 25px var(--accent); }
             50% { transform: scale(1.08); box-shadow: 0 0 55px var(--accent); }
         }
+        #splash-sigil:focus-visible {
+            outline: 3px solid var(--text);
+            outline-offset: 10px;
+        }
         #splash h1 { font-size: 1.8rem; font-weight: 800; color: var(--accent); letter-spacing: 3px; text-align: center; }
         #splash p { font-size: 1rem; color: var(--gold); margin-top: 0.5rem; text-align: center; max-width: 280px; }
         /* HUD */
@@ -136,7 +140,7 @@
 <body>
     <canvas id="particles"></canvas>
     <div id="splash">
-        <div id="splash-sigil" onclick="startGame()">🫧</div>
+        <div id="splash-sigil" role="button" tabindex="0" aria-label="Comenzar juego" onclick="startGame()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startGame(); }">🫧</div>
         <h1>CAZADOR DE BURBUJAS</h1>
         <p>Toca solo las burbujas <strong style="color:var(--accent)">moradas</strong>. ¡Ignora las demás!</p>
     </div>

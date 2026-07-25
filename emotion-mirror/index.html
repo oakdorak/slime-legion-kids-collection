@@ -146,6 +146,7 @@
         <p>Conoces todas las emociones.<br>¡Eres increíble!</p>
         <button id="play-again" onclick="startRound()">¡Jugar de nuevo!</button>
     </div>
+    <script src="../slime-evolution/reward.js"></script>
     <script>
         const EMOTIONS = [
             { word: 'FELIZ',      emoji: '😊', label: 'feliz' },
@@ -160,6 +161,8 @@
         canvas.width = window.innerWidth; canvas.height = window.innerHeight;
 
         let voices = [], score = 0, total = 10, currentEmotion = null, waiting = false;
+        let slimeRewards = null;
+
         function loadVoices() { voices = window.speechSynthesis.getVoices(); }
         loadVoices(); window.speechSynthesis.onvoiceschanged = loadVoices;
         function speak(text, pitch = 1.3) {
@@ -169,6 +172,28 @@
             const v = voices.find(v => v.lang.startsWith('es'));
             if (v) u.voice = v;
             window.speechSynthesis.speak(u);
+        }
+
+        async function initRewards() {
+            slimeRewards = new SlimeRewardSystem({
+                gameId: 'emotion-mirror',
+                manifestUrl: '../slime-evolution/sprite-manifest.json'
+            });
+            await slimeRewards.init();
+        }
+
+        function announceLive(text) {
+            let el = document.getElementById('sr-announce');
+            if (!el) {
+                el = document.createElement('div');
+                el.id = 'sr-announce';
+                el.setAttribute('aria-live', 'polite');
+                el.className = 'sr-only';
+                el.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;';
+                document.body.appendChild(el);
+            }
+            el.textContent = '';
+            requestAnimationFrame(() => { el.textContent = text; });
         }
 
         // Confetti particles
@@ -266,6 +291,26 @@
             document.getElementById('victory').style.display = 'flex';
             launchConfetti();
             speak('¡Lo lograste! Conoces todas las emociones. ¡Eres increíble!', 1.4);
+            announceLive('Victoria. Has completado el juego.');
+            setTimeout(async () => {
+                if (!slimeRewards) return;
+                const pool = slimeRewards.getRewardPool('emotion-mirror');
+                if (pool.length > 0) {
+                    const key = pool[Math.floor(Math.random() * pool.length)];
+                    const parsed = slimeRewards.parseRewardKey(key);
+                    if (parsed) {
+                        await slimeRewards.showReward({
+                            characterId: parsed.characterId,
+                            branchId: parsed.branchId,
+                            reason: '¡Has desbloqueado un slime especial!',
+                            onClose: () => {
+                                const btn = document.getElementById('play-again');
+                                if (btn) btn.focus();
+                            }
+                        });
+                    }
+                }
+            }, 1800);
         }
 
         function startRound() {
@@ -281,11 +326,13 @@
             document.getElementById('progress-bar-wrap').style.opacity = '1';
             document.getElementById('game-area').style.opacity = '1';
             speak('¡Hola! Muéstrame las emociones. ¡Vamos!');
-            setTimeout(() => {
-                startRound();
-                const firstBtn = document.querySelector('.emoji-btn');
-                if (firstBtn) firstBtn.focus();
-            }, 3500);
+            initRewards().then(() => {
+                setTimeout(() => {
+                    startRound();
+                    const firstBtn = document.querySelector('.emoji-btn');
+                    if (firstBtn) firstBtn.focus();
+                }, 3500);
+            });
         }
     </script>
 </body>

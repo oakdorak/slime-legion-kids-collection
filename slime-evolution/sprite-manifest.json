@@ -1,7 +1,10 @@
 {
-  "version": "1.0.0",
-  "generated": "2026-07-23T23:34:33.198635+00:00",
-  "padding": 4,
+  "version": "1.1.0",
+  "compatibility": {
+    "minReaderVersion": "1.0.0",
+    "fallback": "phases_map",
+    "note": "Lectores v1.0.0 ignoran 'branches' y 'consumption'; usan 'characters' y 'masterSheet' directo."
+  },
   "characters": [
     {
       "id": "cherry",
@@ -452,6 +455,180 @@
       ]
     }
   ],
+  "branches": {
+    "cherry": [
+      {
+        "id": "hada-cerezo",
+        "label": "Hada Cerezo",
+        "aliases": ["phase4a"],
+        "description": "Evolución por bondad: cuidar y proteger"
+      },
+      {
+        "id": "querubin-oscuro",
+        "label": "Querubín Oscuro",
+        "aliases": ["phase4b"],
+        "description": "Evolución por maldad: aterrar y someter"
+      }
+    ],
+    "chiwish": [
+      {
+        "id": "supernova",
+        "label": "Supernova",
+        "aliases": ["phase4a"],
+        "description": "Evolución por bondad: guiar y proteger"
+      },
+      {
+        "id": "void",
+        "label": "Void",
+        "aliases": ["phase4b"],
+        "description": "Evolución por maldad: absorber y destruir"
+      }
+    ],
+    "diegoivan": [
+      {
+        "id": "dino-caballero",
+        "label": "Dino-Caballero",
+        "aliases": ["phase4a"],
+        "description": "Evolución por bondad: proteger al equipo"
+      },
+      {
+        "id": "dino-destructor",
+        "label": "Dino-Destructor",
+        "aliases": ["phase4b"],
+        "description": "Evolución por maldad: aplastar y dominar"
+      }
+    ],
+    "emmaruth": [
+      {
+        "id": "architect",
+        "label": "Architect Supreme",
+        "aliases": ["phase4a"],
+        "description": "Evolución por bondad: construir mundos"
+      },
+      {
+        "id": "shadow",
+        "label": "Shadow Devourer",
+        "aliases": ["phase4b"],
+        "description": "Evolución por maldad: devorar realidades"
+      }
+    ],
+    "robbit": [
+      {
+        "id": "paladin",
+        "label": "Robbit Paladin",
+        "aliases": ["phase4a"],
+        "description": "Evolución por bondad: crear luz"
+      },
+      {
+        "id": "dark",
+        "label": "Dark Robbit",
+        "aliases": ["phase4b"],
+        "description": "Evolución por maldad: destruir sombras"
+      }
+    ],
+    "yuya": [
+      {
+        "id": "diosa-alegria",
+        "label": "Diosa de la Alegría",
+        "aliases": ["phase4a"],
+        "description": "Evolución por bondad: nutrir esperanzas"
+      },
+      {
+        "id": "espiritu-caos",
+        "label": "Espíritu del Caos",
+        "aliases": ["phase4b"],
+        "description": "Evolución por maldad: devorar alegrías"
+      }
+    ],
+    "madrecerebro": [
+      {
+        "id": "guardiana",
+        "label": "Madre Guardiana",
+        "aliases": ["phase4a"],
+        "description": "Evolución por bondad: protegermente total"
+      },
+      {
+        "id": "destruccion",
+        "label": "Modo Destrucción",
+        "aliases": ["phase4b"],
+        "description": "Evolución por maldad: hyper beam devastador"
+      }
+    ]
+  },
+  "consumption": {
+    "emotion-mirror": {
+      "rewardPool": [
+        "chiwish.supernova",
+        "emmaruth.architect",
+        "cherry.hada-cerezo"
+      ],
+      "unlockConditions": {
+        "minCorrectStreak": 5,
+        "maxWrong": 2
+      },
+      "progressKey": "emotion_mirror_slimes"
+    },
+    "focus-trainer": {
+      "rewardPool": [
+        "diegoivan.dino-caballero",
+        "robbit.paladin"
+      ],
+      "unlockConditions": {
+        "streakMilestone": 10
+      },
+      "progressKey": "focus_trainer_slimes"
+    },
+    "mini-zanahoria": {
+      "rewardPool": [
+        "yuya.diosa-alegria",
+        "madrecerebro.guardiana"
+      ],
+      "unlockConditions": {
+        "emotionCorrect": 3
+      },
+      "progressKey": "mini_zanahoria_slimes"
+    },
+    "breath-trainer": {
+      "rewardPool": [
+        "madrecerebro.guardiana",
+        "yuya.diosa-alegria"
+      ],
+      "unlockConditions": {
+        "cyclesCompleted": 3
+      },
+      "progressKey": "breath_trainer_slimes"
+    },
+    "word-flow": {
+      "rewardPool": [
+        "cherry.hada-cerezo",
+        "diegoivan.dino-caballero"
+      ],
+      "unlockConditions": {
+        "wordsRead": 10
+      },
+      "progressKey": "word_flow_slimes"
+    },
+    "magic-alphabet": {
+      "rewardPool": [
+        "emmaruth.architect",
+        "chiwish.supernova"
+      ],
+      "unlockConditions": {
+        "lettersCompleted": 3
+      },
+      "progressKey": "magic_alphabet_slimes"
+    },
+    "el-avion-azul": {
+      "rewardPool": [
+        "robbit.paladin",
+        "cherry.hada-cerezo"
+      ],
+      "unlockConditions": {
+        "loopsCompleted": 5
+      },
+      "progressKey": "el_avion_azul_slimes"
+    }
+  },
   "masterSheet": {
     "url": "spritesheets/master_sheet.webp",
     "width": 5144,
