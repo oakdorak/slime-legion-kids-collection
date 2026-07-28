@@ -355,7 +355,13 @@ document.getElementById('start-orbit-btn').addEventListener('click', () => {
 });
 
 document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
-  quadrant.addEventListener('click', () => {
+  const handleQuadrantInteraction = (e) => {
+    if (e.type === 'keydown') {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      if (e.key === ' ') e.preventDefault(); // Prevent page scroll
+      if (e.repeat) return; // Ignore hold
+    }
+
     if (!orbitActiveRound) return;
     
     const clickedQ = quadrant.getAttribute('data-quadrant');
@@ -391,7 +397,10 @@ document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
         quadrant.classList.remove('error-flash');
       }, 1500);
     }
-  });
+  };
+
+  quadrant.addEventListener('click', handleQuadrantInteraction);
+  quadrant.addEventListener('keydown', handleQuadrantInteraction);
 });
 
 
