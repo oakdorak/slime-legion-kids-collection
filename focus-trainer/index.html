@@ -41,6 +41,12 @@
             z-index: 200;
             transition: opacity 0.8s, visibility 0.8s;
         }
+
+        #splash-sigil:focus-visible {
+            outline: 3px solid var(--text);
+            outline-offset: 8px;
+            box-shadow: 0 0 50px var(--accent);
+        }
         #splash-sigil {
             width: 140px; height: 140px;
             border: 2px solid var(--accent);
@@ -136,7 +142,7 @@
 <body>
     <canvas id="particles"></canvas>
     <div id="splash">
-        <div id="splash-sigil" onclick="startGame()">🫧</div>
+        <div id="splash-sigil" role="button" tabindex="0" aria-label="Comenzar juego" onclick="startGame()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startGame(); }">🫧</div>
         <h1>CAZADOR DE BURBUJAS</h1>
         <p>Toca solo las burbujas <strong style="color:var(--accent)">moradas</strong>. ¡Ignora las demás!</p>
     </div>
@@ -152,7 +158,7 @@
     </div>
     <div id="message"></div>
     <div id="bubble-field"></div>
-    <button id="resetBtn" onclick="resetGame()">✨</button>
+    <button id="resetBtn" aria-label="Reiniciar juego" onclick="resetGame()">✨</button>
 
     <script>
         const canvas = document.getElementById('particles');
