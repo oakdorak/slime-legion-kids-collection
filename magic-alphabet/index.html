@@ -106,11 +106,15 @@
         #themeBtn::after { content: '🎨'; font-size: 24px; }
 
         select { background: var(--bg); color: var(--text); border: 1px solid var(--accent); padding: 5px; border-radius: 4px; font-size: 11px; outline: none; }
+        #sigil:focus-visible {
+            outline: 3px solid var(--text);
+            outline-offset: 4px;
+        }
     </style>
 </head>
 <body>
     <div id="splashScreen">
-        <div id="sigil" onclick="startMagic()"></div>
+        <div id="sigil" role="button" tabindex="0" aria-label="Comenzar juego" onclick="startMagic()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startMagic(); }"></div>
         <div id="splashText">ENTRAR AL ATELIER</div>
     </div>
 
