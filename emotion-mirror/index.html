@@ -215,7 +215,17 @@
                 btn.setAttribute('role', 'button');
                 btn.setAttribute('tabindex', '0');
                 btn.setAttribute('aria-label', em.label);
-                btn.innerHTML = `<span>${em.emoji}</span><span class="label">${em.label}</span>`;
+
+                const emojiSpan = document.createElement('span');
+                emojiSpan.textContent = em.emoji;
+
+                const labelSpan = document.createElement('span');
+                labelSpan.className = 'label';
+                labelSpan.textContent = em.label;
+
+                btn.appendChild(emojiSpan);
+                btn.appendChild(labelSpan);
+
                 btn.addEventListener('click', () => handleChoice(btn, em, targetEmotion));
                 btn.addEventListener('touchstart', (e) => { e.preventDefault(); handleChoice(btn, em, targetEmotion); }, { passive: false });
                 btn.addEventListener('keydown', (e) => {
