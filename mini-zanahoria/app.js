@@ -610,10 +610,16 @@ function initRoutineBuilder() {
     const textPart = splitLabel.slice(0, -1).join(" ");
     const emojiPart = splitLabel[splitLabel.length - 1];
     
-    card.innerHTML = `
-      <span class="card-emoji">${emojiPart}</span>
-      <span class="card-text">${textPart}</span>
-    `;
+    const emojiSpan = document.createElement('span');
+    emojiSpan.className = 'card-emoji';
+    emojiSpan.textContent = emojiPart;
+
+    const textSpan = document.createElement('span');
+    textSpan.className = 'card-text';
+    textSpan.textContent = textPart;
+
+    card.appendChild(emojiSpan);
+    card.appendChild(textSpan);
     
     // Drag listeners
     card.addEventListener('dragstart', () => {
