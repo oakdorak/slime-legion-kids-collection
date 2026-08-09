@@ -44,6 +44,10 @@
             box-shadow: 0 0 30px var(--accent); animation: pulse 3s infinite;
             margin-bottom: 30px; cursor: pointer;
         }
+        #sigil:focus-visible {
+            outline: 3px solid var(--text);
+            outline-offset: 10px;
+        }
         #sigil::after { content: '✨'; font-size: 50px; opacity: 0.8; }
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 20px var(--accent); }
@@ -110,7 +114,7 @@
 </head>
 <body>
     <div id="splashScreen">
-        <div id="sigil" onclick="startMagic()"></div>
+        <div id="sigil" role="button" tabindex="0" aria-label="Entrar al Atelier" onclick="startMagic()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startMagic(); }"></div>
         <div id="splashText">ENTRAR AL ATELIER</div>
     </div>
 
