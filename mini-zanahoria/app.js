@@ -355,6 +355,14 @@ document.getElementById('start-orbit-btn').addEventListener('click', () => {
 });
 
 document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
+  quadrant.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      if (event.repeat) return;
+      quadrant.click();
+    }
+  });
+
   quadrant.addEventListener('click', () => {
     if (!orbitActiveRound) return;
     
