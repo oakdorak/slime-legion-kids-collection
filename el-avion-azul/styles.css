@@ -146,6 +146,12 @@ body {
     z-index: 10;
 }
 
+.plane-wrapper:focus-visible {
+    outline: 3px solid var(--text-color);
+    outline-offset: 10px;
+    border-radius: 12px;
+}
+
 .plane-svg {
     width: 100%;
     height: 100%;
@@ -220,6 +226,11 @@ body {
     color: var(--bg-color);
 }
 
+.color-btn:focus-visible {
+    outline: 3px solid var(--text-color);
+    outline-offset: 4px;
+}
+
 .color-btn:active {
     transform: scale(0.92);
     box-shadow: 0 2px 4px rgba(0,0,0,0.3);
@@ -246,6 +257,11 @@ body {
     display: inline-block;
     padding: 0.5rem 1rem;
     border-radius: 10px;
+}
+
+.back-link:focus-visible {
+    outline: 3px solid var(--accent-color);
+    outline-offset: 2px;
 }
 
 .back-link:hover {

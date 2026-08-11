@@ -7,3 +7,8 @@
 
 **Learning:** When addressing accessibility for custom `div` based elements functioning as buttons, specifically for screen splash components in mini-games, `event.preventDefault()` should be utilized inside the `onkeydown` handler for 'Space' keys. This prevents the default browser behavior of scrolling the page down, which disrupts the user experience and can cause layout shifts on smaller screens.
 **Action:** When adding keyboard interactivity (`onkeydown`) to non-native interactive elements like custom splash sigils, include `event.preventDefault()` for the 'Enter' and 'Space' keys to maintain focus and prevent unintended page scrolling.
+
+## 2026-08-11 - Interactive SVG Wrappers
+
+**Learning:** SVG animations (like the looping plane in El Avión Azul) frequently capture user attention but miss core interactivity affordances if the parent wrapper only binds `click` events. Screen reader and keyboard users are entirely locked out of these playful interactions if the wrapper lacks semantic roles and focus management.
+**Action:** When enhancing custom SVG wrappers with interactivity, explicitly add `role="button"`, `tabindex="0"`, `aria-label`, and `onkeydown` listeners (calling `this.click()`) to the wrapper, paired with high-contrast `:focus-visible` outlines, ensuring the playful experience is accessible to all users.
