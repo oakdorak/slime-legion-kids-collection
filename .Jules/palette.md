@@ -7,3 +7,7 @@
 
 **Learning:** When addressing accessibility for custom `div` based elements functioning as buttons, specifically for screen splash components in mini-games, `event.preventDefault()` should be utilized inside the `onkeydown` handler for 'Space' keys. This prevents the default browser behavior of scrolling the page down, which disrupts the user experience and can cause layout shifts on smaller screens.
 **Action:** When adding keyboard interactivity (`onkeydown`) to non-native interactive elements like custom splash sigils, include `event.preventDefault()` for the 'Enter' and 'Space' keys to maintain focus and prevent unintended page scrolling.
+
+## 2026-08-12 - Splash screens and Icon-only Button Accessibility
+**Learning:** In mini-games, splash screens and icon-only utility buttons (e.g., reset, theme) often miss accessibility attributes. When using `div` elements or buttons with purely visual/CSS-based icons (`::after`), they lack semantic context for screen readers and keyboard visibility.
+**Action:** Ensure all icon-only buttons have an explicit `aria-label`. For custom `div` splash screens, apply `role="button"`, `tabindex="0"`, `aria-label`, an `onkeydown` handler for Enter/Space (with `event.preventDefault()`), and `:focus-visible` styles.
