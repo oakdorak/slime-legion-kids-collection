@@ -233,6 +233,14 @@ document.getElementById('plane-wrapper').addEventListener('click', (e) => {
     showSpeechBubble(randomPhrase);
 });
 
+// Keyboard accessibility on plane wrapper
+document.getElementById('plane-wrapper').addEventListener('keydown', (e) => {
+    if (!e.repeat && (e.key === 'Enter' || e.key === ' ')) {
+        e.preventDefault(); // Prevent page scroll on Space
+        document.getElementById('plane-wrapper').click();
+    }
+});
+
 // Setup touch/mouse movement limits (Interactive hovering offset)
 document.getElementById('sky-area').addEventListener('mousemove', (e) => {
     const planeWrapper = document.getElementById('plane-wrapper');

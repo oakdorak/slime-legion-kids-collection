@@ -7,3 +7,7 @@
 
 **Learning:** When addressing accessibility for custom `div` based elements functioning as buttons, specifically for screen splash components in mini-games, `event.preventDefault()` should be utilized inside the `onkeydown` handler for 'Space' keys. This prevents the default browser behavior of scrolling the page down, which disrupts the user experience and can cause layout shifts on smaller screens.
 **Action:** When adding keyboard interactivity (`onkeydown`) to non-native interactive elements like custom splash sigils, include `event.preventDefault()` for the 'Enter' and 'Space' keys to maintain focus and prevent unintended page scrolling.
+
+## 2026-08-14 - Custom Interactive Div Accessibility
+**Learning:** Custom `div`-based interactive elements (like the `.plane-wrapper`) require manual addition of ARIA attributes (`role`, `aria-label`, `tabindex`), keyboard event handlers (`onkeydown` with `e.preventDefault()` for Space/Enter to prevent scrolling), and `:focus-visible` styling to be accessible.
+**Action:** When implementing custom interactive elements, always ensure they are fully navigable by keyboard and screen readers, rather than relying solely on click events.
