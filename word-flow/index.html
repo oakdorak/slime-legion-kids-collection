@@ -32,6 +32,11 @@
             animation: waveAnim 2s infinite;
             filter: drop-shadow(0 0 25px rgba(137,106,176,0.7));
         }
+        #splash-wave:focus-visible {
+            outline: 3px solid var(--accent);
+            outline-offset: 10px;
+            border-radius: 50%;
+        }
         @keyframes waveAnim {
             0%, 100% { transform: rotate(-5deg) scale(1); }
             25% { transform: rotate(5deg) scale(1.05); }
@@ -127,7 +132,7 @@
 <body>
     <canvas id="fx"></canvas>
     <div id="splash">
-        <div id="splash-wave" onclick="startGame()">🌊</div>
+        <div id="splash-wave" role="button" tabindex="0" aria-label="Comenzar juego" onclick="startGame()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startGame(); }">🌊</div>
         <h1>EL RÍO DE PALABRAS</h1>
         <p>Toca la palabra que corresponde a la imagen. ¡Rápido, que el río fluye!</p>
     </div>
