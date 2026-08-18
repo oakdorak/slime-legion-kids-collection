@@ -72,7 +72,7 @@ por calmarse y dar un consejo bien intencionado — aunque batalla, porque no
 siempre sabe hacerlo bien. Por eso busca a **Totopo** cuando necesita que alguien
 lo escuche y lo guíe.
 
-**Por qué existe mini-zanahoria.** Robbit es la razón verdadera por la que
+**Por qué existe Mini-Zanahoria.** Robbit es la razón verdadera por la que
 Mini-Zanahoria cobra vida: el desabasto que azota a los conejos es la crisis que
 motiva a Dr. 100tifiko a experimentar con ella. Mini-Zanahoria nace para tratar
 el problema de las zanahorias, y Robbit es el conejo en cuyo hogar nadie la
@@ -113,7 +113,7 @@ la habilidad de **pelear con vegetales como si fuesen armas**.
 **Miedo.** Ser comida. Es el miedo que define su relación con Robbit, con el
 mundo y con su propio futuro.
 
-### 4.3 — Totopo 🦔
+### 4.3 — Totopo 🕳️
 
 | Campo | Valor |
 |---|---|
@@ -182,11 +182,12 @@ zanahorias.
 1. **ChayoTito** — su primer experimento exitoso. Lo cuida y lo quiere como si
    fuera una mascota.
 2. **Broco-Lee** — el segundo, pero **se escapa**.
-3. **Elotaylor** — demuestra muchísimo talento, es buena en prácticamente
-   cualquier cosa y puede cantar. Pero nunca se siente comprendido en absoluto.
-4. **Mini-Zanahoria** — en el primer momento en que consiguió consciencia, lo
+3. **Mini-Zanahoria** — en el primer momento en que consiguió consciencia, lo
    miró a los ojos. Y él encontró esa **comprensión** que tanto anhelaba. Cuando
    la pierde, se obsesiona.
+4. **Elotaylor** — la crea años después, tras perder a Mini-Zanahoria. Demuestra
+   muchísimo talento, es buena en prácticamente cualquier cosa y puede cantar.
+   Pero nunca se siente comprendida en absoluto.
 
 **La obsesión.** No es un tipo malo; quiere hacer algo bueno por los conejos.
 Pero está **tan** dispuesto a hacer lo que sea para recuperar a Mini-Zanahoria que
@@ -239,7 +240,7 @@ no todo es blanco. Esa es la sabiduría que intenta transmitir.
 
 | Campo | Valor |
 |---|---|
-| **Rol** | La tercera creación — el arma de control de masas |
+| **Rol** | La cuarta creación — el arma de control de masas |
 
 Tiene muchísimo talento y es buena en prácticamente cualquier cosa; puede cantar.
 Pero nunca se siente comprendida en absoluto. Fue creada por Dr. 100tifiko con un
