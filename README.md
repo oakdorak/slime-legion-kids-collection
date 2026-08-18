@@ -4,6 +4,8 @@
 
 **Paleta Qtzl.cloud:** `#231F24` Fondo · `#896AB0` Lavanda · `#9B8E6C` Oro Muted · `#E3E0A4` Crema · `#A8B28A` Verde Salvia
 
+**📖 Lore:** Biblia del universo — personajes, historia y amenaza en [`LORE.md`](./LORE.md)
+
 ---
 
 ## 🎮 Juegos
