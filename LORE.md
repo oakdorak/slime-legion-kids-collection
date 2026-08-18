@@ -158,7 +158,7 @@ saber para qué— llega a esta conclusión:
 Al enterarse de que a Mini-Zanahoria se la iba a someter a una vida de
 **esclavitud y auto-replicación** para terminar la hambruna, decide **rescatarla**.
 Y el único lugar que se le ocurre —en el que nadie, jamás, buscaría una
-mini-zanahoria— es la casa del conejo.
+**Mini-Zanahoria**— es la casa del conejo.
 
 **Robbit.**
 
