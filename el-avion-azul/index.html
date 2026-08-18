@@ -27,7 +27,7 @@
             <div class="cloud cloud-3"></div>
 
             <!-- Interactive Goofy Plane SVG -->
-            <div class="plane-wrapper" id="plane-wrapper">
+            <div class="plane-wrapper" id="plane-wrapper" role="button" tabindex="0" aria-label="Avión interactivo" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); this.click();}">
                 <div class="plane-face-bubble" id="plane-bubble">¡Bzzzz! 🤪</div>
                 <svg id="plane-svg" class="plane-svg color-red" viewBox="0 0 100 60" xmlns="http://www.w3.org/2000/svg">
                     <!-- Propeller spinner line -->
