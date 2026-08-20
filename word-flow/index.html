@@ -95,6 +95,7 @@
             transition: border-color 0.2s, background 0.2s;
         }
         .word-chip:active { transform: translateY(-50%) scale(0.93); }
+        .word-chip:focus-visible { outline: 3px solid var(--text); outline-offset: 4px; }
         .word-chip.correct {
             border-color: var(--success);
             background: rgba(168,178,138,0.2);
@@ -251,6 +252,9 @@
                 chip.style.right = (-200) + 'px';
                 chip.dataset.word = word;
                 chip.dataset.isTarget = (word === target.word) ? '1' : '0';
+                chip.setAttribute('role', 'button');
+                chip.setAttribute('tabindex', '0');
+                chip.setAttribute('aria-label', word);
 
                 const handleTap = (e) => {
                     e.preventDefault();
@@ -286,6 +290,11 @@
                 };
                 chip.addEventListener('click', handleTap);
                 chip.addEventListener('touchstart', handleTap, { passive: false });
+                chip.addEventListener('keydown', (e) => {
+                    if (!e.repeat && (e.key === 'Enter' || e.key === ' ')) {
+                        handleTap(e);
+                    }
+                });
 
                 // Auto-remove when off screen
                 chip.addEventListener('animationend', () => {
