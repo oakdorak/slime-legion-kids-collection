@@ -1,0 +1,270 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://slime-legion.qtzl.cloud/schemas/sprite-manifest/v2",
+  "title": "Slime Legion Sprite Manifest v2",
+  "description": "Manifest for sprite evolution paths with dynamic branching support.",
+  "type": "object",
+  "required": ["version", "generated", "padding", "characters", "masterSheet"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "const": "2.0.0",
+      "description": "Schema version — must be 2.0.0"
+    },
+    "generated": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO-8601 timestamp of generation"
+    },
+    "padding": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Pixel padding between frames in spritesheets"
+    },
+    "characters": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Character" },
+      "description": "Array of character definitions with evolution data"
+    },
+    "masterSheet": {
+      "$ref": "#/$defs/MasterSheet"
+    }
+  },
+  "$defs": {
+    "Character": {
+      "type": "object",
+      "required": ["id", "name", "sheet", "frameWidth", "frameHeight", "evolutionType", "corePath", "branches", "frames"],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9]*$",
+          "description": "Unique character identifier (lowercase alphanum)"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name of the character"
+        },
+        "sheet": {
+          "type": "string",
+          "description": "Relative path to the character's spritesheet"
+        },
+        "frameWidth": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Uniform frame width in pixels"
+        },
+        "frameHeight": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Uniform frame height in pixels"
+        },
+        "evolutionType": {
+          "type": "string",
+          "enum": ["fixed", "dynamic"],
+          "description": "fixed = predefined paths only; dynamic = extensible Eevee-style branches"
+        },
+        "corePath": {
+          "type": "array",
+          "items": { "type": "string" },
+          "description": "Ordered list of shared phase IDs before branching (e.g. [phase1, phase2, phase3])"
+        },
+        "branches": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/Branch" },
+          "description": "Named evolution branches keyed by branch ID"
+        },
+        "frames": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/Frame" },
+          "description": "Flat frame list for backward compatibility and spritesheet coordinates"
+        },
+        "accessibility": {
+          "$ref": "#/$defs/CharacterAccessibility",
+          "description": "Accessibility metadata for the character"
+        }
+      }
+    },
+    "Branch": {
+      "type": "object",
+      "required": ["alignment", "phase", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "alignment": {
+          "type": "string",
+          "enum": ["light", "dark", "neutral"],
+          "description": "Moral alignment of this evolution path"
+        },
+        "phase": {
+          "type": "string",
+          "description": "Phase ID this branch maps to in the frames array (e.g. phase4a)"
+        },
+        "label": {
+          "type": "string",
+          "description": "Human-readable name of this evolution (e.g. 'Robbit Paladin')"
+        },
+        "trigger": {
+          "type": "string",
+          "description": "Verb describing what triggers this evolution (e.g. 'protect', 'destroy')"
+        },
+        "branchType": {
+          "type": "string",
+          "enum": ["permanent", "seasonal", "event", "community"],
+          "default": "permanent",
+          "description": "Availability type of this branch"
+        },
+        "availability": {
+          "$ref": "#/$defs/BranchAvailability",
+          "description": "Optional scheduling constraints for non-permanent branches"
+        },
+        "accessibility": {
+          "$ref": "#/$defs/BranchAccessibility",
+          "description": "Accessibility metadata for this branch"
+        }
+      }
+    },
+    "BranchAvailability": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "startDate": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO date when this branch becomes available"
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date",
+          "description": "ISO date when this branch expires (seasonal)"
+        },
+        "condition": {
+          "type": "string",
+          "description": "Event ID or achievement key required to unlock (event type)"
+        }
+      }
+    },
+    "Frame": {
+      "type": "object",
+      "required": ["phase", "x", "y", "width", "height", "spriteWidth", "spriteHeight", "spriteOffsetX", "spriteOffsetY"],
+      "additionalProperties": false,
+      "properties": {
+        "phase": {
+          "type": "string",
+          "description": "Phase identifier (e.g. phase1, phase4a)"
+        },
+        "x": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "X coordinate in the spritesheet"
+        },
+        "y": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Y coordinate in the spritesheet"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Frame width in pixels"
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Frame height in pixels"
+        },
+        "spriteWidth": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Actual sprite width within the frame"
+        },
+        "spriteHeight": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Actual sprite height within the frame"
+        },
+        "spriteOffsetX": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Horizontal offset to center the sprite in the frame"
+        },
+        "spriteOffsetY": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Vertical offset to center the sprite in the frame"
+        }
+      }
+    },
+    "MasterSheet": {
+      "type": "object",
+      "required": ["url", "width", "height", "frames"],
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "description": "Relative path to the master spritesheet"
+        },
+        "width": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "height": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "frames": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/MasterFrame" }
+        }
+      }
+    },
+    "MasterFrame": {
+      "type": "object",
+      "required": ["character", "phase", "x", "y", "width", "height", "spriteWidth", "spriteHeight", "spriteOffsetX", "spriteOffsetY"],
+      "additionalProperties": false,
+      "properties": {
+        "character": { "type": "string" },
+        "phase": { "type": "string" },
+        "x": { "type": "integer", "minimum": 0 },
+        "y": { "type": "integer", "minimum": 0 },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "spriteWidth": { "type": "integer", "minimum": 1 },
+        "spriteHeight": { "type": "integer", "minimum": 1 },
+        "spriteOffsetX": { "type": "integer", "minimum": 0 },
+        "spriteOffsetY": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "CharacterAccessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ariaLabel": {
+          "type": "string",
+          "description": "Screen reader label for the character's evolution tree"
+        },
+        "description": {
+          "type": "string",
+          "description": "Human-readable description of the character's evolution story"
+        }
+      }
+    },
+    "BranchAccessibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "ariaLabel": {
+          "type": "string",
+          "description": "Screen reader label for this specific evolution"
+        },
+        "altText": {
+          "type": "string",
+          "description": "Alt text for the evolution sprite image"
+        },
+        "description": {
+          "type": "string",
+          "description": "Narrative description of what this evolution represents"
+        }
+      }
+    }
+  }
+}

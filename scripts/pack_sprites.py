@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 """
 pack_sprites.py — Pack individual .webp sprites into per-character spritesheets
-and a master spritesheet, plus generate sprite-manifest.json and a demo index.html.
+and a master spritesheet, plus generate sprite-manifest.json (v2) and a demo index.html.
+
+The v2 manifest adds evolution branching metadata (evolutionType, corePath,
+branches) while keeping the flat frames[] array for backward compatibility.
 
 Usage:
     python scripts/pack_sprites.py
@@ -23,6 +26,7 @@ MANIFEST_PATH = os.path.join(ROOT, "slime-evolution", "sprite-manifest.json")
 INDEX_PATH = os.path.join(ROOT, "slime-evolution", "index.html")
 
 PADDING = 4
+# Phase order supports arbitrary phase4+ suffixes for future branches
 PHASE_ORDER = ["phase1", "phase2", "phase3", "phase4a", "phase4b"]
 
 CHARACTERS = [
@@ -34,6 +38,217 @@ CHARACTERS = [
     {"id": "robbit", "name": "Robbit"},
     {"id": "yuya", "name": "Yuya"},
 ]
+
+# ---------------------------------------------------------------------------
+# Evolution metadata — defines branching lore per character
+# To add a new branch: add a sprite file (e.g. chiwish_phase4c.webp),
+# extend the character's entry here, and re-run this script.
+# ---------------------------------------------------------------------------
+EVOLUTION_META = {
+    "robbit": {
+        "evolutionType": "fixed",
+        "branches": {
+            "paladin": {
+                "alignment": "light", "phase": "phase4a",
+                "label": "Robbit Paladin", "trigger": "protect",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Robbit evoluciona en Paladin, protector de la luz",
+                    "altText": "Robbit Paladin — forma evolucionada de protección",
+                    "description": "Robbit elige proteger a sus aliados y se transforma en un paladín radiante."
+                }
+            },
+            "dark": {
+                "alignment": "dark", "phase": "phase4b",
+                "label": "Dark Robbit", "trigger": "destroy",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Robbit evoluciona en Dark Robbit, agente de destrucción",
+                    "altText": "Dark Robbit — forma evolucionada de destrucción",
+                    "description": "Robbit abraza la oscuridad y se convierte en un guerrero implacable."
+                }
+            }
+        },
+        "accessibility": {
+            "ariaLabel": "Árbol de evolución de Robbit, 2 caminos posibles",
+            "description": "Robbit es un slime amarillo con goggles rosas, pelo morado y orejas de conejo."
+        }
+    },
+    "madrecerebro": {
+        "evolutionType": "fixed",
+        "branches": {
+            "guardiana": {
+                "alignment": "light", "phase": "phase4a",
+                "label": "Madre Guardiana", "trigger": "protect",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Madre Cerebro evoluciona en Madre Guardiana",
+                    "altText": "Madre Guardiana — protectora cósmica",
+                    "description": "Madre Cerebro usa su intelecto para proteger y guiar a la legión."
+                }
+            },
+            "destruccion": {
+                "alignment": "dark", "phase": "phase4b",
+                "label": "Modo Destrucción", "trigger": "annihilate",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Madre Cerebro activa Modo Destrucción",
+                    "altText": "Modo Destrucción — poder cerebral desatado",
+                    "description": "Madre Cerebro desata su Hyper Beam, consumiendo todo a su paso."
+                }
+            }
+        },
+        "accessibility": {
+            "ariaLabel": "Árbol de evolución de Madre Cerebro, 2 caminos posibles",
+            "description": "Madre Cerebro es una larva cerebral que evoluciona a una entidad guardiana o destructora."
+        }
+    },
+    "chiwish": {
+        "evolutionType": "dynamic",
+        "branches": {
+            "supernova": {
+                "alignment": "light", "phase": "phase4a",
+                "label": "Supernova", "trigger": "guide",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Chi-Wish evoluciona en Supernova, guía estelar",
+                    "altText": "Supernova — explosión de luz guiadora",
+                    "description": "Chi-Wish brilla con la intensidad de una supernova para guiar a los perdidos."
+                }
+            },
+            "void": {
+                "alignment": "dark", "phase": "phase4b",
+                "label": "Void", "trigger": "absorb",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Chi-Wish evoluciona en Void, absorbe toda luz",
+                    "altText": "Void — agujero negro que consume la luz",
+                    "description": "Chi-Wish colapsa en sí mismo, absorbiendo toda energía a su alrededor."
+                }
+            }
+        },
+        "accessibility": {
+            "ariaLabel": "Árbol de evolución de Chi-Wish, múltiples caminos posibles",
+            "description": "Chi-Wish es un slime estelar lavanda con antenas de estrella."
+        }
+    },
+    "emmaruth": {
+        "evolutionType": "dynamic",
+        "branches": {
+            "architect": {
+                "alignment": "light", "phase": "phase4a",
+                "label": "Architect Supreme", "trigger": "build",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Emma Ruth evoluciona en Architect Supreme",
+                    "altText": "Architect Supreme — maestra constructora vampírica",
+                    "description": "Emma Ruth canaliza su poder vampírico para construir estructuras imposibles."
+                }
+            },
+            "shadow_devourer": {
+                "alignment": "dark", "phase": "phase4b",
+                "label": "Shadow Devourer", "trigger": "devour",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Emma Ruth evoluciona en Shadow Devourer",
+                    "altText": "Shadow Devourer — devoradora de sombras",
+                    "description": "Emma Ruth consume las sombras de otros para alimentar su poder oscuro."
+                }
+            }
+        },
+        "accessibility": {
+            "ariaLabel": "Árbol de evolución de Emma Ruth, múltiples caminos posibles",
+            "description": "Emma Ruth es un vampiro slime con alas de murciélago y vocación de arquitecta."
+        }
+    },
+    "diegoivan": {
+        "evolutionType": "dynamic",
+        "branches": {
+            "caballero": {
+                "alignment": "light", "phase": "phase4a",
+                "label": "Dino-Caballero", "trigger": "protect",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Diego Ivan evoluciona en Dino-Caballero",
+                    "altText": "Dino-Caballero — protector con armadura de dinosaurio",
+                    "description": "Diego Ivan monta su dinosaurio como caballero noble, protegiendo a los más pequeños."
+                }
+            },
+            "destructor": {
+                "alignment": "dark", "phase": "phase4b",
+                "label": "Dino-Destructor", "trigger": "crush",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Diego Ivan evoluciona en Dino-Destructor",
+                    "altText": "Dino-Destructor — dinosaurio de destrucción total",
+                    "description": "Diego Ivan desata la furia prehistórica, aplastando todo a su paso."
+                }
+            }
+        },
+        "accessibility": {
+            "ariaLabel": "Árbol de evolución de Diego Ivan, múltiples caminos posibles",
+            "description": "Diego Ivan es un niño con TEA que ama los dinosaurios y los carritos."
+        }
+    },
+    "yuya": {
+        "evolutionType": "dynamic",
+        "branches": {
+            "alegria": {
+                "alignment": "light", "phase": "phase4a",
+                "label": "Diosa de la Alegría", "trigger": "nurture",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Yuya evoluciona en Diosa de la Alegría",
+                    "altText": "Diosa de la Alegría — fuente de felicidad infinita",
+                    "description": "Yuya irradia alegría pura, nutriendo la vida y la esperanza en todos."
+                }
+            },
+            "caos": {
+                "alignment": "dark", "phase": "phase4b",
+                "label": "Espíritu del Caos", "trigger": "devour",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Yuya evoluciona en Espíritu del Caos",
+                    "altText": "Espíritu del Caos — entidad de desorden absoluto",
+                    "description": "Yuya se transforma en un espíritu caótico que devora el orden del mundo."
+                }
+            }
+        },
+        "accessibility": {
+            "ariaLabel": "Árbol de evolución de Yuya, múltiples caminos posibles",
+            "description": "Yuya es una niña feliz con chonguitos azules."
+        }
+    },
+    "cherry": {
+        "evolutionType": "dynamic",
+        "branches": {
+            "hada": {
+                "alignment": "light", "phase": "phase4a",
+                "label": "Hada Cerezo", "trigger": "care",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Cherry evoluciona en Hada Cerezo",
+                    "altText": "Hada Cerezo — hada protectora del jardín de cerezos",
+                    "description": "Cherry florece como un hada del jardín, cuidando toda la vida a su alrededor."
+                }
+            },
+            "querubin": {
+                "alignment": "dark", "phase": "phase4b",
+                "label": "Querubín Oscuro", "trigger": "terrify",
+                "branchType": "permanent",
+                "accessibility": {
+                    "ariaLabel": "Cherry evoluciona en Querubín Oscuro",
+                    "altText": "Querubín Oscuro — ángel caído que aterroriza",
+                    "description": "Cherry se transforma en un querubín oscuro con sonrisa picarona terrorífica."
+                }
+            }
+        },
+        "accessibility": {
+            "ariaLabel": "Árbol de evolución de Cherry, múltiples caminos posibles",
+            "description": "Cherry es una bebé pequeñita con sonrisa picarona."
+        }
+    }
+}
 
 
 # ---------------------------------------------------------------------------
@@ -197,12 +412,52 @@ def build_all_sheets(by_char):
 # Manifest
 # ---------------------------------------------------------------------------
 
+def enrich_character_v2(char_entry):
+    """Add v2 evolution metadata to a character entry."""
+    char_id = char_entry["id"]
+    meta = EVOLUTION_META.get(char_id)
+
+    # Determine core phases (everything before phase4)
+    all_phases = [f["phase"] for f in char_entry["frames"]]
+    core = [p for p in all_phases if not p.startswith("phase4")]
+
+    if meta:
+        char_entry["evolutionType"] = meta["evolutionType"]
+        char_entry["corePath"] = core
+        char_entry["branches"] = meta["branches"]
+        if "accessibility" in meta:
+            char_entry["accessibility"] = meta["accessibility"]
+    else:
+        # Fallback for unknown characters
+        char_entry["evolutionType"] = "fixed"
+        char_entry["corePath"] = core
+        branch_phases = [p for p in all_phases if p.startswith("phase4")]
+        char_entry["branches"] = {}
+        for bp in branch_phases:
+            suffix = bp.replace("phase4", "")
+            alignment = "light" if suffix == "a" else "dark" if suffix == "b" else "neutral"
+            char_entry["branches"][f"branch_{suffix}"] = {
+                "alignment": alignment,
+                "phase": bp,
+                "label": f"{char_entry['name']} ({alignment.title()})",
+                "trigger": "create" if alignment == "light" else "destroy",
+                "branchType": "permanent"
+            }
+
+    return char_entry
+
+
 def generate_manifest(character_data, master_frames, master_w, master_h):
+    # Enrich each character with v2 evolution metadata
+    characters_v2 = [
+        enrich_character_v2(char) for char in character_data.values()
+    ]
+
     manifest = {
-        "version": "1.0.0",
+        "version": "2.0.0",
         "generated": datetime.now(timezone.utc).isoformat(),
         "padding": PADDING,
-        "characters": list(character_data.values()),
+        "characters": characters_v2,
         "masterSheet": {
             "url": "spritesheets/master_sheet.webp",
             "width": master_w,
