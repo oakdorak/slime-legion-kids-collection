@@ -138,7 +138,10 @@
     </div>
     <canvas id="magicCanvas"></canvas>
 
+    <script src="../shared/utils.js"></script>
     <script>
+        const { SpeechEngine, dismissSplash, showElements } = window.NeuroDivertidos;
+
         const canvas = document.getElementById('magicCanvas');
         const ctx = canvas.getContext('2d');
         const guide = document.getElementById('guide');
@@ -245,56 +248,18 @@
             }
         }
 
-        let voices = [];
-        function loadVoices() {
-            voices = window.speechSynthesis.getVoices();
-        }
-        // Load immediately (Firefox/Safari populate synchronously)
-        loadVoices();
-        // Chrome populates asynchronously
-        window.speechSynthesis.onvoiceschanged = loadVoices;
+        const speech = new SpeechEngine({ lang: 'es-MX', pitch: 1.4, rate: 0.8 });
 
         function speakNurturing(text) {
-            window.speechSynthesis.cancel();
             const lang = langSelect ? langSelect.value : 'es-MX';
-            const isSpanish = lang.startsWith('es');
-            const utterance = new SpeechSynthesisUtterance(text);
-            utterance.lang = lang;
-            utterance.pitch = 1.4;
-            utterance.rate = 0.8;
-
-            if (isSpanish) {
-                const preferredSpanish = ["Monica", "Paulina", "Google Español", "Luciana", "Microsoft Sabina", "Diego"];
-                const voice = voices.find(v => preferredSpanish.some(p => v.name.includes(p)) && v.lang.startsWith('es'))
-                           || voices.find(v => v.lang.startsWith('es'));
-                if (voice) utterance.voice = voice;
-            } else {
-                const preferredEnglish = ["Samantha", "Google US English", "Karen", "Moira"];
-                const voice = voices.find(v => preferredEnglish.some(p => v.name.includes(p)) && v.lang.startsWith('en'))
-                           || voices.find(v => v.lang.startsWith('en'));
-                if (voice) utterance.voice = voice;
-            }
-
-            // Chrome workaround: SpeechSynthesis silently dies after ~15s of inactivity
-            const resumeWorkaround = setInterval(() => {
-                if (!window.speechSynthesis.speaking) { clearInterval(resumeWorkaround); return; }
-                window.speechSynthesis.pause();
-                window.speechSynthesis.resume();
-            }, 10000);
-            utterance.onend = () => clearInterval(resumeWorkaround);
-            utterance.onerror = () => clearInterval(resumeWorkaround);
-
-            window.speechSynthesis.speak(utterance);
+            speech.speak(text, { lang, pitch: 1.4, rate: 0.8 });
         }
 
         function startMagic() {
             isSystemReady = true;
-            // Re-load voices in case they weren't ready yet
-            loadVoices();
-            splashScreen.style.opacity = '0';
+            dismissSplash(splashScreen);
             setTimeout(() => {
-                splashScreen.style.visibility = 'hidden';
-                ui.style.opacity = '1'; controls.style.opacity = '1'; resetBtn.style.opacity = '1'; themeBtn.style.opacity = '1';
+                showElements(ui, controls, resetBtn, themeBtn);
                 status.innerText = "TEJE LA LUZ"; initLetterTargets();
                 speakNurturing("¡Hola! Vamos a tejer magia juntos.");
             }, 1000);
