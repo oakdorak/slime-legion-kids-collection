@@ -109,7 +109,7 @@ slime-legion-kids-collection/
 - **Todo el arte es pixel art** — consistente en todas las fases
 - **Paleta Qtzl.cloud** obligatoria (ver arriba)
 - **Sprites:** WebP, nombrados `{character}_phase{N}.webp`, van en `slime-evolution/sprites/`
-- **Charts:** PNG, nombrados `{character}_evolution.webp`, van en `slime-evolution/charts/`
+- **Charts:** PNG, nombrados `{character}_evolution.png`, van en `slime-evolution/charts/`
 - **Juegos:** HTML single-file, responsive, accesible por teclado, con `lang="es"` y meta description
 - **Accesibilidad:** `role="button"`, `tabindex="0"`, `aria-label`, `onkeydown` para Enter/Space, `:focus-visible`, y `event.repeat` guard en todos los elementos interactivos custom
 - Regenerar spritesheets después de agregar/modificar sprites: `python scripts/pack_sprites.py`
