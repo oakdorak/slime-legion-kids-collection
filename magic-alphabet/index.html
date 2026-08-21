@@ -93,6 +93,7 @@
             cursor: pointer; z-index: 101; display: flex; align-items: center; justify-content: center;
             transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); outline: none; opacity: 0;
         }
+        #resetBtn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
         #resetBtn:active { transform: translateX(-50%) scale(0.85); box-shadow: 0 0 40px var(--ivory); }
         #resetBtn::after { content: '✨'; font-size: 30px; opacity: 0.8; }
 
@@ -100,8 +101,9 @@
             position: absolute; bottom: 45px; right: 30px; width: 60px; height: 60px;
             background: var(--bg); border: 2px solid var(--accent); border-radius: 50%;
             cursor: pointer; z-index: 101; display: flex; align-items: center; justify-content: center;
-            transition: transform 0.3s; opacity: 0;
+            transition: transform 0.3s; outline: none; opacity: 0;
         }
+        #themeBtn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
         #themeBtn:active { transform: scale(0.9); }
         #themeBtn::after { content: '🎨'; font-size: 24px; }
 
@@ -130,8 +132,8 @@
         </select>
     </div>
 
-    <button id="resetBtn"></button>
-    <button id="themeBtn" title="Cambiar Tema" onclick="cycleTheme()"></button>
+    <button id="resetBtn" aria-label="Reiniciar magia"></button>
+    <button id="themeBtn" title="Cambiar Tema" aria-label="Cambiar tema" onclick="cycleTheme()"></button>
 
     <div id="letterContainer">
         <div class="letter-guide" id="guide">A</div>

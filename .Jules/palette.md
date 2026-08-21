@@ -11,3 +11,7 @@
 ## 2026-08-20 - Accessible Dynamic Word Chips
 **Learning:** In mini-games like El Río de Palabras, interactive elements (word chips) are often dynamically created `div`s without semantic button properties. This makes them completely invisible to keyboard and screen reader users during gameplay.
 **Action:** When dynamically generating custom interactive `div` elements, programmatically inject `role="button"`, `tabindex="0"`, `aria-label`, and a keyboard event listener for `Enter` and `Space` (with `e.preventDefault()`) right after creation to ensure full accessibility.
+
+## 2026-08-21 - Icon-Only Button Accessibility
+**Learning:** In mini-games like Abecedario Mágico, native `<button>` elements are sometimes used for icon-only actions (like `#resetBtn` or `#themeBtn`) with icons injected via CSS `::after`. Although they inherently support keyboard navigation and activation, they lack programmatic text labels, making them unusable for screen reader users, and often have custom focus styling disabled (`outline: none`), which harms keyboard-only usability.
+**Action:** Always verify that native icon-only buttons include descriptive `aria-label` or `title` attributes and enforce a custom `:focus-visible` styling (like `outline: 3px solid var(--accent); outline-offset: 2px;`) to ensure the focus state is clearly perceivable and semantically meaningful.
