@@ -140,7 +140,9 @@
 
     <script>
         const canvas = document.getElementById('magicCanvas');
+        if (!canvas) throw new Error('Canvas element not found');
         const ctx = canvas.getContext('2d');
+        if (!ctx) throw new Error('2D context not available');
         const guide = document.getElementById('guide');
         const status = document.getElementById('status');
         const langSelect = document.getElementById('langSelect');
@@ -255,6 +257,7 @@
         window.speechSynthesis.onvoiceschanged = loadVoices;
 
         function speakNurturing(text) {
+            if (!window.speechSynthesis) return;
             window.speechSynthesis.cancel();
             const lang = langSelect ? langSelect.value : 'es-MX';
             const isSpanish = lang.startsWith('es');
@@ -347,8 +350,12 @@
             e.preventDefault();
             if (!isSystemReady || showFlowers) return;
             const rect = canvas.getBoundingClientRect();
-            const x = (e.clientX || (e.touches && e.touches[0].clientX)) - rect.left;
-            const y = (e.clientY || (e.touches && e.touches[0].clientY)) - rect.top;
+            const touch = e.touches && e.touches[0];
+            const clientX = e.clientX || (touch && touch.clientX);
+            const clientY = e.clientY || (touch && touch.clientY);
+            if (clientX == null || clientY == null) return;
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
             if (drawing) {
                 currentStroke.push({x, y}); checkCompletion(x, y);
                 const colorIvory = getComputedStyle(document.documentElement).getPropertyValue('--ivory');
@@ -408,7 +415,7 @@
         };
         
         window.addEventListener('mouseup', endDrawing); window.addEventListener('touchend', endDrawing);
-        resetBtn.addEventListener('click', () => { window.speechSynthesis.cancel(); resetState(); status.innerText = "MAGIA REINICIADA"; for(let i=0; i<60; i++) particles.push(new Particle(canvas.width/2, canvas.height-80, '#FFFFFF', 3)); });
+        resetBtn.addEventListener('click', () => { if (window.speechSynthesis) window.speechSynthesis.cancel(); resetState(); status.innerText = "MAGIA REINICIADA"; for(let i=0; i<60; i++) particles.push(new Particle(canvas.width/2, canvas.height-80, '#FFFFFF', 3)); });
         window.addEventListener('resize', resize); resize(); drawEverything();
     </script>
 </body>

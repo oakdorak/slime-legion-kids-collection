@@ -23,16 +23,22 @@ class CuteSoundEngine {
 
     init() {
         if (!this.ctx) {
-            this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            try {
+                this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+            } catch (e) {
+                console.warn('AudioContext not available:', e.message);
+                return false;
+            }
         }
         if (this.ctx.state === 'suspended') {
-            this.ctx.resume();
+            this.ctx.resume().catch(e => console.warn('AudioContext resume failed:', e.message));
         }
+        return true;
     }
 
     // Play a friendly soft chime
     playChime() {
-        this.init();
+        if (!this.init()) return;
         const now = this.ctx.currentTime;
         const filter = this.ctx.createBiquadFilter();
         filter.type = 'lowpass';
@@ -62,7 +68,7 @@ class CuteSoundEngine {
 
     // Play a goofy slide whistle / engine loop sweep
     playLoopSweep() {
-        this.init();
+        if (!this.init()) return;
         const now = this.ctx.currentTime;
         
         const filter = this.ctx.createBiquadFilter();
@@ -100,7 +106,7 @@ class CuteSoundEngine {
 
     // Play a short engine puff
     playPuff() {
-        this.init();
+        if (!this.init()) return;
         const now = this.ctx.currentTime;
         
         const filter = this.ctx.createBiquadFilter();
@@ -139,6 +145,7 @@ function selectColor(color) {
     const planeSvg = document.getElementById('plane-svg');
     const promptText = document.getElementById('prompt-text');
     const planeWrapper = document.getElementById('plane-wrapper');
+    if (!planeSvg || !promptText || !planeWrapper) return;
     const engine = getSoundEngine();
 
     // Reset color classes
@@ -171,6 +178,7 @@ function selectColor(color) {
 function triggerLoopStunt() {
     const planeWrapper = document.getElementById('plane-wrapper');
     const loopCounter = document.getElementById('loop-counter');
+    if (!planeWrapper || !loopCounter) return;
     const engine = getSoundEngine();
 
     // Prevent double triggers during animation
@@ -208,6 +216,7 @@ function triggerWiggle() {
 // Show Speech Bubble
 function showSpeechBubble(text) {
     const bubble = document.getElementById('plane-bubble');
+    if (!bubble) return;
     bubble.innerText = text;
     bubble.classList.add('show');
     
