@@ -266,6 +266,13 @@ body {
   transform: scale(1.03);
 }
 
+.grid-quadrant:focus-visible {
+  outline: none;
+  border-color: var(--color-accent-lavender);
+  box-shadow: 0 0 0 3px rgba(137, 106, 176, 0.5);
+  transform: scale(1.03);
+}
+
 .grid-quadrant.target-glow {
   border-color: var(--color-accent-lavender);
   box-shadow: 0 0 30px var(--color-accent-lavender-glow);
