@@ -45,6 +45,7 @@
             margin-bottom: 30px; cursor: pointer;
         }
         #sigil::after { content: '✨'; font-size: 50px; opacity: 0.8; }
+        #sigil:focus-visible { outline: 3px solid var(--text); outline-offset: 4px; }
         @keyframes pulse {
             0% { transform: scale(1); box-shadow: 0 0 20px var(--accent); }
             50% { transform: scale(1.1); box-shadow: 0 0 50px var(--accent); }
@@ -95,6 +96,7 @@
         }
         #resetBtn:active { transform: translateX(-50%) scale(0.85); box-shadow: 0 0 40px var(--ivory); }
         #resetBtn::after { content: '✨'; font-size: 30px; opacity: 0.8; }
+        #resetBtn:focus-visible { outline: 3px solid var(--text); outline-offset: 4px; }
 
         #themeBtn {
             position: absolute; bottom: 45px; right: 30px; width: 60px; height: 60px;
@@ -104,13 +106,14 @@
         }
         #themeBtn:active { transform: scale(0.9); }
         #themeBtn::after { content: '🎨'; font-size: 24px; }
+        #themeBtn:focus-visible { outline: 3px solid var(--text); outline-offset: 4px; }
 
         select { background: var(--bg); color: var(--text); border: 1px solid var(--accent); padding: 5px; border-radius: 4px; font-size: 11px; outline: none; }
     </style>
 </head>
 <body>
     <div id="splashScreen">
-        <div id="sigil" onclick="startMagic()"></div>
+        <div id="sigil" role="button" tabindex="0" aria-label="Iniciar magia" onclick="startMagic()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startMagic(); }"></div>
         <div id="splashText">ENTRAR AL ATELIER</div>
     </div>
 
@@ -130,8 +133,8 @@
         </select>
     </div>
 
-    <button id="resetBtn"></button>
-    <button id="themeBtn" title="Cambiar Tema" onclick="cycleTheme()"></button>
+    <button id="resetBtn" aria-label="Reiniciar juego"></button>
+    <button id="themeBtn" title="Cambiar Tema" aria-label="Cambiar tema" onclick="cycleTheme()"></button>
 
     <div id="letterContainer">
         <div class="letter-guide" id="guide">A</div>

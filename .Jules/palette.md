@@ -11,3 +11,7 @@
 ## 2026-08-20 - Accessible Dynamic Word Chips
 **Learning:** In mini-games like El Río de Palabras, interactive elements (word chips) are often dynamically created `div`s without semantic button properties. This makes them completely invisible to keyboard and screen reader users during gameplay.
 **Action:** When dynamically generating custom interactive `div` elements, programmatically inject `role="button"`, `tabindex="0"`, `aria-label`, and a keyboard event listener for `Enter` and `Space` (with `e.preventDefault()`) right after creation to ensure full accessibility.
+
+## 2026-08-23 - Focus Visible on Icon-Only Buttons
+**Learning:** In the Magic Alphabet game, pseudo-elements (`::after`) are often used to display icons within empty buttons (like `#sigil`, `#resetBtn`, `#themeBtn`), maintaining styling but removing semantic meaning and visible focus states for keyboard users.
+**Action:** When working with icon-only buttons built via pseudo-elements, ensure they are given accessible names via `aria-label` and have `:focus-visible` CSS rules added so that keyboard navigation remains clear and visually identifiable.
