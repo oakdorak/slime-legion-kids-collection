@@ -42,7 +42,11 @@
             width: 150px; height: 150px; border: 2px solid var(--accent);
             border-radius: 50%; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 0 30px var(--accent); animation: pulse 3s infinite;
-            margin-bottom: 30px; cursor: pointer;
+            margin-bottom: 30px; cursor: pointer; outline: none;
+        }
+        #sigil:focus-visible, #resetBtn:focus-visible, #themeBtn:focus-visible {
+            outline: 3px solid var(--text);
+            outline-offset: 4px;
         }
         #sigil::after { content: '✨'; font-size: 50px; opacity: 0.8; }
         @keyframes pulse {
@@ -110,7 +114,7 @@
 </head>
 <body>
     <div id="splashScreen">
-        <div id="sigil" onclick="startMagic()"></div>
+        <div id="sigil" role="button" tabindex="0" aria-label="Comenzar magia" onclick="startMagic()" onkeydown="if(!event.repeat && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); startMagic(); }"></div>
         <div id="splashText">ENTRAR AL ATELIER</div>
     </div>
 
@@ -130,8 +134,8 @@
         </select>
     </div>
 
-    <button id="resetBtn"></button>
-    <button id="themeBtn" title="Cambiar Tema" onclick="cycleTheme()"></button>
+    <button id="resetBtn" aria-label="Reiniciar magia"></button>
+    <button id="themeBtn" aria-label="Cambiar tema" title="Cambiar Tema" onclick="cycleTheme()"></button>
 
     <div id="letterContainer">
         <div class="letter-guide" id="guide">A</div>
