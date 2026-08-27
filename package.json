@@ -1,0 +1,16 @@
+{
+  "name": "neurodivertidos",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "build": "bash sync-www.sh",
+    "sync": "bash sync-www.sh && npx cap sync",
+    "android": "bash sync-www.sh && npx cap sync android"
+  },
+  "devDependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/assets": "^3.0.0",
+    "@capacitor/cli": "^6.2.0",
+    "typescript": "^5.4.0"
+  }
+}

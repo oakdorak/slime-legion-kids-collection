@@ -1,6 +1,6 @@
-# 🧬 Slime Legion — Kids Collection
+# 🧬 NeuroDivertidos — Juegos para Mentes Diversas
 
-**NeuroDivertidos** es el arsenal pedagógico de la **Slime Legion**: juegos terapéuticos diseñados para niños neurodivergentes (TEA, TDAH, Dislexia, Ansiedad), respaldados por ciencia de OpenAlex y forjados con soberanía técnica sobre NixOS.
+**NeuroDivertidos** es una colección de juegos terapéuticos para niños neurodivergentes (TEA, TDAH, Dislexia, Ansiedad), respaldados por ciencia de OpenAlex y forjados con soberanía técnica. Parte del universo **Slime Legion**.
 
 **Paleta Qtzl.cloud:** `#231F24` Fondo · `#896AB0` Lavanda · `#9B8E6C` Oro Muted · `#E3E0A4` Crema · `#A8B28A` Verde Salvia
 

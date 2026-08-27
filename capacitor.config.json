@@ -1,0 +1,8 @@
+{
+  "appId": "com.neurodivertidos.app",
+  "appName": "NeuroDivertidos",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  }
+}
