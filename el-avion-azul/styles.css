@@ -146,6 +146,8 @@ body {
     z-index: 10;
 }
 
+.plane-wrapper:focus-visible { outline: 3px solid var(--text-color); outline-offset: 10px; border-radius: 12px; }
+
 .plane-svg {
     width: 100%;
     height: 100%;
@@ -234,6 +236,8 @@ body {
     color: white;
     animation: pulseBlueBtn 2s infinite;
 }
+
+.color-btn:focus-visible { outline: 3px solid var(--text-color); outline-offset: 4px; }
 
 /* Back Link */
 .back-link {
