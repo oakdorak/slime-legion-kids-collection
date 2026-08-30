@@ -15,3 +15,7 @@
 ## 2026-08-24 - Accessibility for Action Buttons
 **Learning:** Icon-only buttons (like `#resetBtn` and `#themeBtn` in Abecedario Mágico) often rely solely on CSS `::after` pseudo-elements for their visual content (e.g., emojis). Without an explicitly defined `aria-label`, these buttons are completely opaque to screen readers, leaving visually impaired users with no context about their function.
 **Action:** Always ensure that icon-only interactive elements, regardless of whether they are native `<button>`s or custom `div`s, are provided with descriptive, localized `aria-label` attributes to explicitly define their purpose for assistive technologies.
+
+## 2026-08-30 - Accessible Grid Quadrants in Focus Orbit
+**Learning:** In mini-games like Focus Orbit, interactive grid segments (quadrants) are often purely styled `div` elements lacking semantic roles and keyboard accessibility. Without explicitly adding `role="button"`, `tabindex="0"`, descriptive `aria-label`s, and handling 'Enter' and 'Space' keys (including `e.preventDefault()` to stop page scrolling and checking `!e.repeat`), users reliant on keyboards or screen readers cannot interact with these core gameplay mechanics.
+**Action:** When designing interactive grid elements or custom game controls, always inject semantic ARIA attributes and full keyboard event handling, pairing it with `:focus-visible` styling to ensure they behave exactly like native interactive controls for all users.
