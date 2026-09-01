@@ -158,7 +158,12 @@ function selectColor(color) {
             yellow: 'AMARILLO 🟡',
             green: 'VERDE 🟢'
         };
-        promptText.innerHTML = `¡Pintaste el avión de ${colorNames[color]}! ¡Ahora hazlo <span class="highlight-blue">AZUL</span>!`;
+        promptText.textContent = `¡Pintaste el avión de ${colorNames[color]}! ¡Ahora hazlo `;
+        const highlightSpan = document.createElement('span');
+        highlightSpan.className = 'highlight-blue';
+        highlightSpan.textContent = 'AZUL';
+        promptText.appendChild(highlightSpan);
+        promptText.appendChild(document.createTextNode('!'));
         
         // Play standard chime and quick wiggle
         engine.playChime();
