@@ -266,6 +266,11 @@ body {
   transform: scale(1.03);
 }
 
+.grid-quadrant:focus-visible {
+  outline: 2px solid var(--color-accent-lavender);
+  outline-offset: 4px;
+}
+
 .grid-quadrant.target-glow {
   border-color: var(--color-accent-lavender);
   box-shadow: 0 0 30px var(--color-accent-lavender-glow);
