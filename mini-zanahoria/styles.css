@@ -260,10 +260,16 @@ body {
   transition: var(--transition-smooth);
 }
 
-.grid-quadrant:hover {
+.grid-quadrant:hover,
+.grid-quadrant:focus-visible {
   border-color: var(--color-accent-lavender);
   background: rgba(137, 106, 176, 0.05);
   transform: scale(1.03);
+  outline: none;
+}
+
+.grid-quadrant:focus-visible {
+  box-shadow: 0 0 0 3px var(--color-accent-lavender-glow);
 }
 
 .grid-quadrant.target-glow {
