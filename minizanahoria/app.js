@@ -135,7 +135,7 @@ function getMascotSprite(emotion = 'happy', gazeDirection = 'center') {
   const char = 'minizanahoria';
   const phase = 'phase1';
   const emotionSuffix = emotion === 'normal' ? '' : `_${emotion}`;
-  const spritePath = `./slime-evolution/sprites/${char}_${phase}${emotionSuffix}.webp`;
+  const spritePath = `../slime-evolution/sprites/${char}_${phase}${emotionSuffix}.webp`;
 
   // Horizontal flip for leftward gaze (pixel-art safe — animations are on the
   // container, not the img, so transforms compose without conflict)
