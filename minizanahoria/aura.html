@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aura — Pocket Jesus</title>
+    <style>
+        :root {
+            --bg-color: #231f24;
+            --accent-lavender: #896ab0;
+            --muted-gold: #9b8e6c;
+            --text-main: #e3e0a4;
+            --sage-green: #a8b28a;
+            --card-bg: rgba(40, 35, 42, 0.95);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card-bg);
+            border: 1px solid rgba(137, 106, 176, 0.2);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+        }
+
+        .aurora-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(137, 106, 176, 0.2) 0%, rgba(0,0,0,0) 70%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        h1 {
+            color: var(--muted-gold);
+            font-size: 2.2rem;
+            margin-bottom: 8px;
+            font-weight: 300;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .subtitle {
+            color: var(--sage-green);
+            font-size: 0.95rem;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .halo-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin: 0 auto 35px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2;
+        }
+
+        .halo {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 2px dashed rgba(155, 142, 108, 0.4);
+            animation: rotateHalo 30s linear infinite;
+        }
+
+        .halo-inner {
+            position: absolute;
+            width: 85%;
+            height: 85%;
+            border-radius: 50%;
+            border: 1px solid rgba(137, 106, 176, 0.3);
+            background: rgba(30, 25, 32, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 20px rgba(137, 106, 176, 0.1);
+        }
+
+        .voice-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-lavender), #735499);
+            box-shadow: 0 8px 24px rgba(137, 106, 176, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 3;
+        }
+
+        .voice-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 30px rgba(137, 106, 176, 0.6);
+        }
+
+        .voice-btn:active {
+            transform: scale(0.95);
+        }
+
+        .voice-btn.listening {
+            animation: pulseListening 1.5s infinite;
+            background: linear-gradient(135deg, #a8b28a, #8c9670);
+            box-shadow: 0 8px 24px rgba(168, 178, 138, 0.4);
+        }
+
+        .voice-btn svg {
+            width: 32px;
+            height: 32px;
+            fill: var(--text-main);
+        }
+
+        .console-box {
+            background: rgba(20, 15, 22, 0.6);
+            border-radius: 16px;
+            padding: 20px;
+            min-height: 120px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(155, 142, 108, 0.15);
+            text-align: left;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .transcript-line {
+            color: var(--sage-green);
+            font-size: 0.9rem;
+            font-style: italic;
+            margin-bottom: 10px;
+            border-bottom: 1px solid rgba(137, 106, 176, 0.1);
+            padding-bottom: 8px;
+        }
+
+        .response-line {
+            color: var(--text-main);
+            font-size: 1.05rem;
+            line-height: 1.5;
+        }
+
+        .status-badge {
+            font-size: 0.75rem;
+            color: var(--accent-lavender);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 15px;
+            display: inline-block;
+            background: rgba(137, 106, 176, 0.1);
+            padding: 4px 12px;
+            border-radius: 12px;
+            border: 1px solid rgba(137, 106, 176, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        @keyframes rotateHalo {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes pulseListening {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(168, 178, 138, 0.7); }
+            70% { transform: scale(1.08); box-shadow: 0 0 0 15px rgba(168, 178, 138, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(168, 178, 138, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="aurora-glow"></div>
+        
+        <h1>Aura</h1>
+        <div class="subtitle">Guía de Paz Interior & Apoyo Local</div>
+
+        <div class="halo-container">
+            <div class="halo"></div>
+            <div class="halo-inner">
+                <button class="voice-btn" id="voiceBtn" aria-label="Hablar con Aura">
+                    <!-- Icono Micrófono SVG -->
+                    <svg viewBox="0 0 24 24">
+                        <path d="M12,14A3,3 0 0,0 15,11V5A3,3 0 0,0 12,2A3,3 0 0,0 9,5V11A3,3 0 0,0 12,14M17.3,11C17.3,14 14.76,16.2 12,16.2C9.24,16.2 6.7,14 6.7,11H5C5,14.44 7.72,17.25 11,17.72V21H13V17.72C16.28,17.25 19,14.44 19,11H17.3Z" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <div class="console-box">
+            <div class="transcript-line" id="transcript">"Presiona el botón púrpura y habla..."</div>
+            <div class="response-line" id="response">Hola. Estoy aquí para escucharte y ofrecerte palabras de paz en tu día. ¿Cómo te encuentras hoy?</div>
+        </div>
+
+        <div class="status-badge" id="status">Listo (Modo 100% Local)</div>
+    </div>
+
+    <script>
+        // Base de datos semántica compacta en JSON
+        const database = {
+            "tristeza": {
+                "keywords": ["triste", "mal", "desesperada", "sola", "miedo", "llorar", "preocupada", "angustia", "cansada"],
+                "responses": [
+                    "Recuerda las palabras de paz: 'No temas, porque yo estoy contigo; no desmayes, porque yo soy tu Dios'. Tómate un momento para respirar hondo.",
+                    "El camino a veces parece cuesta arriba, pero cada día trae su propio afán y su propio alivio. Estoy aquí para acompañarte.",
+                    "En los momentos de quietud es donde encontramos el consuelo más profundo. Descansa y confía en que todo pasa."
+                ]
+            },
+            "gratitud": {
+                "keywords": ["gracias", "feliz", "bien", "alegre", "bendecida", "contenta"],
+                "responses": [
+                    "Dar gracias alegra el alma. Qué bendición que puedas ver lo bueno que te rodea hoy.",
+                    "La alegría compartida se multiplica. Que esa paz siga llenando tu hogar hoy.",
+                    "Es hermoso reconocer los pequeños regalos del día. Me alegra mucho escucharte así."
+                ]
+            },
+            "dios": {
+                "keywords": ["dios", "jesús", "fe", "iglesia", "oración", "rezar", "biblia", "cristo", "creer"],
+                "responses": [
+                    "Que la gracia y la paz estén contigo. Recuerda que la fe mueve montañas y reconforta el corazón.",
+                    "En la oración encontramos un refugio seguro. No dudes en depositar tus preocupaciones en sus manos hoy.",
+                    "La fe nos da la certeza de que nunca caminamos solos, especialmente en las horas de tormenta."
+                ]
+            },
+            "despedida": {
+                "keywords": ["adiós", "bye", "hasta luego", "dormir", "buenas noches"],
+                "responses": [
+                    "Que tengas un descanso bendecido. Duerme en paz.",
+                    "Hasta pronto. Ve tranquila, y recuerda que la paz interior te acompaña siempre."
+                ]
+            }
+        };
+
+        const fallbacks = [
+            "Te escucho con atención. Cuéntame un poco más sobre eso, estoy aquí para acompañarte.",
+            "Comprendo. Tómate el tiempo que necesites; el silencio también es una forma de encontrar paz.",
+            "Tus palabras son valiosas. Que tu día se llene de luz y tranquilidad hoy."
+        ];
+
+        // Elementos del DOM
+        const voiceBtn = document.getElementById('voiceBtn');
+        const transcriptEl = document.getElementById('transcript');
+        const responseEl = document.getElementById('response');
+        const statusEl = document.getElementById('status');
+
+        // Configuración de Web Speech API
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        let recognition = null;
+        let isListening = false;
+
+        if (SpeechRecognition) {
+            recognition = new SpeechRecognition();
+            recognition.lang = 'es-MX';
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            recognition.onstart = () => {
+                isListening = true;
+                voiceBtn.classList.add('listening');
+                transcriptEl.textContent = "Escuchando...";
+                statusEl.textContent = "Procesando voz localmente...";
+            };
+
+            recognition.onresult = (event) => {
+                const text = event.results[0][0].transcript;
+                transcriptEl.textContent = `Dijiste: "${text}"`;
+                procesarTexto(text.toLowerCase());
+            };
+
+            recognition.onerror = (event) => {
+                console.error("Error en reconocimiento:", event.error);
+                statusEl.textContent = "Error de escucha";
+                voiceBtn.classList.remove('listening');
+                isListening = false;
+            };
+
+            recognition.onend = () => {
+                voiceBtn.classList.remove('listening');
+                isListening = false;
+                if (statusEl.textContent === "Procesando voz localmente...") {
+                    statusEl.textContent = "Listo (Modo 100% Local)";
+                }
+            };
+        } else {
+            statusEl.textContent = "Reconocimiento no soportado";
+            voiceBtn.disabled = true;
+        }
+
+        // Manejo del botón de voz
+        voiceBtn.addEventListener('click', () => {
+            if (!recognition) return;
+            if (isListening) {
+                recognition.stop();
+            } else {
+                recognition.start();
+            }
+        });
+
+        // Motor semántico local
+        function procesarTexto(text) {
+            let respuestaMatch = null;
+
+            // Búsqueda de coincidencia por palabras clave
+            for (let category in database) {
+                const keywords = database[category].keywords;
+                for (let keyword of keywords) {
+                    if (text.includes(keyword)) {
+                        const responses = database[category].responses;
+                        respuestaMatch = responses[Math.floor(Math.random() * responses.length)];
+                        break;
+                    }
+                }
+                if (respuestaMatch) break;
+            }
+
+            // Si no hay coincidencia semántica, usar fallback
+            if (!respuestaMatch) {
+                respuestaMatch = fallbacks[Math.floor(Math.random() * fallbacks.length)];
+            }
+
+            // Actualizar interfaz e iniciar síntesis
+            responseEl.textContent = respuestaMatch;
+            hablar(respuestaMatch);
+        }
+
+        // Síntesis de voz (TTS) local
+        function hablar(text) {
+            if ('speechSynthesis' in window) {
+                // Cancelamos cualquier locución previa
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'es-MX';
+                
+                // Intentamos buscar una voz femenina nativa en español
+                const voices = window.speechSynthesis.getVoices();
+                const preferredVoice = voices.find(voice => voice.lang.includes('es') && voice.name.toLowerCase().includes('google'));
+                if (preferredVoice) {
+                    utterance.voice = preferredVoice;
+                }
+                
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        // Inicializar voces
+        if ('speechSynthesis' in window) {
+            window.speechSynthesis.getVoices();
+        }
+    </script>
+</body>
+</html>

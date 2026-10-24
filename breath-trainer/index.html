@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="../shared/audio/agora.js"></script>
+    <script src="../shared/slime-rewards.js"></script>
     <style>
         :root {
             --bg: #1a2030; --accent: #896ab0; --teal: #5a9a8a;
@@ -208,6 +210,7 @@
             const phaseEl = document.getElementById('phase-text');
             const countEl = document.getElementById('count-text');
             if (p === 'inhale') {
+                AgoraAudio.playStep();
                 phaseEl.textContent = 'INHALA'; phaseEl.style.color = '#a8b28a';
                 phaseEl.style.textShadow = '0 0 30px rgba(168,178,138,0.8)';
                 targetScale = 1.15; targetAura = Math.min(W, H) * 0.32;
@@ -323,6 +326,8 @@
         requestAnimationFrame(loop);
 
         function showVictory() {
+            if (window.AgoraAudio) AgoraAudio.playSuccess();
+            if (window.SlimeRewards) SlimeRewards.awardVictory('El Dragón que Respira', 5);
             launchStars();
             speak('¡Fantástico! Tu dragón está en calma. ¡Tú también lo estás!', 1.2, 0.8);
             setTimeout(() => { document.getElementById('victory').style.display = 'flex'; }, 1000);

@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="../shared/audio/agora.js"></script>
+    <script src="../shared/slime-rewards.js"></script>
     <style>
         :root {
             --bg: #231f24; --accent: #896ab0; --gold: #9b8e6c;
@@ -245,6 +247,7 @@
                 btn.classList.add('correct');
                 score++;
                 updateProgress();
+                if (window.AgoraAudio) AgoraAudio.playSuccess();
                 speak(`¡Correcto! ${target.word}`);
                 setTimeout(() => {
                     waiting = false;
@@ -253,6 +256,7 @@
                 }, 1200);
             } else {
                 waiting = true;
+                if (window.AgoraAudio) AgoraAudio.playError();
                 speak(`Este es ${target.label}`);
                 // Highlight correct
                 document.querySelectorAll('.emoji-btn').forEach(b => {
@@ -275,6 +279,8 @@
         function showVictory() {
             document.getElementById('victory').style.display = 'flex';
             launchConfetti();
+            if (window.AgoraAudio) AgoraAudio.playSuccess();
+            if (window.SlimeRewards) SlimeRewards.awardVictory('El Espejo Mágico', 5);
             speak('¡Lo lograste! Conoces todas las emociones. ¡Eres increíble!', 1.4);
         }
 

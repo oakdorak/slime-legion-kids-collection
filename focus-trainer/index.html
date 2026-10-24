@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="../shared/audio/agora.js"></script>
+    <script src="../shared/slime-rewards.js"></script>
     <style>
         :root {
             --bg: #231f24;
@@ -252,12 +254,17 @@
                 if (bubble.dataset.target === '1') {
                     streak++; totalHits++;
                     bubble.remove();
+                    if (window.AgoraAudio) {
+                        if (streak % 5 === 0) AgoraAudio.playSuccess();
+                        else AgoraAudio.playStep();
+                    }
                     burst(cx, cy, '#896ab0', 25);
                     burst(cx, cy, '#a8b28a', 12);
                     updateStreak();
                     checkLevel();
                 } else {
                     // Wrong bubble
+                    if (window.AgoraAudio) AgoraAudio.playError();
                     document.body.classList.remove('shake');
                     void document.body.offsetWidth;
                     document.body.classList.add('shake');
@@ -282,6 +289,7 @@
             setTimeout(() => el.classList.remove('bump'), 200);
 
             if (streak % 5 === 0 && streak > 0) {
+                if (window.SlimeRewards) SlimeRewards.awardPoints(2, 'Racha de Atención');
                 const msg = document.getElementById('message');
                 const compliments = ['¡INCREÍBLE!', '¡BRUTAL!', '¡GENIAL!', '¡PERFECTO!', '¡ASOMBROSO!'];
                 msg.textContent = streak >= 10 ? '🔥 ' + compliments[Math.floor(Math.random() * compliments.length)] + ' 🔥' : '¡' + compliments[Math.floor(Math.random() * compliments.length)] + '!';

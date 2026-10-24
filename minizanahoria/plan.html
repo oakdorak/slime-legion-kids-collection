@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plan Educativo Soberano — Minizanahoria</title>
+  <!-- Google Fonts: Outfit & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #231f24;
+      --lavender: #896ab0;
+      --gold: #9b8e6c;
+      --text: #e3e0a4;
+      --sage: #a8b28a;
+      --dark-card: #2f2a30;
+      --border-color: rgba(137, 106, 176, 0.3);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text);
+      font-family: 'Outfit', sans-serif;
+      padding: 40px 20px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 50px;
+      border-bottom: 2px solid var(--lavender);
+      padding-bottom: 30px;
+      position: relative;
+    }
+
+    header h1 {
+      font-size: 2.8rem;
+      font-weight: 800;
+      color: var(--lavender);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+      text-shadow: 0 0 15px rgba(137, 106, 176, 0.4);
+    }
+
+    header p {
+      font-size: 1.2rem;
+      color: var(--sage);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .back-btn {
+      position: absolute;
+      top: 0;
+      left: 0;
+      background: transparent;
+      border: 1px solid var(--lavender);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: all 0.25s ease;
+    }
+
+    .back-btn:hover {
+      background: rgba(137, 106, 176, 0.15);
+      border-color: var(--text);
+      box-shadow: 0 0 8px rgba(137, 106, 176, 0.3);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      color: var(--gold);
+      margin: 35px 0 20px;
+      border-left: 4px solid var(--gold);
+      padding-left: 15px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 25px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background-color: var(--dark-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 25px;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--lavender);
+      box-shadow: 0 8px 24px rgba(137, 106, 176, 0.15);
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background-color: var(--lavender);
+    }
+
+    .card.gold::before {
+      background-color: var(--gold);
+    }
+
+    .card.sage::before {
+      background-color: var(--sage);
+    }
+
+    .card-icon {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+    }
+
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 10px;
+    }
+
+    .card-desc {
+      font-size: 1rem;
+      color: rgba(227, 224, 164, 0.85);
+      margin-bottom: 15px;
+    }
+
+    .clinical-target {
+      background: rgba(168, 178, 138, 0.08);
+      border: 1px dashed var(--sage);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-top: 15px;
+    }
+
+    .clinical-target strong {
+      color: var(--sage);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 5px;
+      text-transform: uppercase;
+    }
+
+    .clinical-target p {
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+
+    .blueprint-section {
+      background-color: var(--dark-card);
+      border: 1px solid var(--border-color);
+      border-radius: 20px;
+      padding: 35px;
+      margin-bottom: 40px;
+      position: relative;
+    }
+
+    .blueprint-section h3 {
+      font-size: 1.4rem;
+      color: var(--lavender);
+      margin-bottom: 15px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .blueprint-section ul {
+      list-style-type: none;
+    }
+
+    .blueprint-section li {
+      margin-bottom: 15px;
+      padding-left: 25px;
+      position: relative;
+    }
+
+    .blueprint-section li::before {
+      content: '⚡';
+      position: absolute;
+      left: 0;
+      top: 2px;
+      color: var(--lavender);
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .status-badge.active {
+      background-color: rgba(168, 178, 138, 0.2);
+      color: var(--sage);
+      border: 1px solid var(--sage);
+    }
+
+    .status-badge.pending {
+      background-color: rgba(155, 142, 108, 0.2);
+      color: var(--gold);
+      border: 1px solid var(--gold);
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      color: var(--gold);
+      font-size: 0.9rem;
+      font-family: 'JetBrains Mono', monospace;
+      border-top: 1px solid var(--border-color);
+      padding-top: 30px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="index.html" class="back-btn">← Volver al Portal</a>
+      <h1>Plan Educativo Soberano</h1>
+      <p>MINIZANAHORIA ADAPTIVE CORE // ECOSYSTEM PROTOCOL MAIAH v4.6</p>
+    </header>
+
+    <h2>🧬 Módulos Clínicos & Mecánicas</h2>
+    <div class="grid">
+      <!-- Módulo 1 -->
+      <div class="card">
+        <div class="card-icon">👁️‍🗨️</div>
+        <div class="card-title">Focus Orbit</div>
+        <div class="card-desc">Entrenamiento conductual de atención conjunta. El niño identifica la dirección visual de la mascota para activar el cuadrante correcto de la cuadrícula.</div>
+        <div class="clinical-target">
+          <strong>Justificación Clínica</strong>
+          <p>Fortalece el seguimiento ocular de la mirada (gaze-following), pilar fundamental en la comunicación social recíproca.</p>
+        </div>
+        <span class="status-badge active">Listo para Producción</span>
+      </div>
+
+      <!-- Módulo 2 -->
+      <div class="card gold">
+        <div class="card-icon">🎭</div>
+        <div class="card-title">Resonancia Emocional</div>
+        <div class="card-desc">Decodificación e identificación afectiva. La mascota expresa emociones dinámicas y el niño elige cartas adaptativas de cuidado o celebración.</div>
+        <div class="clinical-target">
+          <strong>Justificación Clínica</strong>
+          <p>Fomenta la empatía cognitiva y asocia las expresiones faciales vectoriales con respuestas de autorregulación y contención.</p>
+        </div>
+        <span class="status-badge active">Listo para Producción</span>
+      </div>
+
+      <!-- Módulo 3 -->
+      <div class="card sage">
+        <div class="card-icon">📅</div>
+        <div class="card-title">Routine Builder</div>
+        <div class="card-desc">Habilidades de vida diaria (ADL). Secuenciación de tarjetas interactivas representando tareas cotidianas de la rutina diaria.</div>
+        <div class="clinical-target">
+          <strong>Justificación Clínica</strong>
+          <p>Reduce la sobrecarga ejecutiva mediante la estructuración temporal predecible de secuencias de comportamiento cotidianas.</p>
+        </div>
+        <span class="status-badge active">Listo para Producción</span>
+      </div>
+    </div>
+
+    <h2>🔮 El Ágora (Muro de los Espejos)</h2>
+    <div class="blueprint-section">
+      <h3>Validación y Cierre de Sesión</h3>
+      <p style="margin-bottom: 20px;">El módulo del Ágora implementa un ritual de validación en el cual el niño plasma sus dibujos físicos y los valida mediante voz local. Tres espejos cognitivos analizan y sostienen la creación:</p>
+      <div class="grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 15px; margin-bottom: 0;">
+        <div style="background: rgba(35, 31, 36, 0.4); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color);">
+          <strong style="color: #ff79c6; display: block; margin-bottom: 5px;">🔴 Espejo Odysseus</strong>
+          <p style="font-size: 0.9rem; color: rgba(227, 224, 164, 0.85);">Validación Socrática de intenciones y emociones del dibujo.</p>
+        </div>
+        <div style="background: rgba(35, 31, 36, 0.4); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color);">
+          <strong style="color: #896ab0; display: block; margin-bottom: 5px;">🔵 Espejo Anubis</strong>
+          <p style="font-size: 0.9rem; color: rgba(227, 224, 164, 0.85);">Estructuración de límites, consecuencias y seguridad.</p>
+        </div>
+        <div style="background: rgba(35, 31, 36, 0.4); padding: 15px; border-radius: 12px; border: 1px solid var(--border-color);">
+          <strong style="color: #a8b28a; display: block; margin-bottom: 5px;">🟢 Espejo Midi</strong>
+          <p style="font-size: 0.9rem; color: rgba(227, 224, 164, 0.85);">Síntesis evolutiva y consolidación del aprendizaje.</p>
+        </div>
+      </div>
+    </div>
+
+    <h2>🛡️ Arquitectura y Seguridad Soberana</h2>
+    <div class="grid">
+      <!-- Brave Leo -->
+      <div class="card">
+        <div class="card-title">Brave Leo Bridge</div>
+        <div class="card-desc">Utilización de modelos nativos libres de nube (Llama 3 / Mixtral) en el navegador del cliente para evitar consumo de GPU/CPU local.</div>
+        <span class="status-badge active">Configurado</span>
+      </div>
+
+      <!-- PiecesOS -->
+      <div class="card gold">
+        <div class="card-title">PiecesOS LTM Integration</div>
+        <div class="card-desc">Indexación local de las creaciones y dibujos del niño en la base de datos de memoria de largo plazo (LTM) de PiecesOS mediante MCP (Puerto 1000).</div>
+        <span class="status-badge pending">Pendiente Sync Bridge</span>
+      </div>
+
+      <!-- Apple Silicon -->
+      <div class="card sage">
+        <div class="card-title">Apple Silicon MLX Engine</div>
+        <div class="card-desc">Servidor de inferencia local en puerto 12434 para hardware Apple M-Series, acelerando respuestas locales.</div>
+        <span class="status-badge active">Listo para Inferencia</span>
+      </div>
+    </div>
+
+    <footer>
+      <p>SISTEMA SOBERANO DE INGESTIÓN & VALIDACIÓN CLÍNICA — MAIAH LEGION NODO B</p>
+    </footer>
+  </div>
+</body>
+</html>

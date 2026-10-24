@@ -151,6 +151,7 @@ function selectColor(color) {
         promptText.innerHTML = '¡EL AVIÓN ES <span class="highlight-blue">AZUL</span>! 🛸✨';
         
         // Loop de Loop Stunt!
+        AgoraAudio.playSuccess();
         triggerLoopStunt();
     } else {
         const colorNames = {
@@ -184,6 +185,7 @@ function triggerLoopStunt() {
     // Increment Counter
     loopCount++;
     loopCounter.innerText = loopCount;
+    if (window.SlimeRewards) SlimeRewards.awardPoints(1, 'Acrobacia Aérea');
 
     // Show funny speech bubble
     showSpeechBubble("¡VUELTA LOOOCAAAA! 🌀");

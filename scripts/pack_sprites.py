@@ -23,7 +23,7 @@ MANIFEST_PATH = os.path.join(ROOT, "slime-evolution", "sprite-manifest.json")
 INDEX_PATH = os.path.join(ROOT, "slime-evolution", "index.html")
 
 PADDING = 4
-PHASE_ORDER = ["phase1", "phase2", "phase3", "phase4a", "phase4b"]
+PHASE_ORDER = ["phase1", "phase2", "phase3", "phase4a", "phase4b", "portrait"]
 
 CHARACTERS = [
     {"id": "cherry", "name": "Cherry"},
@@ -31,7 +31,9 @@ CHARACTERS = [
     {"id": "diegoivan", "name": "Diego Ivan"},
     {"id": "emmaruth", "name": "Emma Ruth"},
     {"id": "madrecerebro", "name": "Madre Cerebro"},
+    {"id": "minizanahoria", "name": "Mini-Zanahoria"},
     {"id": "robbit", "name": "Robbit"},
+    {"id": "totopo", "name": "Totopo"},
     {"id": "yuya", "name": "Yuya"},
 ]
 
@@ -42,7 +44,7 @@ CHARACTERS = [
 
 def parse_filename(filename):
     base = os.path.splitext(filename)[0]
-    m = re.match(r"^(.+)_(phase[0-9a-z]+)$", base)
+    m = re.match(r"^(.+)_(phase[0-9a-z]+|portrait)$", base)
     if m:
         return m.group(1), m.group(2)
     return None, None

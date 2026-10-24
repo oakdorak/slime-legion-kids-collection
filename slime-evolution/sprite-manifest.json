@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "generated": "2026-07-23T23:34:33.198635+00:00",
+  "generated": "2026-10-24T16:47:33.286673+00:00",
   "padding": 4,
   "characters": [
     {
@@ -324,6 +324,70 @@
       ]
     },
     {
+      "id": "minizanahoria",
+      "name": "Mini-Zanahoria",
+      "sheet": "spritesheets/minizanahoria.webp",
+      "frameWidth": 416,
+      "frameHeight": 347,
+      "frames": [
+        {
+          "phase": "phase1",
+          "x": 4,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase2",
+          "x": 424,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase3",
+          "x": 844,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "phase4a",
+          "x": 1264,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        },
+        {
+          "phase": "phase4b",
+          "x": 1684,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    },
+    {
       "id": "robbit",
       "name": "Robbit",
       "sheet": "spritesheets/robbit.webp",
@@ -381,6 +445,37 @@
           "width": 446,
           "height": 347,
           "spriteWidth": 446,
+          "spriteHeight": 347,
+          "spriteOffsetX": 0,
+          "spriteOffsetY": 0
+        }
+      ]
+    },
+    {
+      "id": "totopo",
+      "name": "Totopo",
+      "sheet": "spritesheets/totopo.webp",
+      "frameWidth": 416,
+      "frameHeight": 347,
+      "frames": [
+        {
+          "phase": "phase3",
+          "x": 4,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 315,
+          "spriteHeight": 270,
+          "spriteOffsetX": 50,
+          "spriteOffsetY": 38
+        },
+        {
+          "phase": "portrait",
+          "x": 424,
+          "y": 4,
+          "width": 416,
+          "height": 347,
+          "spriteWidth": 416,
           "spriteHeight": 347,
           "spriteOffsetX": 0,
           "spriteOffsetY": 0
@@ -455,7 +550,7 @@
   "masterSheet": {
     "url": "spritesheets/master_sheet.webp",
     "width": 5144,
-    "height": 3186,
+    "height": 3904,
     "frames": [
       {
         "character": "cherry",
@@ -758,10 +853,70 @@
         "spriteOffsetY": 0
       },
       {
-        "character": "robbit",
+        "character": "minizanahoria",
         "phase": "phase1",
         "x": 4,
         "y": 2476,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "minizanahoria",
+        "phase": "phase2",
+        "x": 424,
+        "y": 2476,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "minizanahoria",
+        "phase": "phase3",
+        "x": 844,
+        "y": 2476,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "minizanahoria",
+        "phase": "phase4a",
+        "x": 1264,
+        "y": 2476,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "minizanahoria",
+        "phase": "phase4b",
+        "x": 1684,
+        "y": 2476,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
+        "character": "robbit",
+        "phase": "phase1",
+        "x": 4,
+        "y": 2835,
         "width": 446,
         "height": 347,
         "spriteWidth": 315,
@@ -773,7 +928,7 @@
         "character": "robbit",
         "phase": "phase2",
         "x": 454,
-        "y": 2476,
+        "y": 2835,
         "width": 446,
         "height": 347,
         "spriteWidth": 315,
@@ -785,7 +940,7 @@
         "character": "robbit",
         "phase": "phase3",
         "x": 904,
-        "y": 2476,
+        "y": 2835,
         "width": 446,
         "height": 347,
         "spriteWidth": 315,
@@ -797,7 +952,7 @@
         "character": "robbit",
         "phase": "phase4a",
         "x": 1354,
-        "y": 2476,
+        "y": 2835,
         "width": 446,
         "height": 347,
         "spriteWidth": 446,
@@ -809,7 +964,7 @@
         "character": "robbit",
         "phase": "phase4b",
         "x": 1804,
-        "y": 2476,
+        "y": 2835,
         "width": 446,
         "height": 347,
         "spriteWidth": 446,
@@ -818,10 +973,34 @@
         "spriteOffsetY": 0
       },
       {
+        "character": "totopo",
+        "phase": "phase3",
+        "x": 4,
+        "y": 3194,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 315,
+        "spriteHeight": 270,
+        "spriteOffsetX": 50,
+        "spriteOffsetY": 38
+      },
+      {
+        "character": "totopo",
+        "phase": "portrait",
+        "x": 424,
+        "y": 3194,
+        "width": 416,
+        "height": 347,
+        "spriteWidth": 416,
+        "spriteHeight": 347,
+        "spriteOffsetX": 0,
+        "spriteOffsetY": 0
+      },
+      {
         "character": "yuya",
         "phase": "phase1",
         "x": 4,
-        "y": 2835,
+        "y": 3553,
         "width": 416,
         "height": 347,
         "spriteWidth": 315,
@@ -833,7 +1012,7 @@
         "character": "yuya",
         "phase": "phase2",
         "x": 424,
-        "y": 2835,
+        "y": 3553,
         "width": 416,
         "height": 347,
         "spriteWidth": 315,
@@ -845,7 +1024,7 @@
         "character": "yuya",
         "phase": "phase3",
         "x": 844,
-        "y": 2835,
+        "y": 3553,
         "width": 416,
         "height": 347,
         "spriteWidth": 315,
@@ -857,7 +1036,7 @@
         "character": "yuya",
         "phase": "phase4a",
         "x": 1264,
-        "y": 2835,
+        "y": 3553,
         "width": 416,
         "height": 347,
         "spriteWidth": 416,
@@ -869,7 +1048,7 @@
         "character": "yuya",
         "phase": "phase4b",
         "x": 1684,
-        "y": 2835,
+        "y": 3553,
         "width": 416,
         "height": 347,
         "spriteWidth": 416,

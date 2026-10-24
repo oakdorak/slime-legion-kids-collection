@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>WHA: Alfabeto Mágico</title>
+    <script src="../shared/audio/agora.js"></script>
+    <script src="../shared/slime-rewards.js"></script>
     <style>
         :root {
             --bg: #231f24;
@@ -291,6 +293,7 @@
         }
 
         function startMagic() {
+            if (window.AgoraAudio) AgoraAudio.playStep();
             isSystemReady = true;
             // Re-load voices in case they weren't ready yet
             loadVoices();
@@ -309,6 +312,7 @@
             if (!target) return;
             if (Math.hypot(x - target.x, y - target.y) < detectionThreshold) {
                 target.hit = true; nextTargetIndex++;
+                if (window.AgoraAudio) AgoraAudio.playStep();
                 const colorSuccess = getComputedStyle(document.documentElement).getPropertyValue('--success');
                 for(let i=0; i<10; i++) particles.push(new Particle(target.x, target.y, colorSuccess, 0.8));
                 if (nextTargetIndex > currentTargets.length / 2) guide.classList.add('active');
@@ -324,6 +328,8 @@
         function completeHechizo() {
             if (showFlowers) return;
             showFlowers = true;
+            if (window.AgoraAudio) AgoraAudio.playSuccess();
+            if (window.SlimeRewards) SlimeRewards.awardPoints(2, 'Letra Despertada');
             const letter = alphabet[currentLetterIndex];
             status.innerText = `✨ ¡MARAVILLOSO! ${letter} ✨`;
             const compliments = ["¡Qué maravilla!", "¡Muy bien!", "¡Lo hiciste genial!", "¡Precioso!", "¡Qué hermoso!"];
