@@ -44,10 +44,17 @@ CHARACTERS = [
 
 def parse_filename(filename):
     base = os.path.splitext(filename)[0]
-    m = re.match(r"^(.+)_(phase[0-9a-z]+|portrait)$", base)
+    m = re.match(r"^(.+)_(phase[0-9a-z]+)(_[a-z]+)?$", base)
     if m:
-        return m.group(1), m.group(2)
-    return None, None
+        char = m.group(1)
+        phase = m.group(2)
+        emotion = m.group(3)[1:] if m.group(3) else None  # strip leading underscore
+        return char, phase, emotion
+    # Handle portrait
+    m2 = re.match(r"^(.+)_portrait$", base)
+    if m2:
+        return m2.group(1), "portrait", None
+    return None, None, None
 
 
 def phase_sort_key(phase):
@@ -62,7 +69,7 @@ def collect_sprites():
     for fname in sorted(os.listdir(SPRITES_DIR)):
         if not fname.endswith(".webp"):
             continue
-        char, phase = parse_filename(fname)
+        char, phase, emotion = parse_filename(fname)
         if not char or not phase:
             continue
         path = os.path.join(SPRITES_DIR, fname)
@@ -73,6 +80,7 @@ def collect_sprites():
                 "filename": fname,
                 "character": char,
                 "phase": phase,
+                "emotion": emotion,
                 "path": path,
                 "width": w,
                 "height": h,
@@ -120,6 +128,7 @@ def create_character_sheet(char_sprites, frame_w, frame_h, padding=PADDING):
         frames.append(
             {
                 "phase": s["phase"],
+                "emotion": s.get("emotion"),
                 "x": x,
                 "y": y,
                 "width": frame_w,
@@ -177,6 +186,7 @@ def build_all_sheets(by_char):
                 {
                     "character": char_id,
                     "phase": f["phase"],
+                    "emotion": f.get("emotion"),
                     "x": f["x"],
                     "y": y_cursor + f["y"],
                     "width": f["width"],
@@ -187,6 +197,8 @@ def build_all_sheets(by_char):
                     "spriteOffsetY": f["spriteOffsetY"],
                 }
             )
+        y_cursor += sheet.height + PADDING
+
         y_cursor += sheet.height + PADDING
 
     master_path = os.path.join(SHEETS_DIR, "master_sheet.webp")
@@ -231,7 +243,7 @@ def generate_index_html(character_data):
             f'style="width:{f["width"]}px;height:{f["height"]}px;'
             f'background-image:url(\'{data["sheet"]}\');'
             f'background-position:-{f["x"]}px -{f["y"]}px;">'
-            f'<span class="label">{f["phase"]}</span></div>'
+            f'<span class="label">{f["phase"]}{f.get("emotion", "")}</span></div>'
             for f in data["frames"]
         )
         char_cards.append(

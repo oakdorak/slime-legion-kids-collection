@@ -18,7 +18,7 @@ const SlimeRewards = {
     yuya: { id: 'yuya', name: 'Yuya', title: 'Diosa de la Alegría', phases: 5 },
     cherry: { id: 'cherry', name: 'Cherry', title: 'Hada Cerezo', phases: 5 },
     madrecerebro: { id: 'madrecerebro', name: 'Madre Cerebro', title: 'Mente Colmena', phases: 5 },
-    totopo: { id: 'totopo', name: 'Totopo', title: 'El Sabio Subterráneo', phases: 1 }
+    totopo: { id: 'totopo', name: 'Totopo', title: 'El Sabio Subterráneo', phases: 5 }
   },
 
   getPoints() {
@@ -93,10 +93,6 @@ const SlimeRewards = {
   getSpritePath(charId, phaseKey) {
     const cid = charId || this.getCharacter();
     const pkey = phaseKey || this.getPhaseInfo().key;
-    // Si es Totopo solo tiene phase3
-    if (cid === 'totopo') {
-      return `../slime-evolution/sprites/totopo_phase3.webp`;
-    }
     return `../slime-evolution/sprites/${cid}_${pkey}.webp`;
   },
 

@@ -234,8 +234,7 @@
             if (nextEl) nextEl.textContent = phase.nextPoints ? `Siguiente fase: ${phase.nextPoints} pts` : '¡Máxima Evolución Alcanzada!';
             if (barEl) barEl.style.width = `${phase.progressPct}%`;
             if (spriteEl) {
-                const spriteFile = char === 'totopo' ? 'totopo_phase3.webp' : `${char}_${phase.key}.webp`;
-                spriteEl.src = `./slime-evolution/sprites/${spriteFile}`;
+                spriteEl.src = `./slime-evolution/sprites/${char}_${phase.key}.webp`;
             }
         });
     </script>

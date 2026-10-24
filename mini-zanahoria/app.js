@@ -124,142 +124,23 @@ const AudioEngine = {
   }
 };
 
-// --- Mascot SVG Generator ---
-function getMascotSVG(emotion = 'happy', gazeDirection = 'center') {
-  // Gaze Offset parameters
-  let pupilX = 0;
-  let pupilY = 0;
-  let headRotation = 0;
+// --- Mascot Sprite Generator (pixel art via pxl) ---
+function getMascotSprite(emotion = 'happy', gazeDirection = 'center') {
+  const char = 'minizanahoria';
+  const phase = 'phase1';
+  const emotionSuffix = emotion === 'normal' ? '' : `_${emotion}`;
+  const spritePath = `./slime-evolution/sprites/${char}_${phase}${emotionSuffix}.webp`;
 
-  if (gazeDirection === 'NW') { pupilX = -6; pupilY = -5; headRotation = -8; }
-  else if (gazeDirection === 'NE') { pupilX = 6; pupilY = -5; headRotation = 8; }
-  else if (gazeDirection === 'SW') { pupilX = -6; pupilY = 5; headRotation = -4; }
-  else if (gazeDirection === 'SE') { pupilX = 6; pupilY = 5; headRotation = 4; }
+  // Horizontal flip for leftward gaze (pixel-art safe — animations are on the
+  // container, not the img, so transforms compose without conflict)
+  const isLeft = gazeDirection === 'NW' || gazeDirection === 'SW';
+  const imgStyle = isLeft ? 'transform: scaleX(-1);' : '';
 
-  // Emotion-specific Eye Paths and Mouth Shapes
-  let eyesHTML = '';
-  let mouthHTML = '';
-  let cheekColor = '#ffb3ba';
-
-  switch (emotion) {
-    case 'happy':
-      // Curved happy arcs for eyes
-      eyesHTML = `
-        <path d="M 22 42 Q 28 35 34 42" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" fill="none" transform="translate(${pupilX/2}, 0)" />
-        <path d="M 46 42 Q 52 35 58 42" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" fill="none" transform="translate(${pupilX/2}, 0)" />
-      `;
-      // Wide open smiling mouth
-      mouthHTML = `
-        <path d="M 33 52 Q 40 62 47 52 Z" fill="#e74c3c" stroke="#231f24" stroke-width="2" />
-      `;
-      break;
-
-    case 'sad':
-      // Drooping sad eyes
-      eyesHTML = `
-        <path d="M 22 38 Q 28 44 34 38" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" fill="none" />
-        <path d="M 46 38 Q 52 44 58 38" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" fill="none" />
-        <!-- Tears -->
-        <circle cx="23" cy="46" r="3" fill="#3498db" />
-        <circle cx="57" cy="46" r="3" fill="#3498db" />
-      `;
-      // Frowning mouth
-      mouthHTML = `
-        <path d="M 34 56 Q 40 48 46 56" stroke="#231f24" stroke-width="3" stroke-linecap="round" fill="none" />
-      `;
-      cheekColor = 'transparent';
-      break;
-
-    case 'angry':
-      // Slanted angry eyes and eyebrows
-      eyesHTML = `
-        <!-- Eyebrows -->
-        <path d="M 20 32 L 34 38" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" />
-        <path d="M 60 32 L 46 38" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" />
-        <!-- Pupils -->
-        <circle cx="28" cy="42" r="4.5" fill="#231f24" />
-        <circle cx="52" cy="42" r="4.5" fill="#231f24" />
-      `;
-      // Wavy or flat angry mouth
-      mouthHTML = `
-        <path d="M 32 54 Q 40 50 48 54" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" fill="none" />
-      `;
-      cheekColor = '#ff6b6b';
-      break;
-
-    case 'surprised':
-      // Wide circular open eyes
-      eyesHTML = `
-        <circle cx="28" cy="40" r="7.5" fill="#fff" stroke="#231f24" stroke-width="3.5" />
-        <circle cx="28" cy="40" r="3" fill="#231f24" />
-        <circle cx="52" cy="40" r="7.5" fill="#fff" stroke="#231f24" stroke-width="3.5" />
-        <circle cx="52" cy="40" r="3" fill="#231f24" />
-      `;
-      // O-shaped mouth
-      mouthHTML = `
-        <circle cx="40" cy="54" r="5" fill="#231f24" />
-      `;
-      break;
-
-    case 'tired':
-      // Flat horizontal sleeping lines
-      eyesHTML = `
-        <line x1="22" y1="40" x2="34" y2="40" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" />
-        <line x1="46" y1="40" x2="58" y2="40" stroke="#231f24" stroke-width="3.5" stroke-linecap="round" />
-      `;
-      // Flat mouth
-      mouthHTML = `
-        <line x1="34" y1="54" x2="46" y2="54" stroke="#231f24" stroke-width="3" stroke-linecap="round" />
-      `;
-      break;
-
-    default: // normal/gazing
-      // Gaze responsive standard eyes
-      eyesHTML = `
-        <circle cx="28" cy="40" r="8.5" fill="#fff" stroke="#231f24" stroke-width="3" />
-        <circle cx="${28 + pupilX}" cy="${40 + pupilY}" r="4" fill="#231f24" />
-        <circle cx="52" cy="40" r="8.5" fill="#fff" stroke="#231f24" stroke-width="3" />
-        <circle cx="${52 + pupilX}" cy="${40 + pupilY}" r="4" fill="#231f24" />
-      `;
-      // Small happy mouth
-      mouthHTML = `
-        <path d="M 36 50 Q 40 54 44 50" stroke="#231f24" stroke-width="3" stroke-linecap="round" fill="none" />
-      `;
-  }
-
-  return `
-    <svg viewBox="0 0 80 100" class="carrot-svg" style="transform: rotate(${headRotation}deg); transition: transform 0.3s ease;">
-      <g>
-        <!-- Carrot Main Body (Orange) -->
-        <path d="M 20 25 C 20 12 60 12 60 25 C 60 45 46 85 40 95 C 34 85 20 45 20 25 Z" fill="#e67e22" stroke="#231f24" stroke-width="3" />
-        
-        <!-- Sage Leaves (Green) -->
-        <path d="M 33 16 C 30 5 15 8 22 18 C 29 18 33 16 33 16 Z" fill="#a8b28a" stroke="#231f24" stroke-width="2.5" />
-        <path d="M 40 15 C 40 2 28 -2 34 14 C 40 14 40 15 40 15 Z" fill="#a8b28a" stroke="#231f24" stroke-width="2.5" />
-        <path d="M 47 16 C 50 5 65 8 58 18 C 51 18 47 16 47 16 Z" fill="#a8b28a" stroke="#231f24" stroke-width="2.5" />
-        
-        <!-- Texture details -->
-        <path d="M 24 35 H 29" stroke="#d35400" stroke-width="2" stroke-linecap="round" />
-        <path d="M 51 45 H 56" stroke="#d35400" stroke-width="2" stroke-linecap="round" />
-        <path d="M 23 55 H 28" stroke="#d35400" stroke-width="2" stroke-linecap="round" />
-        <path d="M 52 65 H 57" stroke="#d35400" stroke-width="2" stroke-linecap="round" />
-        
-        <!-- Blush cheeks -->
-        <ellipse cx="23" cy="46" rx="4" ry="2" fill="${cheekColor}" opacity="0.8" />
-        <ellipse cx="57" cy="46" rx="4" ry="2" fill="${cheekColor}" opacity="0.8" />
-        
-        <!-- Eyes -->
-        ${eyesHTML}
-        
-        <!-- Mouth -->
-        ${mouthHTML}
-      </g>
-    </svg>
-  `;
+  return `<img src="${spritePath}" class="mascot-sprite" style="${imgStyle}" alt="${emotion}" fetchpriority="high">`;
 }
 
 // --- Application State ---
-const State = {
+const GameState = {
   stars: parseInt(localStorage.getItem('minizanahoria_stars') || '0'),
   activeGame: 'orbit',
   
@@ -283,7 +164,7 @@ function initNavigation() {
       
       btn.classList.add('active');
       const gameName = btn.getAttribute('data-game');
-      State.activeGame = gameName;
+      GameState.activeGame = gameName;
       
       const targetPanel = document.getElementById(`game-${gameName}`);
       targetPanel.classList.add('active');
@@ -296,13 +177,13 @@ function initNavigation() {
   });
 
   // Init stars count
-  document.getElementById('star-count').innerText = State.stars;
+  document.getElementById('star-count').innerText = GameState.stars;
 }
 
 // --- Reward / Celebration Overlay Trigger ---
 function triggerRewardCelebration() {
   AudioEngine.playSuccess();
-  State.addStar();
+  GameState.addStar();
   if (window.SlimeRewards) SlimeRewards.awardVictory('Minizanahoria', 5);
   
   const screen = document.getElementById('celebration-screen');
@@ -323,7 +204,7 @@ let orbitActiveRound = false;
 
 function initFocusOrbit() {
   const container = document.getElementById('orbit-mascot-container');
-  container.innerHTML = getMascotSVG('normal', 'center');
+  container.innerHTML = getMascotSprite('normal', 'center');
   container.className = "mascot-wrapper anim-idle";
   
   const quadrants = document.querySelectorAll('.grid-quadrant');
@@ -344,7 +225,7 @@ document.getElementById('start-orbit-btn').addEventListener('click', () => {
   
   // Update mascot gaze direction
   const container = document.getElementById('orbit-mascot-container');
-  container.innerHTML = getMascotSVG('normal', orbitTargetQuadrant);
+  container.innerHTML = getMascotSprite('normal', orbitTargetQuadrant);
   container.className = "mascot-wrapper"; // Remove idle bobbing to keep focus clear
   
   // Clear quadrant states
@@ -368,7 +249,7 @@ document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
       
       // Update mascot to happy
       const container = document.getElementById('orbit-mascot-container');
-      container.innerHTML = getMascotSVG('happy', 'center');
+      container.innerHTML = getMascotSprite('happy', 'center');
       container.className = "mascot-wrapper anim-spin";
       
       setTimeout(() => {
@@ -382,12 +263,12 @@ document.querySelectorAll('.grid-quadrant').forEach(quadrant => {
       
       // Temporary angry/sad mascot
       const container = document.getElementById('orbit-mascot-container');
-      container.innerHTML = getMascotSVG('angry', orbitTargetQuadrant);
+      container.innerHTML = getMascotSprite('angry', orbitTargetQuadrant);
       container.className = "mascot-wrapper anim-angry";
       
       // Auto restore to normal look after 1.5s
       setTimeout(() => {
-        container.innerHTML = getMascotSVG('normal', orbitTargetQuadrant);
+        container.innerHTML = getMascotSprite('normal', orbitTargetQuadrant);
         container.className = "mascot-wrapper";
         quadrant.classList.remove('error-flash');
       }, 1500);
@@ -462,7 +343,7 @@ function initEmotionResonance() {
   
   // Set mascot SVG
   const container = document.getElementById('emotion-mascot-container');
-  container.innerHTML = getMascotSVG(currentEmotionKey, 'center');
+  container.innerHTML = getMascotSprite(currentEmotionKey, 'center');
   container.className = `mascot-stage-wrapper anim-${currentEmotionKey === 'happy' ? 'idle' : (currentEmotionKey === 'sad' ? 'sad' : 'idle')}`;
   
   // Set speech bubble
@@ -529,7 +410,7 @@ function handleActionSelection(actionId, actBtn) {
     
     // Update mascot to spin/dance
     const container = document.getElementById('emotion-mascot-container');
-    container.innerHTML = getMascotSVG('happy', 'center');
+    container.innerHTML = getMascotSprite('happy', 'center');
     container.className = "mascot-stage-wrapper anim-spin";
     
     setTimeout(() => {

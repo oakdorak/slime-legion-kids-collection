@@ -3,6 +3,7 @@
    ========================================================================== */
 
 // --- Mascot SVG Generator (Adapted for Agora with unique states) ---
+(function() {
 function getMascotSVG(emotion = 'happy', status = 'normal') {
   let headRotation = 0;
   let pupilX = 0;
@@ -701,3 +702,5 @@ window.addEventListener('DOMContentLoaded', () => {
     goToStep(1);
   }
 });
+
+})();

@@ -632,10 +632,12 @@ body {
    ========================================================================== */
 
 /* Mascot Styling */
-.carrot-svg {
+.mascot-sprite {
   width: 100%;
   height: 100%;
   display: block;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
 }
 
 /* Animations */
