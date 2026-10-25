@@ -563,10 +563,17 @@ async function startMirroring() {
     result = await queryAIEngine(textInput);
   }
   
-  // Populate content
-  document.getElementById('mirror-red-content').innerHTML = `<p>${result.red}</p>`;
-  document.getElementById('mirror-blue-content').innerHTML = `<p>${result.blue}</p>`;
-  document.getElementById('mirror-green-content').innerHTML = `<p>${result.green}</p>`;
+  // Populate content securely to prevent XSS
+  const setSafeText = (id, text) => {
+    const el = document.getElementById(id);
+    el.innerHTML = '';
+    const p = document.createElement('p');
+    p.textContent = text;
+    el.appendChild(p);
+  };
+  setSafeText('mirror-red-content', result.red);
+  setSafeText('mirror-blue-content', result.blue);
+  setSafeText('mirror-green-content', result.green);
   
   // Play comforting success arpeggio
   AgoraAudio.playSuccess();
@@ -599,17 +606,32 @@ function updateLibraryUI() {
     // Convert gamified level to stars
     const stars = "🌟".repeat(item.level || 1);
     
-    itemEl.innerHTML = `
-      <div class="item-meta">
-        <span>${item.timestamp}</span>
-        <span>Evolución: ${stars}</span>
-      </div>
-      <div class="item-concept">Concepto Original: "${item.concept}"</div>
-      <div class="item-synthesis">Evolución Sellada: ${item.green}</div>
-      <div class="item-actions">
-        <button class="cleanse-btn" onclick="deleteLibraryItem(${State.library.length - 1 - index})">Purgar</button>
-      </div>
-    `;
+    // Secure DOM manipulation to prevent XSS
+    const metaDiv = document.createElement('div');
+    metaDiv.className = 'item-meta';
+    const timeSpan = document.createElement('span');
+    timeSpan.textContent = item.timestamp;
+    const starSpan = document.createElement('span');
+    starSpan.textContent = `Evolución: ${stars}`;
+    metaDiv.append(timeSpan, starSpan);
+
+    const conceptDiv = document.createElement('div');
+    conceptDiv.className = 'item-concept';
+    conceptDiv.textContent = `Concepto Original: "${item.concept}"`;
+
+    const synthesisDiv = document.createElement('div');
+    synthesisDiv.className = 'item-synthesis';
+    synthesisDiv.textContent = `Evolución Sellada: ${item.green}`;
+
+    const actionsDiv = document.createElement('div');
+    actionsDiv.className = 'item-actions';
+    const btn = document.createElement('button');
+    btn.className = 'cleanse-btn';
+    btn.textContent = 'Purgar';
+    btn.onclick = () => deleteLibraryItem(State.library.length - 1 - index);
+    actionsDiv.appendChild(btn);
+
+    itemEl.append(metaDiv, conceptDiv, synthesisDiv, actionsDiv);
     list.appendChild(itemEl);
   });
 }
