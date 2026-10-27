@@ -145,6 +145,11 @@ body {
     animation: planeHover 3s ease-in-out infinite;
     z-index: 10;
 }
+.plane-wrapper:focus-visible {
+    outline: 3px solid var(--vibrant-blue);
+    outline-offset: 4px;
+    border-radius: 12px;
+}
 
 .plane-svg {
     width: 100%;

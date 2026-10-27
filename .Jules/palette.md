@@ -15,3 +15,7 @@
 ## 2026-08-24 - Accessibility for Action Buttons
 **Learning:** Icon-only buttons (like `#resetBtn` and `#themeBtn` in Abecedario Mágico) often rely solely on CSS `::after` pseudo-elements for their visual content (e.g., emojis). Without an explicitly defined `aria-label`, these buttons are completely opaque to screen readers, leaving visually impaired users with no context about their function.
 **Action:** Always ensure that icon-only interactive elements, regardless of whether they are native `<button>`s or custom `div`s, are provided with descriptive, localized `aria-label` attributes to explicitly define their purpose for assistive technologies.
+
+## 2026-10-27 - Accessible Plane Interaction
+**Learning:** In El Avión Azul, the main interactive element (`#plane-wrapper`) was a custom `div` without semantic meaning or keyboard accessibility. While it had a `click` event listener, keyboard users could not focus on it or trigger its action.
+**Action:** Always add `role="button"`, `tabindex="0"`, a localized `aria-label`, an explicit `onkeydown` handler for 'Enter' and 'Space' (using `this.click()` and `event.preventDefault()`), and custom `:focus-visible` styling to make custom interactive game elements fully accessible.
