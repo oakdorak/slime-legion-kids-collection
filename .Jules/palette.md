@@ -15,3 +15,8 @@
 ## 2026-08-24 - Accessibility for Action Buttons
 **Learning:** Icon-only buttons (like `#resetBtn` and `#themeBtn` in Abecedario Mágico) often rely solely on CSS `::after` pseudo-elements for their visual content (e.g., emojis). Without an explicitly defined `aria-label`, these buttons are completely opaque to screen readers, leaving visually impaired users with no context about their function.
 **Action:** Always ensure that icon-only interactive elements, regardless of whether they are native `<button>`s or custom `div`s, are provided with descriptive, localized `aria-label` attributes to explicitly define their purpose for assistive technologies.
+
+## 2026-10-28 - Plane Wrapper Accessibility
+
+**Learning:** Interactive elements functioning as central UI components (like the main SVG wrapper `#plane-wrapper` in "El Avión Azul") often rely exclusively on mouse click events. This complete lack of semantic role and keyboard interactivity completely excludes users who rely on keyboard navigation or assistive technologies.
+**Action:** Always ensure central custom interactive elements receive `role="button"`, `tabindex="0"`, a localized `aria-label`, an explicit `onkeydown` handler for 'Enter'/'Space', and appropriate `:focus-visible` styling reusing the project's standard CSS tokens to guarantee keyboard accessibility without visual regressions for mouse users.
