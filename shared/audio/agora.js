@@ -564,9 +564,12 @@ async function startMirroring() {
   }
   
   // Populate content
-  document.getElementById('mirror-red-content').innerHTML = `<p>${result.red}</p>`;
-  document.getElementById('mirror-blue-content').innerHTML = `<p>${result.blue}</p>`;
-  document.getElementById('mirror-green-content').innerHTML = `<p>${result.green}</p>`;
+  document.getElementById('mirror-red-content').innerHTML = '<p></p>';
+  document.getElementById('mirror-red-content').firstChild.textContent = result.red;
+  document.getElementById('mirror-blue-content').innerHTML = '<p></p>';
+  document.getElementById('mirror-blue-content').firstChild.textContent = result.blue;
+  document.getElementById('mirror-green-content').innerHTML = '<p></p>';
+  document.getElementById('mirror-green-content').firstChild.textContent = result.green;
   
   // Play comforting success arpeggio
   AgoraAudio.playSuccess();
@@ -601,15 +604,20 @@ function updateLibraryUI() {
     
     itemEl.innerHTML = `
       <div class="item-meta">
-        <span>${item.timestamp}</span>
-        <span>Evolución: ${stars}</span>
+        <span class="meta-time"></span>
+        <span class="meta-stars"></span>
       </div>
-      <div class="item-concept">Concepto Original: "${item.concept}"</div>
-      <div class="item-synthesis">Evolución Sellada: ${item.green}</div>
+      <div class="item-concept">Concepto Original: "<span class="concept-text"></span>"</div>
+      <div class="item-synthesis">Evolución Sellada: <span class="synthesis-text"></span></div>
       <div class="item-actions">
-        <button class="cleanse-btn" onclick="deleteLibraryItem(${State.library.length - 1 - index})">Purgar</button>
+        <button class="cleanse-btn">Purgar</button>
       </div>
     `;
+    itemEl.querySelector('.meta-time').textContent = item.timestamp;
+    itemEl.querySelector('.meta-stars').textContent = `Evolución: ${stars}`;
+    itemEl.querySelector('.concept-text').textContent = item.concept;
+    itemEl.querySelector('.synthesis-text').textContent = item.green;
+    itemEl.querySelector('.cleanse-btn').onclick = () => deleteLibraryItem(State.library.length - 1 - index);
     list.appendChild(itemEl);
   });
 }
