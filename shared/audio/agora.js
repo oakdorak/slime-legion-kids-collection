@@ -564,9 +564,20 @@ async function startMirroring() {
   }
   
   // Populate content
-  document.getElementById('mirror-red-content').innerHTML = `<p>${result.red}</p>`;
-  document.getElementById('mirror-blue-content').innerHTML = `<p>${result.blue}</p>`;
-  document.getElementById('mirror-green-content').innerHTML = `<p>${result.green}</p>`;
+  const redP = document.createElement('p');
+  redP.textContent = result.red;
+  document.getElementById('mirror-red-content').innerHTML = '';
+  document.getElementById('mirror-red-content').appendChild(redP);
+
+  const blueP = document.createElement('p');
+  blueP.textContent = result.blue;
+  document.getElementById('mirror-blue-content').innerHTML = '';
+  document.getElementById('mirror-blue-content').appendChild(blueP);
+
+  const greenP = document.createElement('p');
+  greenP.textContent = result.green;
+  document.getElementById('mirror-green-content').innerHTML = '';
+  document.getElementById('mirror-green-content').appendChild(greenP);
   
   // Play comforting success arpeggio
   AgoraAudio.playSuccess();
@@ -601,15 +612,27 @@ function updateLibraryUI() {
     
     itemEl.innerHTML = `
       <div class="item-meta">
-        <span>${item.timestamp}</span>
-        <span>Evolución: ${stars}</span>
+        <span></span>
+        <span></span>
       </div>
-      <div class="item-concept">Concepto Original: "${item.concept}"</div>
-      <div class="item-synthesis">Evolución Sellada: ${item.green}</div>
+      <div class="item-concept">Concepto Original: ""</div>
+      <div class="item-synthesis">Evolución Sellada: </div>
       <div class="item-actions">
-        <button class="cleanse-btn" onclick="deleteLibraryItem(${State.library.length - 1 - index})">Purgar</button>
+        <button class="cleanse-btn">Purgar</button>
       </div>
     `;
+    const metaSpans = itemEl.querySelectorAll('.item-meta span');
+    metaSpans[0].textContent = item.timestamp;
+    metaSpans[1].textContent = `Evolución: ${stars}`;
+
+    const conceptDiv = itemEl.querySelector('.item-concept');
+    conceptDiv.textContent = `Concepto Original: "${item.concept}"`;
+
+    const synthesisDiv = itemEl.querySelector('.item-synthesis');
+    synthesisDiv.textContent = `Evolución Sellada: ${item.green}`;
+
+    const purgeBtn = itemEl.querySelector('.cleanse-btn');
+    purgeBtn.setAttribute('onclick', `deleteLibraryItem(${State.library.length - 1 - index})`);
     list.appendChild(itemEl);
   });
 }
