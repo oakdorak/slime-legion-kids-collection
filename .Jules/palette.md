@@ -15,3 +15,7 @@
 ## 2026-08-24 - Accessibility for Action Buttons
 **Learning:** Icon-only buttons (like `#resetBtn` and `#themeBtn` in Abecedario Mágico) often rely solely on CSS `::after` pseudo-elements for their visual content (e.g., emojis). Without an explicitly defined `aria-label`, these buttons are completely opaque to screen readers, leaving visually impaired users with no context about their function.
 **Action:** Always ensure that icon-only interactive elements, regardless of whether they are native `<button>`s or custom `div`s, are provided with descriptive, localized `aria-label` attributes to explicitly define their purpose for assistive technologies.
+
+## 2026-11-06 - Accessible Div Quadrants in Grid Layouts
+**Learning:** Interactive elements functioning as buttons but built entirely out of custom `div`s, such as the `.grid-quadrant` elements in minizanahoria's Focus Orbit game, are completely inaccessible by default. They lack semantic meaning, keyboard focus capability, and the ability to be triggered via standard keyboard inputs (Enter/Space), alienating keyboard and screen reader users.
+**Action:** Always ensure that custom interactive `div` elements acting as buttons have `role="button"`, `tabindex="0"`, localized `aria-label`s, and explicit keyboard event listeners (handling both Enter and Space with `e.preventDefault()` to stop page scrolling) attached alongside their click handlers to provide a fully inclusive experience.
