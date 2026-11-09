@@ -563,10 +563,21 @@ async function startMirroring() {
     result = await queryAIEngine(textInput);
   }
   
-  // Populate content
-  document.getElementById('mirror-red-content').innerHTML = `<p>${result.red}</p>`;
-  document.getElementById('mirror-blue-content').innerHTML = `<p>${result.blue}</p>`;
-  document.getElementById('mirror-green-content').innerHTML = `<p>${result.green}</p>`;
+  // Populate content securely to prevent XSS
+  document.getElementById('mirror-red-content').innerHTML = '';
+  const pRed = document.createElement('p');
+  pRed.textContent = result.red;
+  document.getElementById('mirror-red-content').appendChild(pRed);
+
+  document.getElementById('mirror-blue-content').innerHTML = '';
+  const pBlue = document.createElement('p');
+  pBlue.textContent = result.blue;
+  document.getElementById('mirror-blue-content').appendChild(pBlue);
+
+  document.getElementById('mirror-green-content').innerHTML = '';
+  const pGreen = document.createElement('p');
+  pGreen.textContent = result.green;
+  document.getElementById('mirror-green-content').appendChild(pGreen);
   
   // Play comforting success arpeggio
   AgoraAudio.playSuccess();
@@ -604,12 +615,14 @@ function updateLibraryUI() {
         <span>${item.timestamp}</span>
         <span>Evolución: ${stars}</span>
       </div>
-      <div class="item-concept">Concepto Original: "${item.concept}"</div>
-      <div class="item-synthesis">Evolución Sellada: ${item.green}</div>
+      <div class="item-concept"></div>
+      <div class="item-synthesis"></div>
       <div class="item-actions">
         <button class="cleanse-btn" onclick="deleteLibraryItem(${State.library.length - 1 - index})">Purgar</button>
       </div>
     `;
+    itemEl.querySelector('.item-concept').textContent = `Concepto Original: "${item.concept}"`;
+    itemEl.querySelector('.item-synthesis').textContent = `Evolución Sellada: ${item.green}`;
     list.appendChild(itemEl);
   });
 }
