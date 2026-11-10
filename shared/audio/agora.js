@@ -564,9 +564,12 @@ async function startMirroring() {
   }
   
   // Populate content
-  document.getElementById('mirror-red-content').innerHTML = `<p>${result.red}</p>`;
-  document.getElementById('mirror-blue-content').innerHTML = `<p>${result.blue}</p>`;
-  document.getElementById('mirror-green-content').innerHTML = `<p>${result.green}</p>`;
+  document.getElementById('mirror-red-content').innerHTML = '<p></p>';
+  document.getElementById('mirror-red-content').firstChild.textContent = result.red;
+  document.getElementById('mirror-blue-content').innerHTML = '<p></p>';
+  document.getElementById('mirror-blue-content').firstChild.textContent = result.blue;
+  document.getElementById('mirror-green-content').innerHTML = '<p></p>';
+  document.getElementById('mirror-green-content').firstChild.textContent = result.green;
   
   // Play comforting success arpeggio
   AgoraAudio.playSuccess();
@@ -601,15 +604,18 @@ function updateLibraryUI() {
     
     itemEl.innerHTML = `
       <div class="item-meta">
-        <span>${item.timestamp}</span>
+        <span class="item-timestamp-val"></span>
         <span>Evolución: ${stars}</span>
       </div>
-      <div class="item-concept">Concepto Original: "${item.concept}"</div>
-      <div class="item-synthesis">Evolución Sellada: ${item.green}</div>
+      <div class="item-concept">Concepto Original: <span class="item-concept-val"></span></div>
+      <div class="item-synthesis">Evolución Sellada: <span class="item-synthesis-val"></span></div>
       <div class="item-actions">
         <button class="cleanse-btn" onclick="deleteLibraryItem(${State.library.length - 1 - index})">Purgar</button>
       </div>
     `;
+    itemEl.querySelector('.item-timestamp-val').textContent = item.timestamp;
+    itemEl.querySelector('.item-concept-val').textContent = `"${item.concept}"`;
+    itemEl.querySelector('.item-synthesis-val').textContent = item.green;
     list.appendChild(itemEl);
   });
 }
